@@ -1,0 +1,15 @@
+---
+import BaseLayout from "./base.astro";
+
+interface Props {
+    title: string;
+    date_created: Date;
+}
+
+const { title, date_created } = Astro.props;
+---
+
+<BaseLayout {title}>
+    <h1>{title} :: <time datetime={date_created.toTimeString()}>{date_created.getFullYear()}-{date_created.getMonth()}-{date_created.getDay()}</time></h1>
+
+</BaseLayout>

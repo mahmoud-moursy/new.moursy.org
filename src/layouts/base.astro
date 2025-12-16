@@ -1,0 +1,38 @@
+---
+import Font from "astro/components/Font.astro";
+import "../styles/global.css";
+
+interface Props {
+    title?: string;
+}
+
+const { title }: Props = Astro.props;
+---
+
+<html lang="en">
+    <head>
+        <Font cssVariable='--ancizar-serif' preload />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="application/svg" href="/Flower.svg" />
+        <title>{title || "Moursy's Website"}</title>
+    </head>
+    <body class="flex flex-col md:items-center md:justify-center w-screen h-screen">
+        <div class="flex flex-col outline-2 outline-black max-w-2xl w-full">
+            <nav class="flex flex-col sm:flex-row *:p-2 *:outline-2 *:outline-black gap-0.5 text-3xl">
+                <a href="/" class="font-black flex items-center gap-1"><span class="text-yellow-700"><img alt="The Flower Logo of Moursy.org" src="/Flower.svg" class="inline h-8"/> moursy<span class="text-lg translate-y-0.5">&bullet;</span>org</span></a>
+                <div class="flex-1 hidden md:inline"></div>
+                <details class="flex font-black flex-wrap gap-2 relative bg-amber-50">
+                    <summary class="text-yellow-700 font-normal cursor-pointer pr-16">links</summary>
+                    <ul class="absolute left-0 top-full translate-y-0.5 bg-amber-50 z-10 outline-black outline-2 w-full pl-3 py-3 list-disc list-inside text-amber-700">
+                        <li><a href="/bloog">bloog 🗞️</a></li>
+                        <li><a href="/dice">dice 🎲</a></li>
+                    </ul>
+
+
+                </details>
+            </nav>
+            <slot />
+        </div>
+    </body>
+</html>

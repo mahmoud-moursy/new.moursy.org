@@ -1,16 +1,28 @@
 ---
-
+import BaseLayout from '../layouts/base.astro'
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+    <main class="p-6 flex flex-col gap-4">
+        <blockquote class="italic text-slate-600">
+            <h6 class="translate-x-3 translate-y-1">"Great Minds Think Alike</h6>
+            <h3 class="font-bold translate-x-5">... But Fools Seldom Differ."</h3>
+
+            Hello! I'm Mahmoud Moursy. <b>They say that fools seldom differ,</b> but I'm nothing like the other fools, I promise!
+        </blockquote>
+
+        <p>
+            Dear Reader, you have had the fortune of finding (or being invited to) my website. There is not much treasure here, other than my <a href="/bloog">bloog</a> (with two o's).
+        </p>
+
+        <p>
+            I hope that you will find it somewhat "cool!". This bloog is inspired by the small web movement, which I do find quite "cool!" indeed.
+        </p>
+
+        <footer>
+            contact: <a href="mailto:mahmoud@moursy.org">mahmoud@moursy.org</a> <br>
+            github: <a href="https://github.com/mahmoud-moursy" target="_blank">mahmoud-moursy</a> <br>
+            copyright: some rights reserved, i guess?
+        </footer>
+    </main>
+</BaseLayout>

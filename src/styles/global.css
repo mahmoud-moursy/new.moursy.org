@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+h1 {
+    @apply text-5xl;
+}
+
+h2 {
+    @apply text-3xl;
+}
+
+h3 {
+    @apply text-2xl;
+}
+
+h4 {
+    @apply text-xl;
+}
+
+h5 {
+    @apply text-lg;
+}
+
+h6 {
+    @apply text-base;
+}
+
+a {
+    @apply text-amber-700;
+}
+
+hr {
+    @apply border-amber-700 border w-full m-5;
+}
+
+body {
+    @apply bg-yellow-50 font-serif;
+    /* --ancizar-serif defined in <Font> element of base.astro layout */
+    font-family: var(--ancizar-serif), serif;
+}
