@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "./base.astro";
+import BaseLayout from "$layouts/base.astro";
 
 interface Props {
     title: string;
@@ -10,6 +10,7 @@ const { title, date_created } = Astro.props;
 ---
 
 <BaseLayout {title}>
-    <h1>{title} :: <time datetime={date_created.toTimeString()}>{date_created.getFullYear()}-{date_created.getMonth()}-{date_created.getDay()}</time></h1>
+    <h1>{title} :: <time datetime={date_created.toUTCString()}>{date_created.getFullYear()}-{date_created.getMonth()}-{date_created.getDay()}</time></h1>
 
+    <slot />
 </BaseLayout>

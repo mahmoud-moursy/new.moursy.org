@@ -1,0 +1,31 @@
+---
+import Base from "$layouts/base.astro";
+import {currentMaze, type Direction, mouseMove} from "$/pages/funbox/mouse/logic.ts";
+import type {APIRoute} from "astro";
+
+export const prerender = false;
+export const partial = true;
+
+if(Astro.request.method === "POST") {
+    interface Body {
+        direction: Direction;
+    }
+
+
+    const body: Body = await Astro.request.formData().then(x => ({ direction: String(x.get("direction")) }) as Body);
+
+    mouseMove(body.direction)
+}
+---
+
+    <section class="flex flex-col gap-4" id="maze-data" hx-ext="sse" sse-connect="/funbox/mouse/logic" hx-get="/funbox/mouse/maze" hx-trigger="sse:maze_update" hx-target="this" hx-swap="outerHTML">
+        <div class="w-full h-full max-w-md mx-auto grid grid-cols-9 grid-rows-9 aspect-square *:border-slate-500 *:border-4 text-xl font-black *:cursor-default *:pointer-events-none">
+            {
+                currentMaze.map(
+                    row => row.map(
+                        spot => <div class="flex items-center justify-center"><span class="translate-y-0.5">{spot}</span></div>
+                    )
+                )
+            }
+        </div>
+    </section>

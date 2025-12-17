@@ -34,6 +34,6 @@ hr {
 
 body {
     @apply bg-yellow-50 font-serif;
-    /* --ancizar-serif defined in <Font> element of base.astro layout */
+    /* --ancizar-serif defined in <Font> element of boiler.astro layout */
     font-family: var(--ancizar-serif), serif;
 }
