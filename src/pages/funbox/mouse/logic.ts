@@ -108,18 +108,26 @@ export const generateMaze = () => {
         currentMaze[y][x] = MazeSpot.Cheese;
     }
 
-    const numDoors = 1+Math.floor(Math.random() * 3);
+    const numDoors = Math.floor(Math.random() * 4);
 
     // place door(s) (must be done before placing key!!!)
     for(let i = numDoors; i > 0; i--) {
         const [x, y] = walk(mx, my, 40);
+        if((mx===x) && (my===y)) {
+            continue
+        }
         currentMaze[y][x] = MazeSpot.Door;
     }
 
     // place key
-    {
+    if(numDoors > 0) {
         const [x, y] = walk(mx, my);
-        currentMaze[y][x] = MazeSpot.Key;
+        // if we cannot find a spot for the key, blow up the doors!
+        if((mx===x) && (my===y)) {
+            currentMaze = currentMaze.map(row => row.map(spot => (spot == MazeSpot.Door ? MazeSpot.Blank : spot)))
+        } else {
+            currentMaze[y][x] = MazeSpot.Key;
+        }
     }
 
 
