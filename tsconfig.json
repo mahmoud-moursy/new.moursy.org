@@ -5,6 +5,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "$public/*": ["public/*"],
       "$layouts/*": ["src/layouts/*"],
       "$styles/*": ["src/styles/*"],
       "$/*": ["src/*"]

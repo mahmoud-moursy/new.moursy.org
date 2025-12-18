@@ -2,6 +2,8 @@
 import Font from "astro/components/Font.astro";
 import "$styles/global.css";
 import Boilerplate from '$layouts/boiler.astro'
+import Flower from '$public/favicon.svg'
+import Image from "astro/components/Image.astro";
 
 interface Props {
     title?: string;
@@ -11,9 +13,9 @@ const { title }: Props = Astro.props;
 ---
 
 <Boilerplate {title}>
-    <div class="flex flex-col outline-2 outline-black max-w-2xl w-full">
-        <nav class="flex flex-col sm:flex-row *:p-2 *:outline-2 *:outline-black gap-0.5 text-3xl">
-            <a href="/" class="font-black flex items-center gap-1"><span class="text-yellow-700"><img alt="The Flower Logo of Moursy.org" src="/Flower.svg" class="inline h-8"/> moursy<span class="text-lg translate-y-0.5">&bullet;</span>org</span></a>
+    <div class="flex flex-col outline-2 outline-black max-w-3xl w-full bg-amber-50">
+        <nav class="flex flex-col md:flex-row *:p-2 *:outline-2 *:outline-black gap-0.5 text-3xl">
+            <a href="/" class="font-black flex items-center gap-1"><span class="text-yellow-700"><Image alt="The Flower Logo of Moursy.org" src={Flower} class="inline h-8 w-8"/> moursy<span class="text-lg translate-y-0.5">&bullet;</span>org</span></a>
             <div class="flex-1 hidden md:inline"></div>
             <details class="flex font-black flex-wrap gap-2 relative bg-amber-50">
                 <summary class="text-yellow-700 font-normal cursor-pointer pr-16">links</summary>

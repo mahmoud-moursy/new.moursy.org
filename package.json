@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/node": "^9.5.1",
     "@tailwindcss/vite": "^4.1.17",
     "astro": "^5.16.5",
     "htmx-ext-sse": "^2.2.4",
