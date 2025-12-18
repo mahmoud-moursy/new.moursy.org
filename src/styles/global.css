@@ -35,7 +35,9 @@ hr {
 body {
     @apply bg-yellow-50 font-serif;
     /* --ancizar-serif defined in <Font> element of boiler.astro layout */
+    /*noinspection CssUnresolvedCustomProperty*/
     font-family: var(--ancizar-serif), serif;
+    /*noinspection CssUnknownTarget*/
     background-image: url("/floor-tile.svg");
     background-size: 78px 78px;
 }
