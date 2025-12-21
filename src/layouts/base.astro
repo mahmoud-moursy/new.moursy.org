@@ -19,12 +19,10 @@ const { title }: Props = Astro.props;
             <div class="flex-1 hidden md:inline"></div>
             <details class="flex font-black flex-wrap gap-2 relative bg-amber-50">
                 <summary class="text-yellow-700 font-normal cursor-pointer pr-16">links</summary>
-                <ul class="absolute left-0 top-full translate-y-0.5 bg-amber-50 z-10 outline-black outline-2 w-full pl-3 py-3 list-disc list-inside text-amber-700">
-                    <li><a href="/bloog">bloog 🗞️</a></li>
-                    <li><a href="/funbox/dice">dice 🎲</a></li>
+                <ul class="absolute left-0 top-full translate-y-0.5 bg-amber-50 z-10 outline-black outline-2 w-full pl-3 py-3 list-disc list-inside">
+                    <a href="/bloog"><li>bloog 🗞️</li></a>
+                    <a href="/funbox/dice"><li>dice 🎲</li></a>
                 </ul>
-
-
             </details>
         </nav>
         <slot />

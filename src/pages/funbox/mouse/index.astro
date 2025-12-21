@@ -5,7 +5,7 @@ import Maze from "$/pages/funbox/mouse/maze.astro";
 export const prerender = false;
 ---
 
-<BaseLayout title="Get him the cheese.">
+<BaseLayout title="Get him the cheese, please!">
     <main class="flex flex-col gap-4 p-4">
         <p>
             Poor little fella just wants the cheese... but he's trapped in a multi-player, real-time cheese maze synchronizes with
@@ -27,30 +27,30 @@ export const prerender = false;
 
         <div class="flex flex-col w-fit items-center justify-stretch bg-slate-200 gap-3 mx-auto p-5 font-mono">
             <nav class="grid grid-cols-3 grid-rows-3 gap-1 *:cursor-pointer">
-                <button class="row-start-1 col-start-2 border-4 border-red-500 aspect-square"  hx-post="/funbox/mouse/maze" hx-swap="none" hx-include="this">
+                <button class="row-start-1 col-start-2 border-4 border-amber-700 aspect-square"  hx-post="/funbox/mouse/maze" hx-swap="none" hx-include="this">
                     ⬆️
                     <input type="hidden" name="direction" value="up">
                 </button>
-                <button class="row-start-2 col-start-3 border-4 border-red-500 aspect-square"  hx-post="/funbox/mouse/maze" hx-swap="none" hx-include="this">
+                <button class="row-start-2 col-start-3 border-4 border-amber-700 aspect-square"  hx-post="/funbox/mouse/maze" hx-swap="none" hx-include="this">
                     ➡️
                     <input type="hidden" name="direction" value="right">
                 </button>
-                <button class="row-start-3 col-start-2 border-4 border-red-500 aspect-square"  hx-post="/funbox/mouse/maze" hx-swap="none" hx-include="this">
+                <button class="row-start-3 col-start-2 border-4 border-amber-700 aspect-square"  hx-post="/funbox/mouse/maze" hx-swap="none" hx-include="this">
                     ⬇️
                     <input type="hidden" name="direction" value="down">
                 </button>
-                <button class="row-start-2 col-start-1 border-4 border-red-500 aspect-square" hx-post="/funbox/mouse/maze" hx-swap="none" hx-include="this">
+                <button class="row-start-2 col-start-1 border-4 border-amber-700 aspect-square" hx-post="/funbox/mouse/maze" hx-swap="none" hx-include="this">
                     ⬅️
                     <input type="hidden" name="direction" value="left">
                 </button>
             </nav>
-            <button class="p-2 border-4 border-red-500 bg-red-500 text-white font-black cursor-pointer" hx-post="/funbox/mouse/regenerate" hx-swap="none">Regenerate <span class="text-nowrap">Maze 🔄</span>️</button>
+            <button class="p-2 border-4 border-amber-700 bg-amber-700 text-white font-black cursor-pointer" hx-post="/funbox/mouse/regenerate" hx-swap="none">Regenerate <span class="text-nowrap">Maze 🔄</span>️</button>
             <h6 class="font-bold text-center">Mouse <br>Mind-Control  <br>Apparatus 6000 🤖</h6>
         </div>
-        <script>
-            import 'htmx.org';
-            import 'htmx-ext-sse';
-        </script>
     </main>
-
 </BaseLayout>
+
+<script>
+    import 'htmx.org';
+    import 'htmx-ext-sse';
+</script>

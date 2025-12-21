@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 h1 {
-    @apply text-5xl;
+    @apply text-3xl;
 }
 
 h2 {
@@ -25,11 +25,11 @@ h6 {
 }
 
 a {
-    @apply text-amber-700;
+    @apply text-yellow-700;
 }
 
 hr {
-    @apply border-amber-700 border w-full m-5;
+    @apply border-yellow-700 border w-full my-5;
 }
 
 body {
