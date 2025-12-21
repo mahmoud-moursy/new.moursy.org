@@ -13,30 +13,21 @@ const { title }: Props = Astro.props;
 ---
 
 <Boilerplate {title}>
-  <div
-    class="flex w-full max-w-3xl flex-col bg-amber-50 outline-2 outline-black"
-  >
-    <nav
-      class="flex flex-col gap-0.5 text-3xl *:p-2 *:outline-2 *:outline-black md:flex-row"
-    >
-      <a href="/" class="flex items-center gap-1 font-black"
-        ><span class="text-yellow-700"
-          ><Image
-            alt="The Flower Logo of Moursy.org"
-            src={Flower}
-            class="inline h-8 w-8"
-          /> moursy<span class="translate-y-0.5 text-lg">&bullet;</span
-          >org</span
-        ></a
-      >
+  <div class="flex w-full max-w-3xl flex-col bg-amber-50 outline-2 outline-black">
+    <nav class="flex flex-col gap-0.5 text-3xl *:p-2 *:outline-2 *:outline-black md:flex-row">
+      <a href="/" class="flex items-center gap-1 font-black">
+        <span class="text-yellow-700">
+          <Image alt="The Flower Logo of Moursy.org" src={Flower} class="inline h-8 w-8" /> moursy<span
+            class="translate-y-0.5 text-lg">
+            &bullet;
+          </span>org
+        </span>
+      </a>
       <div class="hidden flex-1 md:inline"></div>
       <details class="relative flex flex-wrap gap-2 bg-amber-50 font-black">
-        <summary class="cursor-pointer pr-16 font-normal text-yellow-700"
-          >links</summary
-        >
+        <summary class="cursor-pointer pr-16 font-normal text-yellow-700">links</summary>
         <ul
-          class="absolute top-full left-0 z-10 w-full translate-y-0.5 list-inside list-disc bg-amber-50 py-3 pl-3 outline-2 outline-black"
-        >
+          class="absolute top-full left-0 z-10 w-full translate-y-0.5 list-inside list-disc bg-amber-50 py-3 pl-3 outline-2 outline-black">
           <a href="/bloog"><li>bloog 🗞️</li></a>
           <a href="/funbox/dice"><li>dice 🎲</li></a>
         </ul>

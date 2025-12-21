@@ -13,13 +13,9 @@ const date_created = new Date(Astro.props.date_created);
 <BaseLayout {title}>
   <main class="p-4">
     <h1>{title}</h1>
-    <time
-      datetime={date_created.toUTCString()}
-      class="font-bold text-nowrap text-amber-700"
-      >{date_created.getFullYear()}-{date_created.getMonth()}-{
-        date_created.getDay()
-      }</time
-    >
+    <time datetime={date_created.toUTCString()} class="font-bold text-nowrap text-amber-700">
+      {date_created.getFullYear()}-{date_created.getMonth()}-{date_created.getDay()}
+    </time>
     <hr />
 
     <slot />

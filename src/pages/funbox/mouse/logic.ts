@@ -28,15 +28,11 @@ export const generateMaze = () => {
   const height = 9;
 
   // initialize everything as walls
-  currentMaze = Array.from({ length: height }, () =>
-    Array.from({ length: width }, () => MazeSpot.Wall),
-  );
+  currentMaze = Array.from({ length: height }, () => Array.from({ length: width }, () => MazeSpot.Wall));
 
-  const inBounds = (x: number, y: number) =>
-    x > 0 && x < width - 1 && y > 0 && y < height - 1;
+  const inBounds = (x: number, y: number) => x > 0 && x < width - 1 && y > 0 && y < height - 1;
 
-  const isBlank = (x: number, y: number) =>
-    inBounds(x, y) && currentMaze[y][x] == MazeSpot.Blank;
+  const isBlank = (x: number, y: number) => inBounds(x, y) && currentMaze[y][x] == MazeSpot.Blank;
 
   const directions: [number, number][] = [
     [0, 1],
@@ -123,9 +119,7 @@ export const generateMaze = () => {
     const [x, y] = walk(mx, my);
     // if we cannot find a spot for the key, blow up the doors!
     if (mx === x && my === y) {
-      currentMaze = currentMaze.map((row) =>
-        row.map((spot) => (spot == MazeSpot.Door ? MazeSpot.Blank : spot)),
-      );
+      currentMaze = currentMaze.map((row) => row.map((spot) => (spot == MazeSpot.Door ? MazeSpot.Blank : spot)));
     } else {
       currentMaze[y][x] = MazeSpot.Key;
     }
@@ -157,18 +151,13 @@ export const mouseMove = (direction: Direction) => {
   }
 
   // handle walls and doors
-  if (
-    currentMaze[newY][newX] == MazeSpot.Wall ||
-    currentMaze[newY][newX] == MazeSpot.Door
-  ) {
+  if (currentMaze[newY][newX] == MazeSpot.Wall || currentMaze[newY][newX] == MazeSpot.Door) {
     return;
   }
 
   // handle keys
   if (currentMaze[newY][newX] == MazeSpot.Key) {
-    currentMaze = currentMaze.map((row) =>
-      row.map((spot) => (spot == MazeSpot.Door ? MazeSpot.Blank : spot)),
-    );
+    currentMaze = currentMaze.map((row) => row.map((spot) => (spot == MazeSpot.Door ? MazeSpot.Blank : spot)));
   }
 
   // handle the win condition
@@ -194,9 +183,7 @@ export const GET: APIRoute = async () => {
   const customReadable = new ReadableStream({
     start(controller) {
       update_callback = () => {
-        controller.enqueue(
-          encoder.encode(`event: maze_update\ndata: none\n\n`),
-        );
+        controller.enqueue(encoder.encode(`event: maze_update\ndata: none\n\n`));
       };
 
       emitter.on("maze_update", update_callback);

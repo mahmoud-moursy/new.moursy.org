@@ -17,9 +17,7 @@ const { title }: Props = Astro.props;
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>{title || "Moursy's Website"}</title>
   </head>
-  <body
-    class="flex min-h-screen w-screen flex-col overflow-x-hidden md:items-center md:justify-center md:py-8"
-  >
+  <body class="flex min-h-screen w-screen flex-col overflow-x-hidden md:items-center md:justify-center md:py-8">
     <slot />
   </body>
 </html>

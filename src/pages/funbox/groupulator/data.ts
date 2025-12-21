@@ -16,15 +16,13 @@ export const POST: APIRoute = async ({ request }) => {
     data: string;
   }
 
-  const body: Body = await request
-    .formData()
-    .then(
-      (x) =>
-        ({
-          interaction: String(x.get("interaction")),
-          data: String(x.get("data")),
-        }) as Body,
-    );
+  const body: Body = await request.formData().then(
+    (x) =>
+      ({
+        interaction: String(x.get("interaction")),
+        data: String(x.get("data")),
+      }) as Body,
+  );
 
   switch (body.interaction) {
     case "append":
