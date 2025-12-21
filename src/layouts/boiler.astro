@@ -3,21 +3,23 @@ import Font from "astro/components/Font.astro";
 import "$styles/global.css";
 
 interface Props {
-    title?: string;
+  title?: string;
 }
 
 const { title }: Props = Astro.props;
 ---
 
 <html lang="en">
-<head>
-    <Font cssVariable='--ancizar-serif' preload />
+  <head>
+    <Font cssVariable="--ancizar-serif" preload />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>{title || "Moursy's Website"}</title>
-</head>
-<body class="flex flex-col md:items-center md:justify-center md:py-8 w-screen min-h-screen overflow-x-hidden">
+  </head>
+  <body
+    class="flex min-h-screen w-screen flex-col overflow-x-hidden md:items-center md:justify-center md:py-8"
+  >
     <slot />
-</body>
+  </body>
 </html>

@@ -1,137 +1,232 @@
 ---
-import BaseLayout from '$layouts/base.astro'
+import BaseLayout from "$layouts/base.astro";
 ---
 
 <BaseLayout title="Groupulator">
-    <header class="m-5 max-w-xl">
-        <h2 class="text-5xl font-black">Welcome to the groupulator</h2>
-        <h3 class="text-2xl font-black">
-            The groupulator is a real-time calculator to calculate things with.
-        </h3>
-    </header>
+  <header class="m-5 max-w-xl">
+    <h2 class="text-5xl font-black">Welcome to the groupulator</h2>
+    <h3 class="text-2xl font-black">
+      The groupulator is a real-time calculator to calculate things with.
+    </h3>
+  </header>
 
-    <section class="border-slate-500 border-4 max-w-lg p-5 m-5 flex flex-col gap-5">
-        <p>
-            I wrote it in HTMX as a learning experience. I plan to include more "fun minigames" on my website, this one being the first.
+  <section
+    class="m-5 flex max-w-lg flex-col gap-5 border-4 border-slate-500 p-5"
+  >
+    <p>
+      I wrote it in HTMX as a learning experience. I plan to include more "fun
+      minigames" on my website, this one being the first. I want to write the
+      rest of the minigames in HTMX, too, because I think it would be very fun.
+    </p>
+    <p>
+      It is roughly inspired by those terrible "calculators" they give you in
+      those "aptitude tests" (UCAT aka UKCAT, CAT4)
+    </p>
+    <p>
+      Any changes you make should <b>show up for others too</b>, but I have no
+      idea if this will actually work because I'm deploying it on one of those
+      "serverless" thangs (as of January 3rd, 2025, at least) and was too lazy
+      to add permanent storage.
+    </p>
+  </section>
 
-            I want to write the rest of the minigames in HTMX, too, because I think it would be very fun.
-        </p>
-        <p>
-            It is roughly inspired by those terrible "calculators" they give you in those "aptitude tests" (UCAT aka UKCAT, CAT4)
-        </p>
-        <p>
-            Any changes you make should <b>show up for others too</b>, but I have no idea if this will actually work because I'm deploying it
-            on one of those "serverless" thangs (as of January 3rd, 2025, at least) and was too lazy to add permanent storage.
-        </p>
-    </section>
-
-
-    <div id="calculator" class="w-96 m-4 flex flex-col items-stretch p-4 gap-5 border-4 border-slate-500 shadow-md">
-        <div id="display" class="h-12 p-2 w-full flex items-center bg-slate-200 overflow-ellipsis border-4 border-slate-500">
-            <span hx-ext="sse" sse-connect="/funbox/groupulator/data/" sse-swap="message">Connecting...</span>
-        </div>
-        <div id="buttons" class="grid grid-cols-4 grid-rows-4 h-96 w-full gap-5 *:border-slate-500 *:border-4 *:shadow-md text-2xl font-black *:cursor-pointer">
-            <button class="row-start-1" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                <data value="1">1</data>
-
-                <input type="hidden" name="data" value="1">
-                <input type="hidden" name="interaction" value="append">
-            </button>
-            <button class="row-start-1" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                <data value="2">2</data>
-
-                <input type="hidden" name="data" value="2">
-                <input type="hidden" name="interaction" value="append">
-            </button>
-            <button class="row-start-1" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                <data value="3">3</data>
-
-                <input type="hidden" name="data" value="3">
-                <input type="hidden" name="interaction" value="append">
-            </button>
-            <button class="row-start-2" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                <data value="4">4</data>
-
-                <input type="hidden" name="data" value="4">
-                <input type="hidden" name="interaction" value="append">
-            </button>
-            <button class="row-start-2" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                <data value="5">5</data>
-
-                <input type="hidden" name="data" value="5">
-                <input type="hidden" name="interaction" value="append">
-            </button>
-            <button class="row-start-2" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                <data value="6">6</data>
-
-                <input type="hidden" name="data" value="6">
-                <input type="hidden" name="interaction" value="append">
-            </button>
-            <button class="row-start-3" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                <data value="7">7</data>
-
-
-                <input type="hidden" name="data" value="7">
-                <input type="hidden" name="interaction" value="append">
-            </button>
-            <button class="row-start-3" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                <data value="8">8</data>
-
-
-                <input type="hidden" name="data" value="8">
-                <input type="hidden" name="interaction" value="append">
-            </button>
-            <button class="row-start-3" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                <data value="9">9</data>
-
-                <input type="hidden" name="data" value="9">
-                <input type="hidden" name="interaction" value="append">
-            </button>
-            <button class="row-start-4" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                <data value="0">0</data>
-
-                <input type="hidden" name="data" value="0">
-                <input type="hidden" name="interaction" value="append">
-            </button>
-
-            <button class="bg-red-900 text-white col-start-4" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                +
-
-                <input type="hidden" name="interaction" value="append">
-                <input type="hidden" name="data" value="+">
-            </button>
-            <button class="bg-red-900 text-white col-start-4" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                -
-
-                <input type="hidden" name="interaction" value="append">
-                <input type="hidden" name="data" value="-">
-            </button>
-            <button class="bg-red-900 text-white col-start-4" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                &div;
-
-                <input type="hidden" name="interaction" value="append">
-                <input type="hidden" name="data" value="/">
-            </button>
-            <button class="bg-green-700 text-white" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                =
-
-                <input type="hidden" name="interaction" value="process">
-            </button>
-            <button class="bg-red-900 text-white" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                🔙
-
-                <input type="hidden" name="interaction" value="delete">
-            </button>
-            <button class="bg-red-900 text-white col-start-4" hx-post="/funbox/groupulator/data" hx-swap="none" hx-include="this">
-                *
-
-                <input type="hidden" name="interaction" value="append">
-                <input type="hidden" name="data" value="*">
-            </button>
-        </div>
+  <div
+    id="calculator"
+    class="m-4 flex w-96 flex-col items-stretch gap-5 border-4 border-slate-500 p-4 shadow-md"
+  >
+    <div
+      id="display"
+      class="flex h-12 w-full items-center border-4 border-slate-500 bg-slate-200 p-2 overflow-ellipsis"
+    >
+      <span
+        hx-ext="sse"
+        sse-connect="/funbox/groupulator/data/"
+        sse-swap="message">Connecting...</span
+      >
     </div>
-    <script>
-        import 'htmx.org';
-        import 'htmx-ext-sse';
-    </script>
+    <div
+      id="buttons"
+      class="grid h-96 w-full grid-cols-4 grid-rows-4 gap-5 text-2xl font-black *:cursor-pointer *:border-4 *:border-slate-500 *:shadow-md"
+    >
+      <button
+        class="row-start-1"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        <data value="1">1</data>
+
+        <input type="hidden" name="data" value="1" />
+        <input type="hidden" name="interaction" value="append" />
+      </button>
+      <button
+        class="row-start-1"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        <data value="2">2</data>
+
+        <input type="hidden" name="data" value="2" />
+        <input type="hidden" name="interaction" value="append" />
+      </button>
+      <button
+        class="row-start-1"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        <data value="3">3</data>
+
+        <input type="hidden" name="data" value="3" />
+        <input type="hidden" name="interaction" value="append" />
+      </button>
+      <button
+        class="row-start-2"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        <data value="4">4</data>
+
+        <input type="hidden" name="data" value="4" />
+        <input type="hidden" name="interaction" value="append" />
+      </button>
+      <button
+        class="row-start-2"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        <data value="5">5</data>
+
+        <input type="hidden" name="data" value="5" />
+        <input type="hidden" name="interaction" value="append" />
+      </button>
+      <button
+        class="row-start-2"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        <data value="6">6</data>
+
+        <input type="hidden" name="data" value="6" />
+        <input type="hidden" name="interaction" value="append" />
+      </button>
+      <button
+        class="row-start-3"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        <data value="7">7</data>
+
+        <input type="hidden" name="data" value="7" />
+        <input type="hidden" name="interaction" value="append" />
+      </button>
+      <button
+        class="row-start-3"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        <data value="8">8</data>
+
+        <input type="hidden" name="data" value="8" />
+        <input type="hidden" name="interaction" value="append" />
+      </button>
+      <button
+        class="row-start-3"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        <data value="9">9</data>
+
+        <input type="hidden" name="data" value="9" />
+        <input type="hidden" name="interaction" value="append" />
+      </button>
+      <button
+        class="row-start-4"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        <data value="0">0</data>
+
+        <input type="hidden" name="data" value="0" />
+        <input type="hidden" name="interaction" value="append" />
+      </button>
+
+      <button
+        class="col-start-4 bg-red-900 text-white"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        +
+
+        <input type="hidden" name="interaction" value="append" />
+        <input type="hidden" name="data" value="+" />
+      </button>
+      <button
+        class="col-start-4 bg-red-900 text-white"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        -
+
+        <input type="hidden" name="interaction" value="append" />
+        <input type="hidden" name="data" value="-" />
+      </button>
+      <button
+        class="col-start-4 bg-red-900 text-white"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        &div;
+
+        <input type="hidden" name="interaction" value="append" />
+        <input type="hidden" name="data" value="/" />
+      </button>
+      <button
+        class="bg-green-700 text-white"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        =
+
+        <input type="hidden" name="interaction" value="process" />
+      </button>
+      <button
+        class="bg-red-900 text-white"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        🔙
+
+        <input type="hidden" name="interaction" value="delete" />
+      </button>
+      <button
+        class="col-start-4 bg-red-900 text-white"
+        hx-post="/funbox/groupulator/data"
+        hx-swap="none"
+        hx-include="this"
+      >
+        *
+
+        <input type="hidden" name="interaction" value="append" />
+        <input type="hidden" name="data" value="*" />
+      </button>
+    </div>
+  </div>
+  <script>
+    import "htmx.org";
+    import "htmx-ext-sse";
+  </script>
 </BaseLayout>

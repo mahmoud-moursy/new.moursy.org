@@ -1,20 +1,20 @@
 ---
-import Boilerplate from '$layouts/boiler.astro'
+import Boilerplate from "$layouts/boiler.astro";
 
 let fortunes = [
-    {
-        href: "/funbox/groupulator",
-        text: "Normally, I don't condone gambling... but it seems you took a calculated risk 🧮..."
-    },
-    {
-        href: "/funbox/mouse",
-        text: "Mahmoud Mouse-y? 🐁"
-    },
-    {
-        href: "/funbox/dice",
-        text: "They say if you keep rolling the dice, you may encounter some fun things... 🎈"
-    }
-]
+  {
+    href: "/funbox/groupulator",
+    text: "Normally, I don't condone gambling... but it seems you took a calculated risk 🧮...",
+  },
+  {
+    href: "/funbox/mouse",
+    text: "Mahmoud Mouse-y? 🐁",
+  },
+  {
+    href: "/funbox/dice",
+    text: "They say if you keep rolling the dice, you may encounter some fun things... 🎈",
+  },
+];
 
 let fortune_length = fortunes.length;
 let lucky_number = Math.floor(Math.random() * fortune_length);
@@ -22,8 +22,12 @@ let lucky_fortune = fortunes[lucky_number];
 ---
 
 <Boilerplate title="It's your lucky day!">
-        <main class="bg-amber-50 flex flex-col gap-4 p-4 outline-black outline-2 text-center">
-            <a id="fortune" href={lucky_fortune.href}>{lucky_fortune.text}</a>
-            <a href="/funbox/dice" class="font-black"><span class="text-black">reroll 🎲?</span></a>
-        </main>
+  <main
+    class="flex flex-col gap-4 bg-amber-50 p-4 text-center outline-2 outline-black"
+  >
+    <a id="fortune" href={lucky_fortune.href}>{lucky_fortune.text}</a>
+    <a href="/funbox/dice" class="font-black"
+      ><span class="text-black">reroll 🎲?</span></a
+    >
+  </main>
 </Boilerplate>

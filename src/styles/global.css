@@ -1,43 +1,43 @@
 @import "tailwindcss";
 
 h1 {
-    @apply text-3xl;
+  @apply text-3xl;
 }
 
 h2 {
-    @apply text-3xl;
+  @apply text-3xl;
 }
 
 h3 {
-    @apply text-2xl;
+  @apply text-2xl;
 }
 
 h4 {
-    @apply text-xl;
+  @apply text-xl;
 }
 
 h5 {
-    @apply text-lg;
+  @apply text-lg;
 }
 
 h6 {
-    @apply text-base;
+  @apply text-base;
 }
 
 a {
-    @apply text-yellow-700;
+  @apply text-yellow-700;
 }
 
 hr {
-    @apply border-yellow-700 border w-full my-5;
+  @apply my-5 w-full border border-yellow-700;
 }
 
 body {
-    @apply bg-yellow-50 font-serif;
-    /* --ancizar-serif defined in <Font> element of boiler.astro layout */
-    /*noinspection CssUnresolvedCustomProperty*/
-    font-family: var(--ancizar-serif), serif;
-    /*noinspection CssUnknownTarget*/
-    background-image: url("/floor-tile.svg");
-    background-size: 78px 78px;
+  @apply bg-yellow-50 font-serif;
+  /* --ancizar-serif defined in <Font> element of boiler.astro layout */
+  /*noinspection CssUnresolvedCustomProperty*/
+  font-family: var(--ancizar-serif), serif;
+  /*noinspection CssUnknownTarget*/
+  background-image: url("/floor-tile.svg");
+  background-size: 78px 78px;
 }

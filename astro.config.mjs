@@ -1,13 +1,9 @@
 // @ts-check
-import {defineConfig, fontProviders} from 'astro/config';
+import { defineConfig, fontProviders } from "astro/config";
 
-import tailwindcss from '@tailwindcss/vite';
-
-
+import tailwindcss from "@tailwindcss/vite";
 
 import node from "@astrojs/node";
-
-
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,8 +12,8 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     ssr: {
-      external: ["node:events"]
-    }
+      external: ["node:events"],
+    },
   },
 
   server: {
@@ -29,18 +25,18 @@ export default defineConfig({
   experimental: {
     fonts: [
       {
-        name: 'Ancizar Serif',
-        cssVariable: '--ancizar-serif',
+        name: "Ancizar Serif",
+        cssVariable: "--ancizar-serif",
         provider: fontProviders.fontsource(),
         weights: [400, 600, 900],
-        fallbacks: ["serif"]
-      }
+        fallbacks: ["serif"],
+      },
     ],
     csp: true,
     svgo: true,
   },
 
   adapter: node({
-    mode: "standalone"
-  })
+    mode: "standalone",
+  }),
 });

@@ -1,8 +1,8 @@
-import type {APIRoute} from "astro";
-import {generateMaze} from "$/pages/funbox/mouse/logic.ts";
+import type { APIRoute } from "astro";
+import { generateMaze } from "$/pages/funbox/mouse/logic.ts";
 
 export const POST: APIRoute = ({}) => {
-    generateMaze()
+  generateMaze();
 
-    return new Response("Ok")
-}
+  return new Response("Ok");
+};
