@@ -1,0 +1,37 @@
+---
+import Boiler from "$layouts/boiler.astro";
+import Font from "astro/components/Font.astro";
+---
+
+<Font preload cssVariable="--tiny-five" />
+
+<Boiler title="DMG-01 ISA" class="font-pixel! items-center gap-4 bg-green-950! bg-none! text-green-200">
+  <h2 class="text-center">
+    <span class="text-nowrap">DMG-01</span>
+    <span class="text-nowrap">(Original Gameboy)</span>
+    <span class="text-nowrap">Instruction Set</span>
+  </h2>
+  <p>
+    The Gameboy is a Nintendo handheld made first available in Japan on April 21, 1989 and available globally in
+    September 28, 1990.
+  </p>
+  <input
+    type="text"
+    name="searchbox"
+    id="searchbox"
+    placeholder="INSTRUCTION"
+    class="border-b-2 border-green-200 p-2 text-xl"
+  />
+  <table class="w-full overflow-x-scroll">
+    <thead>
+      <tr class="flex w-full justify-around gap-2">
+        <th scope="col">Name</th>
+        <th scope="col">Opcode</th>
+        <th scope="col">Description</th>
+        <th scope="col">Cycles</th>
+        <th scope="col">Flags</th>
+        <th scope="col">Notes</th>
+      </tr>
+    </thead>
+  </table>
+</Boiler>
