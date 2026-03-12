@@ -49,6 +49,11 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response("nope.");
   }
 
+  state = state
+    .split("")
+    .filter((x) => ALLOWED_CHARACTERS.includes(x))
+    .join("");
+
   emitter.emit("calc_input_received");
 
   return new Response("Success.");

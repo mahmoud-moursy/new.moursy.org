@@ -19,27 +19,29 @@ export default defineConfig({
   server: {
     host: true,
   },
+  security: {
+    csp: true,
+  },
 
   output: "server",
+  fonts: [
+    {
+      name: "Ancizar Serif",
+      cssVariable: "--ancizar-serif",
+      provider: fontProviders.fontsource(),
+      weights: [400, 600, 900],
+      fallbacks: ["Georgia", "Cambria", "Times New Roman", "Times", "serif"],
+    },
+    {
+      name: "Tiny5",
+      cssVariable: "--tiny-five",
+      provider: fontProviders.google(),
+      weights: [400],
+      fallbacks: ["monospace"],
+    },
+  ],
 
   experimental: {
-    fonts: [
-      {
-        name: "Ancizar Serif",
-        cssVariable: "--ancizar-serif",
-        provider: fontProviders.fontsource(),
-        weights: [400, 600, 900],
-        fallbacks: ["Georgia", "Cambria", "Times New Roman", "Times", "serif"],
-      },
-      {
-        name: "Tiny5",
-        cssVariable: "--tiny-five",
-        provider: fontProviders.google(),
-        weights: [400],
-        fallbacks: ["monospace"],
-      },
-    ],
-    csp: true,
     svgo: true,
   },
 

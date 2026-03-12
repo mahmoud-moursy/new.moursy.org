@@ -1,4 +1,6 @@
-@theme {
+@import "tailwindcss";
+
+@theme inline {
   --default-font-family: var(--font-serif);
   --font-serif: var(--ancizar-serif), Georgia, Cambria, "Times New Roman", Times, serif;
   --font-pixel: var(--tiny-five), monospace;
@@ -9,6 +11,14 @@
   background-image: url("/floor-tile.svg");
   background-size: 78px 78px;
   background-position: 67% 61%;
+}
+
+li::marker {
+  @apply mr-4 font-bold;
+}
+
+[type="a"] {
+  @apply list-[lower-alpha];
 }
 
 h1 {
@@ -36,11 +46,9 @@ h6 {
 }
 
 a {
-  @apply text-yellow-700;
+  @apply inline text-yellow-700;
 }
 
 hr {
   @apply my-5 w-full border border-yellow-700;
 }
-
-@import "tailwindcss";

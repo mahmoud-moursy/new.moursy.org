@@ -1,23 +1,40 @@
 ---
 import BaseLayout from "$layouts/base.astro";
+import "$styles/global.css";
 
 interface Props {
   title: string;
-  date_created: Date | string;
+  "date-created": Date | string;
 }
 
 const title = Astro.props.title || "No title";
-const date_created = new Date(Astro.props.date_created);
+const date_created = new Date(Astro.props["date-created"]);
 ---
 
 <BaseLayout {title}>
-  <main class="p-4">
-    <h1>{title}</h1>
-    <time datetime={date_created.toUTCString()} class="font-bold text-nowrap text-amber-700">
-      {date_created.getFullYear()}-{date_created.getMonth()}-{date_created.getDay()}
+  <main class="flex flex-col gap-4 p-4">
+    <h1 class="font-bold text-slate-600 italic">{title}</h1>
+    <time datetime={date_created.toUTCString()} class="text-xl font-bold text-yellow-700 italic">
+      {date_created.getFullYear()}-{date_created.getUTCMonth() + 1}-{date_created.getUTCDate()}
     </time>
-    <hr />
+    <hr class="my-0 py-0" />
 
     <slot />
   </main>
 </BaseLayout>
+
+<style>
+  @reference "$styles/global.css";
+
+  :global(h3) {
+    @apply font-bold text-slate-600 italic;
+  }
+
+  summary {
+    @apply -ml-2 cursor-pointer;
+  }
+
+  details {
+    @apply border-l-4 border-slate-600 px-3 pt-0;
+  }
+</style>
