@@ -50,5 +50,5 @@ a {
 }
 
 hr {
-  @apply my-5 w-full border border-yellow-700;
+  @apply w-full border border-yellow-700;
 }

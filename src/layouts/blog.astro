@@ -13,28 +13,42 @@ const date_created = new Date(Astro.props["date-created"]);
 
 <BaseLayout {title}>
   <main class="flex flex-col gap-4 p-4">
-    <h1 class="font-bold text-slate-600 italic">{title}</h1>
-    <time datetime={date_created.toUTCString()} class="text-xl font-bold text-yellow-700 italic">
-      {date_created.getFullYear()}-{date_created.getUTCMonth() + 1}-{date_created.getUTCDate()}
-    </time>
-    <hr class="my-0 py-0" />
+    <header class="flex flex-col gap-5 border-y-2 border-amber-800 bg-amber-100 p-4 text-center">
+      <h1 class="fancy underline decoration-wavy">{title}</h1>
+      <time datetime={date_created.toUTCString()} class="text-xl font-bold text-yellow-700 italic">
+        {date_created.getFullYear()}-{date_created.getUTCMonth() + 1}-{date_created.getUTCDate()}
+      </time>
+    </header>
+    <br />
 
     <slot />
+
+    <h4 class="font-bold text-slate-600 italic">Thank you for reading!</h4>
+
+    <em>
+      <b>Yours faithfully,</b>
+      <br /> Mahmoud Moursy
+    </em>
   </main>
+
+  <footer class="flex flex-col gap-4 border-t-2 border-black pt-4">
+    <h6 class="p-1 font-bold">Footnotes:</h6>
+    <slot name="footnotes" />
+  </footer>
 </BaseLayout>
 
 <style>
   @reference "$styles/global.css";
 
-  :global(h3) {
+  :global(.fancy) {
     @apply font-bold text-slate-600 italic;
   }
 
-  summary {
+  :global(summary) {
     @apply -ml-2 cursor-pointer;
   }
 
-  details {
-    @apply border-l-4 border-slate-600 px-3 pt-0;
+  :global(footer > details) {
+    @apply border-l-4 border-slate-600 px-3 py-1;
   }
 </style>

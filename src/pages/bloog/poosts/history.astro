@@ -3,13 +3,15 @@ import Blog from "$layouts/blog.astro";
 ---
 
 <Blog title="The history of Moursy.org" date-created="2026-03-12">
-  Hello again, world! I thought I should document the history of this website, considering that:
-  <ol type="a" class="ml-4">
-    <li>nobody remembers it except for myself and one (1 (☝️)) other reader.</li>
-    <li>it is important to me and this is <b>MY</b> bloog, not yours!</li>
-  </ol>
+  <p>
+    Hello again, world! I thought I should document the history of this website, considering that:
+    <ol type="a" class="ml-4">
+      <li>nobody remembers it except for myself and one (1 (☝️)) other reader.</li>
+      <li>it is important to me and this is <b>MY</b> bloog, not yours!</li>
+    </ol>
+  </p>
 
-  <h3>Why did I start a blo<sup>o</sup>g?</h3>
+  <h3 class="fancy">Why did I start a blo<sup>o</sup>g?</h3>
 
   <p>
     It was my New Years' Resolution for 2025. I'd just delved into the wonderful world of <a
@@ -28,7 +30,7 @@ import Blog from "$layouts/blog.astro";
     the Big Corporate Algorithms which seek to maximize engagement instead of enjoyment.
   </p>
 
-  <h3>Why did I restart my blo<sup>o</sup>g?</h3>
+  <h3 class="fancy">Why did I restart my blo<sup>o</sup>g?</h3>
 
   <p>
     I was not happy with the design of my Old Bloog. With this Bloog, I tried for a "zendustrial" aesthetic inspired by
@@ -62,28 +64,25 @@ import Blog from "$layouts/blog.astro";
     something, right?
   </p>
 
-  <h3>What will I do next?</h3>
+  <h3 class="fancy">What will I do next?</h3>
 
   <p>
     I dream of a Bloog with good technical writing about the tools, languages, and software that I love. However, this
     takes a lot of effort and it requires me to develop a skill that I do not yet have -- which is technical writing. I
-    also want to write a few political pieces, tidbits about my life, and share more about my <a
-      href="https://github.com/mahmoud-moursy/shrimp3">
-      favorite projects of all time
-    </a>!
+    also want to write a few political pieces, tidbits about my life, and share more about my
+    <a href="https://github.com/mahmoud-moursy/shrimp3">favorite projects of all time</a>!
   </p>
 
-  <p class="font-bold">Thank you for reading!</p>
+  <Fragment slot="footnotes">
+    <details id="whats-rss">
+      <summary class="font-bold">What the heck is an "RSS feed"!?</summary>
+      <a href="#back-rss">Go back &looparrowleft;</a>
 
-  <p>
-    Yours faithfully,<br /> Mahmoud Moursy
-  </p>
-
-  <details id="whats-rss" class="my-4">
-    <summary class="font-bold">What the heck is an "RSS feed"!?</summary>
-    <a href="#back-rss">Go back &looparrowleft;</a>
-
-    RSS feeds are sort of like newsletters, except you don't have to hand out your email address and you can quickly and
-    conveniently check up on your favorite authors' works.
-  </details>
+      <p>
+        RSS feeds are akin to newsletters, except you don't have to hand out your email address and you can quickly and
+        conveniently check up on your favorite authors' works. It's trivial to subscribe, unsubscribe, and keep up with
+        your favorite bloggers. In theory a lame idea, but in practice it works really well.
+      </p>
+    </details>
+  </Fragment>
 </Blog>
