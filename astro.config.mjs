@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig, fontProviders, passthroughImageService } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -19,10 +19,6 @@ export default defineConfig({
   server: {
     host: true,
   },
-  security: {
-    csp: true,
-  },
-
   output: "server",
   fonts: [
     {
@@ -48,4 +44,8 @@ export default defineConfig({
   adapter: node({
     mode: "standalone",
   }),
+
+  image: {
+    service: passthroughImageService(),
+  },
 });

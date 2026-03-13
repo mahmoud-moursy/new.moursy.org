@@ -6,7 +6,7 @@ export const prerender = false;
 
 const emitter = new EventEmitter();
 const encoder = new TextEncoder();
-const ALLOWED_CHARACTERS = "0123456789+-/*".split("");
+const ALLOWED_CHARACTERS = "0123456789+-/*.".split("");
 
 let state = "";
 
