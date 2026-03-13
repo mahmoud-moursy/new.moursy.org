@@ -13,6 +13,10 @@
   background-position: 67% 61%;
 }
 
+.fancy {
+  @apply font-bold italic;
+}
+
 li::marker {
   @apply mr-4 font-bold;
 }

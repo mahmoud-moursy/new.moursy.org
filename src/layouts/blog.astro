@@ -40,12 +40,16 @@ const date_created = new Date(Astro.props["date-created"]);
 <style>
   @reference "$styles/global.css";
 
-  :global(.fancy) {
+  :global(em.fancy) {
+    @apply text-slate-600;
+  }
+
+  :global(h1, h2, h3, h4, h5, h6) {
     @apply font-bold text-slate-600 italic;
   }
 
   :global(summary) {
-    @apply -ml-2 cursor-pointer;
+    @apply -ml-2 cursor-pointer font-bold;
   }
 
   :global(footer > details) {

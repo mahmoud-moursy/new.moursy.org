@@ -4,11 +4,18 @@ import BaseLayout from "$layouts/base.astro";
 
 <BaseLayout>
   <main class="flex flex-col gap-4 p-6">
-    <blockquote class="text-slate-600 italic" id="im-mahmoud-moursy">
-      <h6 class="translate-x-3 translate-y-1">"Great Minds Think Alike</h6>
-      <h3 class="translate-x-5 font-bold">... But Fools Seldom Differ."</h3>
+    <blockquote class="w-md text-slate-600 italic" id="im-mahmoud-moursy">
+      <ruby class="text-4xl font-bold">
+        ... But Fools Seldom Differ."
+        <rt class="text-left font-normal">"Great Minds Think Alike</rt>
+      </ruby>
 
-      Hello! I'm Mahmoud Moursy. <b>They say that fools seldom differ,</b> but I'm nothing like the other fools, I promise!
+      <br />
+
+      <p class="border-l-2 border-slate-600 p-2">
+        Hello! I'm Mahmoud Moursy. They say that fools <b>seldom differ</b>, but I'm nothing like the other fools, I
+        promise!
+      </p>
     </blockquote>
 
     <p>
