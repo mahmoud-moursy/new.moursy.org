@@ -14,6 +14,8 @@ if (Astro.request.method === "POST") {
   const body: Body = await Astro.request.formData().then((x) => ({ direction: String(x.get("direction")) }) as Body);
 
   mouseMove(body.direction);
+
+  return new Response(body.direction);
 }
 ---
 
