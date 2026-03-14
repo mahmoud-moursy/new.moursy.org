@@ -197,7 +197,7 @@ export const GET: APIRoute = async () => {
   return new Response(customReadable, {
     headers: {
       Connection: "keep-alive",
-      "Cache-Control": "no-cache, no-transform",
+      "Cache-Control": "no-cache",
       "Content-Type": "text/event-stream; charset=utf-8",
     },
   });
