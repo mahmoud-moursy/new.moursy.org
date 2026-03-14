@@ -17,18 +17,21 @@ import BaseLayout from "$layouts/base.astro";
 
     <p>
       Dear Reader, you have had the fortune of finding (or being invited to) my website. There is not much treasure
-      here, other than my <a href="/bloog">bloog</a> (with two o's).
+      here, other than my <a href="/bloog" class="fancy">bloog</a> (with two o's).
     </p>
 
     <section class="-rotate-1 border-2 border-yellow-950">
       <div class="flex rotate-1 flex-wrap justify-stretch gap-x-16 px-4 py-4 text-center text-3xl font-bold italic">
-        <div class="z-20 translate-y-0 scale-125 scale-x-200 bg-yellow-200 px-1 transition-all hover:translate-y-2">
+        <div
+          class="z-20 translate-y-0 scale-125 scale-x-200 -skew-2 bg-yellow-200 px-1 transition-all hover:translate-y-2 hover:skew-0">
           Who
         </div>
-        <div class="z-30 translate-y-2 scale-110 scale-x-200 bg-yellow-300 px-3 transition-all hover:translate-y-1">
+        <div
+          class="z-30 translate-y-2 scale-110 scale-x-200 skew-3 bg-yellow-300 px-3 transition-all hover:translate-y-1 hover:skew-0">
           am
         </div>
-        <div class="z-10 translate-y-3 scale-125 scale-x-200 bg-yellow-400 px-4 transition-all hover:translate-y-0">
+        <div
+          class="z-10 translate-y-3 scale-125 scale-x-200 -skew-6 bg-yellow-400 px-4 transition-all hover:translate-y-0 hover:skew-0">
           I?
         </div>
       </div>
@@ -41,14 +44,14 @@ import BaseLayout from "$layouts/base.astro";
       </p>
     </section>
 
-    <section class="mx-auto my-5 border-2 border-yellow-950 p-2 sm:-rotate-2">
-      <h3 class="m-2 w-fit -rotate-4 bg-slate-600 p-2 font-bold text-yellow-100 italic">
+    <section class="mx-auto my-5 max-w-xl skew-x-1 border-2 border-yellow-950 p-2 sm:-rotate-2">
+      <h3 class="m-2 w-fit -rotate-4 skew-6 bg-slate-600 p-2 font-bold text-yellow-100 italic">
         Some Boring
-        <span class="block w-fit rotate-2 bg-yellow-950 p-5 text-6xl text-yellow-100">History</span>
+        <span class="block w-fit rotate-2 -skew-3 bg-yellow-950 p-5 text-6xl text-yellow-100">History</span>
       </h3>
 
-      <div class="floral-pattern mt-10 border-2 border-slate-600 p-8 italic sm:rotate-4">
-        <p class="border-8 border-slate-600 bg-yellow-100 p-4">
+      <div class="floral-pattern mt-10 -skew-x-1 border-2 border-slate-600 p-8 italic sm:rotate-4">
+        <p class="border-8 border-slate-600 bg-yellow-100 p-4 sm:-rotate-2">
           I originally wrote this blog as 2025's new years' resolution. Tragically, the Original Moursy.org Bloog&TRADE;
           went down some time later as I left it to sink into disrepair. It was then rekindled thanks to the US-Iran
           conflict, which had left me (as of March 13th 2026) trapped inside as missiles flew overhead my country of
@@ -58,6 +61,12 @@ import BaseLayout from "$layouts/base.astro";
         </p>
       </div>
     </section>
+
+    <a href="/bloog">
+      <section class="fancy w-fit skew-x-12 border-4 border-yellow-700 p-5 text-5xl">
+        Read my Blo<sup>o</sup>g
+      </section></a
+    >
 
     <h3 class="font-bold italic">Thanks for Reading :)</h3>
 
