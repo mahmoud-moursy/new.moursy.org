@@ -4,15 +4,12 @@ import BaseLayout from "$layouts/base.astro";
 
 <BaseLayout>
   <main class="flex flex-col gap-4 p-6">
-    <blockquote class="w-md text-slate-600 italic" id="im-mahmoud-moursy">
-      <ruby class="text-4xl font-bold">
-        ... But Fools Seldom Differ."
-        <rt class="text-left font-normal">"Great Minds Think Alike</rt>
-      </ruby>
+    <blockquote class="max-w-md rotate-6 py-2 text-slate-600 italic" id="im-mahmoud-moursy">
+      <h1 class="fancy bg-slate-600 p-4 text-yellow-50">
+        <span class="text-base">"Great Minds Think Alike...</span><br />... But Fools Seldom Differ"
+      </h1>
 
-      <br />
-
-      <p class="border-l-2 border-slate-600 p-2">
+      <p class="-rotate-4 border-2 border-slate-600 bg-yellow-50 p-2">
         Hello! I'm Mahmoud Moursy. They say that fools <b>seldom differ</b>, but I'm nothing like the other fools, I
         promise!
       </p>
@@ -23,23 +20,44 @@ import BaseLayout from "$layouts/base.astro";
       here, other than my <a href="/bloog">bloog</a> (with two o's).
     </p>
 
-    <h3 class="font-bold italic">Who am I?</h3>
+    <section class="-rotate-1 border-2 border-yellow-950">
+      <div class="flex rotate-1 flex-wrap justify-stretch gap-x-16 px-4 py-4 text-center text-3xl font-bold italic">
+        <div class="z-20 translate-y-0 scale-125 scale-x-200 bg-yellow-200 px-1 transition-all hover:translate-y-2">
+          Who
+        </div>
+        <div class="z-30 translate-y-2 scale-110 scale-x-200 bg-yellow-300 px-3 transition-all hover:translate-y-1">
+          am
+        </div>
+        <div class="z-10 translate-y-3 scale-125 scale-x-200 bg-yellow-400 px-4 transition-all hover:translate-y-0">
+          I?
+        </div>
+      </div>
 
-    <p>
-      Well, if you <a href="#im-mahmoud-moursy">read the quote above</a>, you'll know that I'm Mahmoud Moursy. I'm the
-      best programmer that I know in real life (and I pride myself on it!), a <a href="https://youtu.be/SZuJRu8sww0">
-        TEDx Speaker
-      </a>, and *technically* a journalist once-upon-a-time.
-    </p>
+      <p class="p-2">
+        Well, if you <a href="#im-mahmoud-moursy">read the quote above</a>, you'll know that I'm Mahmoud Moursy. I'm the
+        best programmer that I know in real life (and I pride myself on it!), a <a href="https://youtu.be/SZuJRu8sww0">
+          TEDx Speaker
+        </a>, and *technically* a journalist once-upon-a-time.
+      </p>
+    </section>
 
-    <h3 class="font-bold italic">Some Boring History</h3>
+    <section class="mx-auto my-5 border-2 border-yellow-950 p-2 sm:-rotate-2">
+      <h3 class="m-2 w-fit -rotate-4 bg-slate-600 p-2 font-bold text-yellow-100 italic">
+        Some Boring
+        <span class="block w-fit rotate-2 bg-yellow-950 p-5 text-6xl text-yellow-100">History</span>
+      </h3>
 
-    <p>
-      I originally wrote this blog as 2025's new years' resolution. Tragically, the Original Moursy.org Bloog&TRADE;
-      went down some time later as I left it to sink into disrepair. It was then rekindled thanks to the US-Iran
-      conflict, which had left me (as of March 13th 2026) trapped inside as missiles flew overhead my country of
-      residence, the United Arab Emirates. <a href="/bloog/poosts/history">(... more on the history of Moursy.org)</a>
-    </p>
+      <div class="floral-pattern mt-10 border-2 border-slate-600 p-8 italic sm:rotate-4">
+        <p class="border-8 border-slate-600 bg-yellow-100 p-4">
+          I originally wrote this blog as 2025's new years' resolution. Tragically, the Original Moursy.org Bloog&TRADE;
+          went down some time later as I left it to sink into disrepair. It was then rekindled thanks to the US-Iran
+          conflict, which had left me (as of March 13th 2026) trapped inside as missiles flew overhead my country of
+          residence, the United Arab Emirates. <a href="/bloog/poosts/history"
+            >(... more on the history of Moursy.org)</a
+          >
+        </p>
+      </div>
+    </section>
 
     <h3 class="font-bold italic">Thanks for Reading :)</h3>
 
