@@ -3,6 +3,7 @@ import BaseLayout from "$layouts/base.astro";
 import Maze from "$/pages/funbox/mouse/maze.astro";
 
 export const prerender = false;
+Astro.response.headers.set("Cache-Control", "no-cache");
 ---
 
 <BaseLayout title="Get him the cheese, please!">
