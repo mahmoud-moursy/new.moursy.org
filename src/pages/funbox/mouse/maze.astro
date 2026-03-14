@@ -3,6 +3,8 @@ import Base from "$layouts/base.astro";
 import { currentMaze, type Direction, mouseMove } from "$/pages/funbox/mouse/logic.ts";
 import type { APIRoute } from "astro";
 
+Astro.response.headers.set("Cache-Control", "no-cache");
+
 export const prerender = false;
 export const partial = true;
 
