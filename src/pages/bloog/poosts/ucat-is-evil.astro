@@ -1,3 +1,324 @@
 ---
-$END$
+import Blog from "$layouts/blog.astro";
 ---
+
+<Blog title="The Feared Gatekeeper of Medicine Must Fall." date-created="1970-01-01">
+  <p>
+    Hello again, world! During the perilous months of 2025 (and perilous indeed they
+    were!), in addition to my mounting A-Level workload, early medical application
+    pressure, and personal circumstances, I had to face what many medical professionals
+    describe as the <em>
+      worst, most stressful exam of their entire academic careers!
+    </em>
+    Certainly, it has been the worst exam of my career. I have never faced an exam as arbitrary,
+    nor as aleatory, nor as barbarian as this one.
+  </p>
+  <p>
+    Worse yet, if you want to study medicine in the UK, it is virtually a given that you
+    must take this exam; nearly every single medical school that is worth considering will
+    require it. By the end of this article, you should have an idea of why I am so
+    personally charged against this exam to the point of writing an entire essay deriding
+    it.
+  </p>
+  <p class="text-lg font-bold italic">So who, or what, is this villain of medicine?</p>
+  <p>
+    I've left you in suspense long enough &mdash; the demon of medicine is called
+    <b>the University Clinical Aptitude Test (UCAT)</b>. The UCAT is an arbitrarily
+    designed test that is, as of 2026, composed of four sections.
+  </p>
+  <div>
+    <nav class="flex items-center *:border-slate-700!">
+      <hr class="mx-8 flex-1" />
+      <h4 class="w-max">Section Overview</h4>
+      <hr class="mx-8 flex-1" />
+    </nav>
+    <ul
+      class="mx-auto flex flex-wrap items-stretch gap-4 p-4 text-pretty *:min-w-40 *:flex-1">
+      <li
+        class="flex max-w-1/2 flex-1 flex-col justify-between decoration-rose-700 marker:text-rose-700">
+        <h4 class="pb-2 text-rose-700!">Verbal Reasoning:</h4> You are given a passage and expected
+        to answer 4 multiple-choice questions on it under an unreasonably restrictive time limit.
+      </li>
+      <li
+        class="flex max-w-1/2 flex-1 flex-col justify-between decoration-sky-700 marker:text-sky-700">
+        <h4 class="pb-2 text-sky-700!">Decision Making:</h4> You are given a series of roughly
+        similar logic puzzles in fixed order and expected to solve them under timed conditions.
+      </li>
+      <li
+        class="flex max-w-1/2 flex-1 flex-col justify-between decoration-amber-700 marker:text-amber-700">
+        <h4 class="pb-2 text-amber-700!">Quantitative Reasoning:</h4>
+        <p>
+          You are given a series of simple math problems and expected to solve them under
+          timed conditions.
+        </p>
+      </li>
+      <li
+        class="flex max-w-1/2 flex-1 flex-col justify-between decoration-emerald-700 marker:text-emerald-700">
+        <h4 class="pb-2 text-emerald-700!">Situational Judgement:</h4> You are given a series
+        of short scenarios and expected to pass judgement on different actions that you could
+        take in that situation.
+      </li>
+    </ul>
+  </div>
+  <p>
+    Oh, I should mention that <em>almost <b>none</b></em> of the questions in these sections
+    have anything to do with medicine specifically, besides
+    <b class="text-emerald-700">Situational Judgement</b> and the very last part of the
+    <b class="text-sky-700">Decision Making</b> section asking somewhat relevant questions.
+  </p>
+
+  <h3>The Test Isn't Even Standardized!</h3>
+  <tagline>
+    The UCAT gives every student a random selection of questions, which means that two
+    students' UCAT scores cannot be fairly compared. However, top universities <em
+      >still</em
+    > naively compare every score as if the student had sat the exact same test and employ harsh
+    numerical cutoffs in spite of this.
+  </tagline>
+  <p>
+    Did you know that <b> no one ever gets the exact same UCAT as another person? </b> However,
+    in spite of this, everyone is
+    <em>still</em> compared on the same arbitrary point-based scale that no student knows the
+    inner workings of!?
+  </p>
+  <p>
+    Some students may arbitrarily be discriminated against by a random question selection
+    algorithm that may give them harder questions. If two people took the test on the same
+    day,
+    <b>
+      one of them could arbitrarily receive a harder set of questions than the other.
+    </b>
+    That is to say, the next 6 years of your life might be dictated by a random number generation
+    machine and how generous it chooses to be.
+  </p>
+  <p>
+    This is notwithstanding the effects of the order in which questions are presented. If
+    a student gets hit with many long, hard questions at the start, it can ruin their
+    pacing towards the end of a section and end up reducing their score (on questions they
+    otherwise would've excelled at).
+  </p>
+  <p>
+    What makes this all-the-more unfortunate is that all passages in the
+    <b class="text-rose-700"> Verbal Reasoning</b> section are non-fiction. So a student whose
+    special interest is musical instruments might have an unfair advantage if randomly presented
+    with passages about that topic. Obviously, musical instruments have only tangential
+    <a href="#music-therapy-exists" class="font-bold underline">*</a>
+    relation to general medicine, so having this kind of knowledge
+    <b>should not</b> be rewarded by the UCAT.
+  </p>
+  <p class="leading-4" id="music-therapy-exists" slot="footnotes">
+    * Specialized music therapy does exist and does help patients, of course, but for 99%
+    of medical courses that require a UCAT score, that info isn't relevant &mdash; so
+    questions like that aren't aligned with the UCAT's objectives of general medical
+    admissions. In short, don't read into the example too much. <sub>
+      And actually, music therapy courses never ask for a UCAT anyways...
+    </sub>
+  </p>
+  <p>
+    Even more egregious are passages that are relevant to specific cultural backgrounds.
+    If a British person got a passage on fish and chips, they will be able to answer that
+    passage more confidently due to their cultural background. Rewarding British cultural
+    knowledge for a UK-centric exam isn't terrible, but you can see how this can apply to
+    other cultures as well and give unfair advantages to certain groups of international
+    students. Questions on Arab culture are sure to benefit me, should they come up... but
+    would a Swedish, or Ethiopian, or Brazilian student be capable of answering those
+    questions with the same proficiency?
+  </p>
+  <p>
+    In an ideal world, <b class="text-rose-700">Verbal Reasoning</b> shouldn't be part of the
+    UCAT. Much like the rest of the exam, it only indirectly measures a student's ability to
+    perform as a future medical professional &mdash; and additionally, there are many extraneous
+    variables that can skew student performance.
+  </p>
+  <h3>Smoke, Fear, and Mirrors.</h3>
+  <tagline>
+    The UCAT Consortium maintains only sparing communication with students on how they
+    operate. Everything down to even the test score leaves students with zero transparency
+    on how they were evaluated. This makes the UCAT inherently unauditable, thus
+    preventing students from giving feedback to the consortium.
+  </tagline>
+  <p>
+    Of all the exams I've taken in my life, the UCAT is the one that has left me with the
+    least answers. At the end of the exam, all you receive is a test report containing a
+    score and band, which tells you exactly <b>zilch</b> about the questions that you got right
+    or wrong.
+  </p>
+  <p>
+    Because everything is on an arbitrary point-based scale (whose meaning the consortium
+    refuses to explain in-detail), students can't actually tell what percentage of the
+    questions they got right or wrong. All the consortium says is that a score of 600 is
+    approximately in the 50th percentile (which wasn't true of 2025 &mdash; 700 was the
+    50th percentile).
+  </p>
+  <p>
+    Understandably, the UCAT consortium cannot afford to give a detailed test report right
+    away due to <a href="https://www.ucat.ac.uk/register/booking-your-test/">
+      how the scheduling structure works</a
+    >, where you can book an exam any time during the three-month window. However, I don't
+    see anything that prevents them from distributing detailed reports after the extended
+    test window (which if I recall correctly, ends around December). Consequently, this
+    means that students do not have an accurate paper trial to evidence that their scores
+    are actually reliable, and were not affected by a (in the worst of cases) a technical
+    malfunction that caused answers to be scrambled or otherwise incorrect.
+  </p>
+  <p>
+    Even worse, by not providing a detailed test report, students are left with no way to
+    verify that the question set that they got is fair. They may have gotten an excessive
+    amount of difficult questions, or a disproportionate amount of questions on one topic,
+    or <em>worse yet</em>, a question may have an error in it. Without a report, students
+    can never get their justice, and cannot even prove that they were victims of
+    injustice.
+  </p>
+  <p>
+    The UCAT consortium has also distributed misleading statistics before. In 2025, just
+    after reworking their exam, the website used to contain a table demonstrating what
+    scores of past years should look like under the new system. However, they drastically
+    underestimated what a 90th percentile score would look like.
+  </p>
+  <p>
+    After the actual statistics came out, the consortium quietly removed the
+    <em>(verrrrry wrong)</em> table from their website and never acknowledged its existence
+    ever again.
+  </p>
+  <p>
+    It's not exactly a grave mistake that ruined the lives of thousands of students, but
+    it's certainly not a good sign in their communication style to misrepresent how
+    difficult it would be to get a competitive score in the UCAT and <em>not</em> issue any
+    statement afterwards.
+  </p>
+  <p class="font-bold">
+    Personally, I think this is the most urgent thing that the consortium has to address,
+    because if they solve this, everything else will follow naturally.
+  </p>
+  <h3>Unresearched and Unproven Designs.</h3>
+  <tagline>
+    Just last year, the UCAT consortium removed an <em>entire section</em>
+    from their exam because it was proven to have
+    <em><b>near-zero correlation</b> to future student performance.</em>
+  </tagline>
+  <p>
+    This section, ironically named Abstract Reasoning (perhaps to better align with how
+    detached from reality the UCAT already is), was composed of nothing more than an IQ
+    test. For anyone that knows <em><b>anything</b></em> about the history of IQ tests, one
+    would understand that such an inclusion is certainly discriminatory and has definitely locked
+    out worthy students from more rigorous academic institutions.
+  </p>
+  <p>
+    Certainly, for an institution concerning medicine where we are expected to have a
+    higher standard of morality and justice, it truly amazes me how flippantly the UCAT
+    decided to introduce a section whose inspiration is steeped in a history of eugenics,
+    scientific racism, and discrimination.
+  </p>
+  <p>
+    Further emphasizing how catastrophic this blunder was, the research to show that this
+    section of the UCAT had
+    <b>no significant correlation</b> with student performance came out
+    <b>all the way back in 2011!</b> That means it took them
+    <b>over ten years</b> to act on research that should've never needed to be brought into
+    existence because that section <b>
+      <em>should've never been included anyway!</em>
+    </b>
+  </p>
+  <h3>Can these people do anything right?</h3>
+  <tagline>
+    Well, sometimes. The test has flexible scheduling and they have implemented
+    accessibility accomodations. Both implementations have discriminatory flaws.
+  </tagline>
+  <p>
+    Yes, this blo<sup>o</sup>g post is harshly critical of the UCAT... but in pursuit of a
+    balanced criticism, we should also outline what the UCAT does right.
+  </p>
+  <p>
+    The only sensible section throughout the entire UCAT is
+    <span class="font-bold text-emerald-700">Situational Judgement</span>. It reflects
+    real, difficult scenarios that students may come into contact with during time as
+    trainees. Additionally, it encourages students to learn more about the structure and
+    hierarchy of a hospital in the UK ahead of their course, which increases social
+    preparedness.
+  </p>
+  <p id="flexible-scheding">
+    I think there may also be a justifiable reason that the UCAT is randomized in the way
+    that it is. It may be because the consortium allows students to book exams on any day
+    of the three-month exam window, at any time of day, so long as it is before the (very
+    permissive) booking deadline. Not only that, but you are free to reschedule your exam
+    date until 48 hours before the exam! I <b>strongly commend</b> this flexible structure as
+    it places more agency into the hands of students. Unfortunately, if the test were not randomized,
+    students would be able to freely share the exam questions with others and cheat.
+  </p>
+  <p>
+    However, in the current system, students can still share exam questions with others...
+    the only difference is that you have a random chance of getting the questions that you
+    cheated. <b>After sitting my exam,</b> I saw people discussing some of the exam questions
+    on online forums like Reddit, and indeed I recognized some of them as questions that
+    <a href="#question-leaks" class="font-bold text-red-600! underline">
+      I encountered in my exam!*
+    </a> I understand taking measures to prevent cheating, but it seems that the current system
+    just makes it unfair to honest students and isn't highly effective. <em>
+      <sub>
+        Incidentally, they'd been discussing how a question unfairly advantaged one of
+        their peers due to their cultural background.
+      </sub>
+    </em>
+  </p>
+  <p class="leading-4" id="question-leaks" slot="footnotes">
+    <em class="text-red-600">
+      <b>* I wasn't actively seeking those forums out.</b>
+      My only involvement in these discussions was warning those users to take down the comments.
+      <br /><br /> I understand that I have entered into an agreement to never share any of
+      the exam questions by any means and still intend on abiding by it, whether its been one
+      day or one year since signing it. The anecdote is shared only to illustrate where the
+      UCAT can enhance their enforcement of exam integrity.
+    </em>
+  </p>
+  <p>
+    Praiseworthy as well is the UCAT's accomodations for disabled students. Though
+    something that I have noticed recently, is that the deadlines seem to be getting
+    stricter year-on-year. In 2025, the final application deadline for access arrangements
+    was the 16th of September 2025. This cycle, it is the 10th of September 2026. I
+    dislike that those with disabilities have to jump through more hurdles than everyone
+    else in order to get a fair exam experience, and this regression isn't exactly making
+    things better.
+  </p>
+  <h3>Concluding Words</h3>
+  <div>
+    In summary:
+    <ul class="list-disc pl-4">
+      <li>
+        The Consortium has nowhere near enough transparency, which is unacceptable given
+        its pivotal role in selecting the next generation of medical professionals.
+      </li>
+      <li>
+        The UCAT test design is arbitrary and has historically been arguably
+        discriminatory.
+      </li>
+      <li>
+        Its unstandardized nature does little to increase resilience against cheating and
+        does a lot to disadvantage honest students.
+      </li>
+    </ul>
+  </div>
+  <p>
+    Truthfully, I will never understand the UCAT's determination to take strange and
+    roundabout ways of measuring student ability. In prior admissions cycles,
+    <em>actually standardized</em> tests like the <b class="text-fuchsia-700"> BMAT </b> tested
+    skills that could be relevant to the course directly. The
+    <b class="text-emerald-700">Situational Judgement</b> section is a good first step in useful
+    design.
+  </p>
+  <p>
+    The UCAT Consortium should release a statement that advises universities to use the
+    UCAT as more of a coarse ranking measurement instead of an objective ranking
+    measurement. UCAT scores cannot be compared nor ordered because each score is
+    <em><b>literally for an entirely different question set!</b></em>
+  </p>
+  <p>
+    Furthermore, the UCAT Consortium needs to take a stronger role in moderating online
+    communities related to their exams to prevent exam questions from leaking.
+  </p>
+  <p>
+    Dear UCAT Consortium, no matter how scientific or objective you want your test to
+    seem, you have to acknowledge that the UCAT is not and will <b>never</b> be a scientific
+    or objective test (especially considering that comparing two test scores is akin to comparing
+    apples and oranges).
+  </p>
+</Blog>
