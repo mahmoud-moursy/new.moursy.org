@@ -41,14 +41,14 @@ export function l1Distance(a: number[], b: number[]): number {
   return sum;
 }
 
-export function generateSet(wordList: Record<string, number[]>, set_tag: number, difficulty: number = 0) {
+export function generateSet(wordList: Record<string, number[]>, set_tag: any, difficulty: number = 0): [string, number, any][] {
   const allWords = Object.keys(wordList);
 
   const wordIdx = Math.floor(Math.random() * allWords.length);
   const coreWord = allWords[wordIdx];
   const coreCoord = wordList[coreWord];
 
-  const similarityList: [string, number, number][] =
+  const similarityList: [string, number, any][] =
     Object.entries(wordList).map(
       ([currentWord, currentCoord]) =>
       [currentWord, l1Distance(coreCoord, currentCoord), set_tag]

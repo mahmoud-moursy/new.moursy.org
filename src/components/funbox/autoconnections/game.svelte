@@ -5,7 +5,7 @@
 
   interface Props {
     wordBin: Uint8Array,
-    connections: [string, number, number][] | undefined
+    connections: [string, number, any][] | undefined
   }
 
   let {
@@ -16,8 +16,6 @@
 
   const maxMistakes = 4;
   let mistakeCount = $state(0);
-
-  let currentQuip = $state("Autoconnections");
 
   let openingQuips = [
     "Tastes a little more metallic than the original...?",
@@ -55,19 +53,23 @@
     "He who knows all answers has not been asked all questions. Harder trials await."
   ];
 
+
+  let currentQuip = $state(selectRandom(openingQuips));
+
   let victory = $state(false);
   let defeat = $derived(mistakeCount >= maxMistakes);
-  let gameOver = $derived(victory || defeat)
+  let gameOver = $derived(victory || defeat);
+  let hideGameOverScreen = $state(false);
 
   let wordList = loadList(wordBin);
-  let selections: Record<string, boolean>[] = $state([
+  let selections: Record<any, boolean>[] = $state([
     {},
     {},
     {},
     {}
   ])
 
-  let solved = $state([false, false, false, false]);
+  let solved: Record<any, boolean> = $state({});
 
   if(!connections) resetGame();
 
@@ -76,8 +78,11 @@
   let maxChecked = $derived(countChecked(selections) >= 4);
 
   function shuffleArray(array: any[]) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+    let numSolved: number = Object.values(solved).reduce((a,b) => a + b, 0)
+    let rowStart = numSolved*4;
+
+    for (let i = rowStart; i < array.length; i++) {
+      let j = Math.floor(Math.random() * (array.length - rowStart)) + rowStart;
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
@@ -95,26 +100,35 @@
 
   function checkSolved() {
     let noMistake = false;
+    let nearSolve = false;
 
     selections.map((selection, idx) => {
-      let solution = Object.values(selection).every(checked => checked);
+      let numCorrect: number = Object.values(selection).reduce((a,b) => a + b, 0);
+
+      let solution = numCorrect >= 4;
+      nearSolve ||=  numCorrect === 3;
 
       if(solution && !solved[idx])
         arrangeSolved(idx);
 
-      solved[idx] = solved[idx] || solution;
-      noMistake = noMistake || solution;
+      solved[idx] ||= solution;
+      noMistake ||= solution;
 
       return solution;
     })
 
     if(!noMistake) {
       mistakeCount += 1;
+      currentQuip = mistakeQuips[mistakeQuipIdx++];
+      mistakeQuipIdx %= mistakeQuips.length;
+    } else {
+      currentQuip = correctQuips[correctQuipIdx++];
+      correctQuipIdx %= correctQuips.length;
     }
 
     resetSelections();
 
-    victory = solved.every(checked => checked);
+    victory = Object.values(solved).every(checked => checked);
   }
 
   function resetSelections() {
@@ -122,53 +136,86 @@
     selections = falsy.map(Object.fromEntries)
   }
 
-  function arrangeSolved(idx: number) {
-    let row: number = solved.map(s => s ? 1 : 0).reduce((a, b) => a + b);
+  function arrangeSolved(tag: any, row: number | undefined = undefined) {
+    row = row ?? Object.values(solved).reduce((a, b) => a + b, 0);
 
     let rowStart = row*4;
 
+    let swapIndices = connections!.filter(
+      ([_word, _sim, ctag]) => {
+        console.log(`ctag: ${ctag} with type ${typeof ctag}`)
+        console.log(`tag: ${tag} with type ${typeof tag}`)
+        return ctag == tag;
+      })
+      .map(word => connections!.indexOf(word));
 
-    let swapIndices = connections!.filter(([_word, _sim, tag]) => tag == idx).map(word => connections!.indexOf(word));
+    console.log(swapIndices)
 
     for(let swapOrdering in swapIndices) {
       setTimeout(() => {
         let swapIdx = swapIndices[swapOrdering];
         [connections![rowStart], connections![swapIdx]] = [connections![swapIdx], connections![rowStart]];
         rowStart += 1;
-      }, (swapOrdering+3) * 25)
+      }, (parseInt(swapOrdering)+3) * 25)
     }
+  }
+
+  function showSolution() {
+    hideGameOverScreen = true;
+
+    for(let key in solved) {
+      solved[key] = true;
+    }
+
+    Object.keys(selections).forEach((key, idx) => {
+      setTimeout(() => arrangeSolved(key, idx), idx*500)
+    })
   }
 
   function resetGame() {
     let autoList = [...generateSet(wordList, 0, 0), ...generateSet(wordList, 1, 80), ...generateSet(wordList, 2, 90), ...generateSet(wordList, 3, 120)];
 
     mistakeCount = 0;
-    solved = [false, false, false, false];
+    solved = {};
     connections = autoList;
+    shuffleArray(connections);
     resetSelections();
 
     victory = false;
+    hideGameOverScreen = false;
+  }
+
+  function selectRandom(list: any[]) {
+    let randIdx = Math.floor(Math.random() * list.length)
+    return list[randIdx];
   }
 </script>
 
 <div class="grid grid-cols-1 grid-rows-1">
+  {#key currentQuip}
+    <aside class="text-sm! text-center col-start-1 col-end-1 row-start-1 row-end-1" transition:fade>{currentQuip}</aside>
+  {/key}
+</div>
+<div class="grid grid-cols-1 grid-rows-1">
   <form class="grid grid-cols-4 grid-rows-4 gap-2 col-start-1 col-end-1 row-start-1 row-end-1">
-    {#each connections as [word, sim, tag] (word)}
+    {#each connections as [word, sim, tag] (word+tag+sim)}
       <label for={word}
              class="flex items-center p-4 justify-center text-center text-sm sm:text-base md:text-lg font-bold bg-amber-200 cursor-pointer has-disabled:cursor-default has-checked:bg-amber-300 has-checked:scale-95 has-disabled:opacity-25 transition-all"
              class:bg-slate-300!={solved[tag]}
              animate:flip={{duration: 200}}
       >
         <input hidden id={word} type="checkbox" value={word} bind:checked={selections[tag][word]} disabled={(maxChecked && !selections[tag][word]) || solved[tag] || gameOver} />
-        {word}
+        {word} {tag}
       </label>
     {/each}
   </form>
-  {#if gameOver}
+  {#if gameOver && !hideGameOverScreen}
   <div class="col-start-1 col-end-1 row-start-1 row-end-1 flex items-center justify-center flex-col gap-4 bg-amber-200 z-10" transition:fade={{duration:150}}>
     <h1>{victory ? "You win! 🌟" : "Not quite 🚫"}</h1>
-    <p class=""></p>
-    <button class="p-4 border-4 border-amber-400 w-fit cursor-pointer hover:bg-amber-400 hover:text-white transition-all font-bold" onclick={resetGame}>Reset?</button>
+    <button class="active-button" onclick={resetGame}>Reset?</button>
+    {#if defeat}
+      <button class="active-button" onclick={showSolution}>Show solution?</button>
+    {/if}
   </div>
     {/if}
 </div>
@@ -177,7 +224,7 @@
   Mistakes Remaining: <br>
   {#key mistakeCount}
 
-    {#each Array(maxMistakes-mistakeCount)}
+    {#each Array(Math.max(0, maxMistakes-mistakeCount))}
     <span transition:slide>
       🛑
     </span>
@@ -189,10 +236,10 @@
 
 
 <nav class="mx-auto flex flex-wrap gap-4 items-center justify-center">
-  <button class="active-button" onclick={() => shuffleArray(connections)} disabled={gameOver}>Shuffle</button>
-  <button class="active-button" onclick={resetSelections} disabled={gameOver}>Deselect All</button>
-  <button class="active-button" onclick={checkSolved} disabled={gameOver}>Submit</button>
   <button class="active-button border-red-400! hover:bg-red-400!" onclick={resetGame}>Reset game</button>
+  <button class="active-button" onclick={resetSelections} disabled={gameOver}>Deselect All</button>
+  <button class="active-button" onclick={() => shuffleArray(connections)} disabled={gameOver}>Shuffle</button>
+  <button class="active-button" onclick={checkSolved} disabled={gameOver}>Submit</button>
 </nav>
 
 <style>
