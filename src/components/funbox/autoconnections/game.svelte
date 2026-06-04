@@ -205,7 +205,7 @@
              animate:flip={{duration: 200}}
       >
         <input hidden id={word} type="checkbox" value={word} bind:checked={selections[tag][word]} disabled={(maxChecked && !selections[tag][word]) || solved[tag] || gameOver} />
-        {word} {tag}
+        {word}
       </label>
     {/each}
   </form>
