@@ -2,7 +2,7 @@
   import { fade } from "svelte/transition";
     import Game from "./game.svelte";
 
-  const wordListUrl = "/funbox/autoconnections/word-list.bin.br"
+  const wordListUrl = "/funbox/autoconnections/word-list.bin"
 
   const cache: Cache | undefined = window["caches"] ? await window.caches.open('autoconnections-cache') : undefined;
 
@@ -26,9 +26,11 @@
   {:then wordBin}
     {#if wordBin === undefined}
       <h1>Hello, you!</h1>
-      <p>You need to download the word list before playing autoconnections (5.8MiB).</p>
+      <p>You need to download the word list before playing autoconnections (8MiB).</p>
       {#if !window.isSecureContext}
-      <p class="font-bold">Please connect to the website over HTTPS so that this download can be cached!</p>
+      <p class="font-bold">Please connect to Moursy.org over HTTPS so that this download can be cached!</p>
+      {:else if !cache}
+      <p class="font-bold">Looks like your browser might not support caching, so you'll have to see this screen every time you go to Autoconnections :(</p>
       {/if}
       <button class="w-fit p-2 bg-yellow-700 text-amber-50" on:click={downloadList}>Download word list</button>
     {:else}
