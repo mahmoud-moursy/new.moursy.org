@@ -5,6 +5,8 @@ import tailwindcss from "@tailwindcss/vite";
 
 import node from "@astrojs/node";
 
+import svelte from "@astrojs/svelte";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://moursy.org",
@@ -19,10 +21,13 @@ export default defineConfig({
   security: {
     checkOrigin: false,
   },
+
   server: {
     host: true,
   },
+
   output: "server",
+
   fonts: [
     {
       name: "Ancizar Serif",
@@ -51,4 +56,6 @@ export default defineConfig({
   image: {
     service: passthroughImageService(),
   },
+
+  integrations: [svelte()],
 });
