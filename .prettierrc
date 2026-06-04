@@ -1,8 +1,15 @@
 {
-  "printWidth": 120,
-  "bracketSameLine": true,
+  "printWidth": 90,
   "singleAttributePerLine": false,
-  "plugins": ["prettier-plugin-astro", "prettier-plugin-svelte", "prettier-plugin-tailwindcss"],
+  "bracketSameLine": true,
+  "tabWidth": 2,
+  "useTabs": false,
+  "plugins": [
+    "prettier-plugin-astro",
+    "prettier-plugin-svelte",
+    "prettier-plugin-organize-imports",
+    "prettier-plugin-tailwindcss"
+  ],
   "overrides": [
     {
       "files": "*.astro",

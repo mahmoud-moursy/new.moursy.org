@@ -283,10 +283,8 @@
 </div>
 
 <nav class="mx-auto flex flex-wrap gap-4 justify-stretch">
-  <button class="interactive-button flex-1 border-red-400! hocus:bg-red-400!" onclick={resetGame} {@attach bounceButton}
-    >Reset game</button>
-  <button class="interactive-button flex-1" onclick={resetSelections} disabled={gameOver} {@attach bounceButton}
-    >Deselect All</button>
+  <button class="interactive-button flex-1 border-red-400! hocus:bg-red-400!" onclick={resetGame} {@attach bounceButton}>Reset game</button>
+  <button class="interactive-button flex-1" onclick={resetSelections} disabled={gameOver} {@attach bounceButton}>Deselect All</button>
   <button
     class="interactive-button flex-1"
     onclick={() => shuffleArray(connections)}
