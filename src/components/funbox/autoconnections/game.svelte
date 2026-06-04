@@ -17,7 +17,7 @@
   let openingQuips = [
     "Tastes a little more metallic than the original...?",
     "We've decided to right-size our workforce due to increased AI demand!",
-    "Now with 100% less human!",
+    "Now with 100% less human! Except for the human that made this...",
     "Why play the real thing when you can play this instead!?",
     "Connections minus the human connection!",
     "Did You Know: Mr. Moursy is actually 7'5\" in real life! This is a true verifiable fact from an unbiased source. You can trust me.",
@@ -148,13 +148,9 @@
 
     let swapIndices = connections!
       .filter(([_word, _sim, ctag]) => {
-        console.log(`ctag: ${ctag} with type ${typeof ctag}`);
-        console.log(`tag: ${tag} with type ${typeof tag}`);
         return ctag == tag;
       })
       .map((word) => connections!.indexOf(word));
-
-    console.log(swapIndices);
 
     for (let swapOrdering in swapIndices) {
       setTimeout(
@@ -221,7 +217,7 @@
 
 <div class="grid grid-cols-1 grid-rows-1">
   {#key currentQuip}
-    <aside class="text-sm! text-center col-start-1 col-end-1 row-start-1 row-end-1" transition:fade>
+    <aside class="text-sm max-w-md mx-auto text-center col-start-1 col-end-1 row-start-1 row-end-1" transition:fade>
       {currentQuip}
     </aside>
   {/key}
