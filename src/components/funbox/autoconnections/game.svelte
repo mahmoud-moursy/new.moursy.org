@@ -167,12 +167,11 @@
   function showSolution() {
     hideGameOverScreen = true;
 
-    for (let key in solved) {
-      solved[key] = true;
-    }
-
     Object.keys(selections).forEach((key, idx) => {
-      setTimeout(() => arrangeSolved(key, idx), idx * 500);
+      if(key in solveOrder) {
+        return
+      }
+      setTimeout(() => { arrangeSolved(key); solved[key] = true; }, idx * 500);
     });
   }
 
@@ -237,7 +236,7 @@
           value={word}
           bind:checked={selections[tag][word]}
           disabled={(maxChecked && !selections[tag][word]) || solved[tag] || gameOver} />
-        {word}
+        {word} {tag}
       </label>
     {/each}
   </form>
