@@ -5,7 +5,7 @@
 
   interface Props {
     wordBin: Uint8Array,
-    connections: [string, number, any][] | undefined
+    connections?: [string, number, any][]
   }
 
   let {
@@ -213,7 +213,7 @@
   <form class="grid grid-cols-4 grid-rows-4 gap-2 col-start-1 col-end-1 row-start-1 row-end-1">
     {#each connections as [word, sim, tag] (word+tag+sim)}
       <label for={word}
-             class="flex items-center p-4 justify-center text-center text-sm sm:text-base md:text-lg font-bold bg-amber-200 cursor-pointer has-disabled:cursor-default has-checked:bg-amber-300 has-checked:scale-95 has-disabled:opacity-25 transition-all"
+             class="flex items-center p-4 justify-center text-center text-xs md:text-lg font-bold bg-amber-200 cursor-pointer has-disabled:cursor-default has-checked:bg-amber-300 has-checked:scale-95 has-disabled:opacity-25 transition-all"
              class:bg-slate-300!={solved[tag]}
              animate:flip={{duration: 200}}
       >
@@ -248,7 +248,7 @@
 </div>
 
 
-<nav class="mx-auto flex flex-wrap gap-4 items-center justify-center">
+<nav class="mx-auto flex flex-wrap gap-4 justify-stretch">
   <button class="active-button border-red-400! hover:bg-red-400!" onclick={resetGame}>Reset game</button>
   <button class="active-button" onclick={resetSelections} disabled={gameOver}>Deselect All</button>
   <button class="active-button" onclick={() => shuffleArray(connections)} disabled={gameOver}>Shuffle</button>
@@ -259,6 +259,6 @@
   @import "tailwindcss";
 
   .active-button {
-      @apply p-4 border-4 border-amber-400 w-fit cursor-pointer disabled:cursor-not-allowed hover:bg-amber-400 hover:text-white transition-all font-bold disabled:bg-slate-400! disabled:border-slate-400! disabled:text-white;
+      @apply p-4 border-4 flex-1 border-amber-400 cursor-pointer disabled:cursor-not-allowed hover:bg-amber-400 hover:text-white transition-all font-bold disabled:bg-slate-400! disabled:border-slate-400! disabled:text-white;
   }
 </style>
