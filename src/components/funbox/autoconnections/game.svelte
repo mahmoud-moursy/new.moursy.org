@@ -53,6 +53,13 @@
     "He who knows all answers has not been asked all questions. Harder trials await."
   ];
 
+  let nearSolveQuips = [
+    "You were never close anyway.",
+    "Close, but no cigar... what does that even mean?",
+    "There's a red herring in there!",
+    "At least you have a 75% success rate!",
+  ];
+
 
   let currentQuip = $state(selectRandom(openingQuips));
 
@@ -119,8 +126,12 @@
 
     if(!noMistake) {
       mistakeCount += 1;
-      currentQuip = mistakeQuips[mistakeQuipIdx++];
-      mistakeQuipIdx %= mistakeQuips.length;
+      if(nearSolve) {
+        currentQuip = selectRandom(nearSolveQuips) + " (One away...)";
+      } else {
+        currentQuip = mistakeQuips[mistakeQuipIdx++];
+        mistakeQuipIdx %= mistakeQuips.length;
+      }
     } else {
       currentQuip = correctQuips[correctQuipIdx++];
       correctQuipIdx %= correctQuips.length;
@@ -166,6 +177,8 @@
     for(let key in solved) {
       solved[key] = true;
     }
+
+    let count = 1;
 
     Object.keys(selections).forEach((key, idx) => {
       setTimeout(() => arrangeSolved(key, idx), idx*500)
