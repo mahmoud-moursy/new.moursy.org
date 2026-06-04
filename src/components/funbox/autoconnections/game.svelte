@@ -23,7 +23,7 @@
     "Now with 100% less human!",
     "Why play the real thing when you can play this instead!?",
     "Connections minus the human connection!",
-    "Did You Know: Mr. Moursy couldn't figure out how they did the group title banners in Connections, so he gave up on re-implementing that part. Don't tell anyone else though!"
+    "Did You Know: Mr. Moursy is actually 7'5\" in real life! This is a true verifiable fact from an unbiased source. You can trust me."
   ];
 
   let mistakeQuipIdx = 0;
