@@ -30,7 +30,7 @@ export function loadList(input_buffer: Uint8Array): Record<string, number[]> {
     output[word] = coords;
   }
 
-  return output
+  return output;
 }
 
 export function l1Distance(a: number[], b: number[]): number {
@@ -41,26 +41,30 @@ export function l1Distance(a: number[], b: number[]): number {
   return sum;
 }
 
-export function generateSet(wordList: Record<string, number[]>, set_tag: any, difficulty: number = 0): [string, number, any][] {
+export function generateSet(
+  wordList: Record<string, number[]>,
+  set_tag: any,
+  difficulty: number = 0,
+): [string, number, any][] {
   const allWords = Object.keys(wordList);
 
   const wordIdx = Math.floor(Math.random() * allWords.length);
   const coreWord = allWords[wordIdx];
   const coreCoord = wordList[coreWord];
 
-  const similarityList: [string, number, any][] =
-    Object.entries(wordList).map(
-      ([currentWord, currentCoord]) =>
-      [currentWord, l1Distance(coreCoord, currentCoord), set_tag]
-    );
+  const similarityList: [string, number, any][] = Object.entries(wordList).map(([currentWord, currentCoord]) => [
+    currentWord,
+    l1Distance(coreCoord, currentCoord),
+    set_tag,
+  ]);
 
-  const selectionList = similarityList.filter(([word, sim]) => sim >= difficulty).toSorted(([wordA, simA], [wordB, simB]) => simB - simA);
+  const selectionList = similarityList
+    .filter(([word, sim]) => sim >= difficulty)
+    .toSorted(([wordA, simA], [wordB, simB]) => simB - simA);
   const wordSet = [selectionList.pop(), selectionList.pop(), selectionList.pop(), selectionList.pop()];
 
-  const successful = wordSet.every(set => set !== undefined);
+  const successful = wordSet.every((set) => set !== undefined);
 
-  if(successful)
-    return wordSet
-  else
-    return generateSet(wordList, set_tag, difficulty)
+  if (successful) return wordSet;
+  else return generateSet(wordList, set_tag, difficulty);
 }

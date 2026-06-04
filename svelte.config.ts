@@ -1,11 +1,11 @@
-import { vitePreprocess } from '@astrojs/svelte';
+import { vitePreprocess } from "@astrojs/svelte";
 import type { SvelteConfig } from "@sveltejs/vite-plugin-svelte";
 
 export default {
   preprocess: vitePreprocess(),
   compilerOptions: {
     experimental: {
-      async: true
-    }
-  }
+      async: true,
+    },
+  },
 } satisfies SvelteConfig;

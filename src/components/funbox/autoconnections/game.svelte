@@ -1,19 +1,15 @@
 <script lang="ts">
   import { generateSet, loadList } from "$/pages/funbox/autoconnections/_logic.ts";
-    import { flip } from "svelte/animate";
-    import { fade, scale, slide } from "svelte/transition";
+  import { flip } from "svelte/animate";
+  import { fade, scale, slide } from "svelte/transition";
   import { Spring } from "svelte/motion";
 
   interface Props {
-    wordBin: Uint8Array,
-    connections?: [string, number, any][]
+    wordBin: Uint8Array;
+    connections?: [string, number, any][];
   }
 
-  let {
-    wordBin,
-    connections = $bindable()
-  }: Props = $props();
-
+  let { wordBin, connections = $bindable() }: Props = $props();
 
   const maxMistakes = 4;
   let mistakeCount = $state(0);
@@ -24,7 +20,7 @@
     "Now with 100% less human!",
     "Why play the real thing when you can play this instead!?",
     "Connections minus the human connection!",
-    "Did You Know: Mr. Moursy is actually 7'5\" in real life! This is a true verifiable fact from an unbiased source. You can trust me."
+    "Did You Know: Mr. Moursy is actually 7'5\" in real life! This is a true verifiable fact from an unbiased source. You can trust me.",
   ];
 
   let mistakeQuipIdx = 0;
@@ -39,7 +35,7 @@
     "Being encouraging is not for me. Back to insults.",
     "So confident yet so wrong 🥰",
     "This is why you should never try. What if you try and mess it up?",
-    "Okay I Believe I’ve Made My Point I’m Going To Procedurally Loop My Dialogue Now. 👸"
+    "Okay I Believe I’ve Made My Point I’m Going To Procedurally Loop My Dialogue Now. 👸",
   ];
 
   let correctQuipIdx = 0;
@@ -51,7 +47,7 @@
     "They say the journey of a thousand miles begins with a single step...",
     "There is nothing so useless as doing efficiently that which should not be done at all. Spend your time on something more productive.",
     "Fortune often favors the foolish, so they mistake survival for wisdom.",
-    "He who knows all answers has not been asked all questions. Harder trials await."
+    "He who knows all answers has not been asked all questions. Harder trials await.",
   ];
 
   let nearSolveQuips = [
@@ -61,7 +57,6 @@
     "At least you have a 75% success rate!",
   ];
 
-
   let currentQuip = $state(selectRandom(openingQuips));
 
   let victory = $state(false);
@@ -70,25 +65,20 @@
   let hideGameOverScreen = $state(false);
 
   let wordList = loadList(wordBin);
-  let selections: Record<any, boolean>[] = $state([
-    {},
-    {},
-    {},
-    {}
-  ])
+  let selections: Record<any, boolean>[] = $state([{}, {}, {}, {}]);
 
   let solved: Record<any, boolean> = $state({});
   let solveOrder: any[] = $state([]);
 
-  if(!connections) resetGame();
+  if (!connections) resetGame();
 
   shuffleArray(connections);
 
   let maxChecked = $derived(countChecked(selections) >= 4);
 
   function shuffleArray(array: any[]) {
-    let numSolved: number = Object.values(solved).reduce((a,b) => a + b, 0)
-    let rowStart = numSolved*4;
+    let numSolved: number = Object.values(solved).reduce((a, b) => a + b, 0);
+    let rowStart = numSolved * 4;
 
     for (let i = rowStart; i < array.length; i++) {
       let j = Math.floor(Math.random() * (array.length - rowStart)) + rowStart;
@@ -100,11 +90,11 @@
   function countChecked(selections: Record<string, boolean>[]) {
     let count = 0;
 
-    for(let group of selections) {
-      Object.values(group).forEach(checked => checked ? count++ : count);
+    for (let group of selections) {
+      Object.values(group).forEach((checked) => (checked ? count++ : count));
     }
 
-    return count
+    return count;
   }
 
   function checkSolved() {
@@ -112,12 +102,12 @@
     let nearSolve = false;
 
     selections.map((selection, idx) => {
-      let numCorrect: number = Object.values(selection).reduce((a,b) => a + b, 0);
+      let numCorrect: number = Object.values(selection).reduce((a, b) => a + b, 0);
 
       let solution = numCorrect >= 4;
-      nearSolve ||=  numCorrect === 3;
+      nearSolve ||= numCorrect === 3;
 
-      if(solution && !solved[idx]) {
+      if (solution && !solved[idx]) {
         arrangeSolved(idx);
         solveOrder.push(idx);
       }
@@ -126,11 +116,11 @@
       noMistake ||= solution;
 
       return solution;
-    })
+    });
 
-    if(!noMistake) {
+    if (!noMistake) {
       mistakeCount += 1;
-      if(nearSolve) {
+      if (nearSolve) {
         currentQuip = selectRandom(nearSolveQuips) + " (One away...)";
       } else {
         currentQuip = mistakeQuips[mistakeQuipIdx++];
@@ -143,63 +133,66 @@
 
     resetSelections();
 
-    victory = Object.values(solved).every(checked => checked);
+    victory = Object.values(solved).every((checked) => checked);
   }
 
   function resetSelections() {
-    let falsy = selections.map(selection => Object.entries(selection).map(([word, _]) => [word, false]))
-    selections = falsy.map(Object.fromEntries)
+    let falsy = selections.map((selection) => Object.entries(selection).map(([word, _]) => [word, false]));
+    selections = falsy.map(Object.fromEntries);
   }
 
   function arrangeSolved(tag: any, row: number | undefined = undefined) {
     row = row ?? Object.values(solved).reduce((a, b) => a + b, 0);
 
-    let rowStart = row*4;
+    let rowStart = row * 4;
 
-    let swapIndices = connections!.filter(
-      ([_word, _sim, ctag]) => {
-        console.log(`ctag: ${ctag} with type ${typeof ctag}`)
-        console.log(`tag: ${tag} with type ${typeof tag}`)
+    let swapIndices = connections!
+      .filter(([_word, _sim, ctag]) => {
+        console.log(`ctag: ${ctag} with type ${typeof ctag}`);
+        console.log(`tag: ${tag} with type ${typeof tag}`);
         return ctag == tag;
       })
-      .map(word => connections!.indexOf(word));
+      .map((word) => connections!.indexOf(word));
 
-    console.log(swapIndices)
+    console.log(swapIndices);
 
-    for(let swapOrdering in swapIndices) {
-      setTimeout(() => {
-        let swapIdx = swapIndices[swapOrdering];
-        [connections![rowStart], connections![swapIdx]] = [connections![swapIdx], connections![rowStart]];
-        rowStart += 1;
-      }, (parseInt(swapOrdering)+3) * 25)
+    for (let swapOrdering in swapIndices) {
+      setTimeout(
+        () => {
+          let swapIdx = swapIndices[swapOrdering];
+          [connections![rowStart], connections![swapIdx]] = [connections![swapIdx], connections![rowStart]];
+          rowStart += 1;
+        },
+        (parseInt(swapOrdering) + 3) * 25,
+      );
     }
   }
 
   function showSolution() {
     hideGameOverScreen = true;
 
-    for(let key in solved) {
+    for (let key in solved) {
       solved[key] = true;
     }
 
     Object.keys(selections).forEach((key, idx) => {
-      setTimeout(() => arrangeSolved(key, idx), idx*500)
-    })
+      setTimeout(() => arrangeSolved(key, idx), idx * 500);
+    });
   }
 
   function resetGame() {
-    let autoList = [...generateSet(wordList, 0, 0), ...generateSet(wordList, 1, 80), ...generateSet(wordList, 2, 90), ...generateSet(wordList, 3, 120)];
+    let autoList = [
+      ...generateSet(wordList, 0, 0),
+      ...generateSet(wordList, 1, 80),
+      ...generateSet(wordList, 2, 90),
+      ...generateSet(wordList, 3, 120),
+    ];
 
     mistakeCount = 0;
     solved = {};
     solveOrder = [];
     connections = autoList;
-    selections = [
-      {},
-      {},
-      {},
-      {}
-    ];
+    selections = [{}, {}, {}, {}];
     shuffleArray(connections);
     resetSelections();
 
@@ -208,7 +201,7 @@
   }
 
   function selectRandom(list: any[]) {
-    let randIdx = Math.floor(Math.random() * list.length)
+    let randIdx = Math.floor(Math.random() * list.length);
     return list[randIdx];
   }
 
@@ -216,30 +209,38 @@
     let bouncy = new Spring(100, {
       stiffness: 9.0,
     });
-    $effect(() => element.style.scale = `${bouncy.current}%`)
+    $effect(() => (element.style.scale = `${bouncy.current}%`));
 
-    element.addEventListener('click', () => {
+    element.addEventListener("click", () => {
       bouncy.set(70);
 
-      setTimeout(() => bouncy.set(100), 100)
-    })
+      setTimeout(() => bouncy.set(100), 100);
+    });
   }
 </script>
 
 <div class="grid grid-cols-1 grid-rows-1">
   {#key currentQuip}
-    <aside class="text-sm! text-center col-start-1 col-end-1 row-start-1 row-end-1" transition:fade>{currentQuip}</aside>
+    <aside class="text-sm! text-center col-start-1 col-end-1 row-start-1 row-end-1" transition:fade>
+      {currentQuip}
+    </aside>
   {/key}
 </div>
 <div class="grid grid-cols-1 grid-rows-1">
   <form class="grid grid-cols-4 grid-rows-4 gap-2 col-start-1 col-end-1 row-start-1 row-end-1">
-    {#each connections as [word, sim, tag] (word+tag+sim)}
-      <label for={word}
-             class="flex items-center p-4 justify-center text-center text-xs md:text-lg font-bold bg-amber-200 cursor-pointer has-disabled:cursor-default has-checked:bg-amber-300 has-checked:scale-95 has-disabled:opacity-25 transition-all"
-             class:bg-slate-300!={solved[tag]}
-             animate:flip={{duration: 200}}
-      >
-        <input hidden id={word} type="checkbox" value={word} bind:checked={selections[tag][word]} disabled={(maxChecked && !selections[tag][word]) || solved[tag] || gameOver} />
+    {#each connections as [word, sim, tag] (word + tag + sim)}
+      <label
+        for={word}
+        class="flex items-center p-4 justify-center text-center text-xs md:text-lg font-bold bg-amber-200 cursor-pointer has-disabled:cursor-default has-checked:bg-amber-300 has-checked:scale-95 has-disabled:opacity-25 transition-all"
+        class:bg-slate-300!={solved[tag]}
+        animate:flip={{ duration: 200 }}>
+        <input
+          hidden
+          id={word}
+          type="checkbox"
+          value={word}
+          bind:checked={selections[tag][word]}
+          disabled={(maxChecked && !selections[tag][word]) || solved[tag] || gameOver} />
         {word}
       </label>
     {/each}
@@ -248,7 +249,7 @@
     {#each solveOrder as key (key)}
       {#if solved[key]}
         <div class="bg-amber-950 text-white flex flex-col items-center justify-center">
-          <h3 class="p-2">Group {parseInt(key)+1}</h3>
+          <h3 class="p-2">Group {parseInt(key) + 1}</h3>
           <p class="p-1">
             {#each Object.keys(selections[key]) as word}
               <span class="px-2">{word}</span>
@@ -259,49 +260,52 @@
     {/each}
   </div>
   {#if gameOver && !hideGameOverScreen}
-  <div class="col-start-1 col-end-1 row-start-1 row-end-1 flex items-center justify-center flex-col gap-4 bg-amber-200 z-20" transition:fade={{duration:150}}>
-    <h1>{victory ? "You win! 🌟" : "Not quite 🚫"}</h1>
-    <nav class="flex flex-wrap gap-4">
-      <button class="interactive-button" onclick={resetGame} {@attach bounceButton}>Reset?</button>
-      <button class="interactive-button" onclick={() => hideGameOverScreen = true} {@attach bounceButton}>Review Puzzle</button>
-      {#if defeat}
-        <button class="interactive-button" onclick={showSolution} {@attach bounceButton}>Show solution?</button>
-      {/if}
-    </nav>
-  </div>
-    {/if}
+    <div
+      class="col-start-1 col-end-1 row-start-1 row-end-1 flex items-center justify-center flex-col gap-4 bg-amber-200 z-20"
+      transition:fade={{ duration: 150 }}>
+      <h1>{victory ? "You win! 🌟" : "Not quite 🚫"}</h1>
+      <nav class="flex flex-wrap gap-4">
+        <button class="interactive-button" onclick={resetGame} {@attach bounceButton}>Reset?</button>
+        <button class="interactive-button" onclick={() => (hideGameOverScreen = true)} {@attach bounceButton}
+          >Review Puzzle</button>
+        {#if defeat}
+          <button class="interactive-button" onclick={showSolution} {@attach bounceButton}>Show solution?</button>
+        {/if}
+      </nav>
+    </div>
+  {/if}
 </div>
 
 <div class="text-center">
-  Mistakes Remaining: <br>
+  Mistakes Remaining: <br />
   {#key mistakeCount}
-
-    {#each Array(Math.max(0, maxMistakes-mistakeCount))}
-    <span transition:slide>
-      🛑
-    </span>
-  {:else}
-    None
-  {/each}
-    {/key}
+    {#each Array(Math.max(0, maxMistakes - mistakeCount))}
+      <span transition:slide> 🛑 </span>
+    {:else}
+      None
+    {/each}
+  {/key}
 </div>
 
-
 <nav class="mx-auto flex flex-wrap gap-4 justify-stretch">
-  <button class="interactive-button flex-1 border-red-400! hover:bg-red-400! active:bg-red-400! focus:bg-red-400!" onclick={resetGame} {@attach bounceButton}>Reset game</button>
-  <button class="interactive-button flex-1" onclick={resetSelections} disabled={gameOver} {@attach bounceButton}>Deselect All</button>
-  <button class="interactive-button flex-1" onclick={() => shuffleArray(connections)} disabled={gameOver} {@attach bounceButton}>Shuffle</button>
-  <button class="interactive-button flex-1" onclick={checkSolved} disabled={gameOver} {@attach bounceButton}>Submit</button>
+  <button class="interactive-button flex-1 border-red-400! hocus:bg-red-400!" onclick={resetGame} {@attach bounceButton}
+    >Reset game</button>
+  <button class="interactive-button flex-1" onclick={resetSelections} disabled={gameOver} {@attach bounceButton}
+    >Deselect All</button>
+  <button
+    class="interactive-button flex-1"
+    onclick={() => shuffleArray(connections)}
+    disabled={gameOver}
+    {@attach bounceButton}>Shuffle</button>
+  <button class="interactive-button flex-1" onclick={checkSolved} disabled={gameOver} {@attach bounceButton}
+    >Submit</button>
 </nav>
 
-<style>
+<style lang="postcss">
   @import "tailwindcss";
+  @custom-variant hocus (&:hover, &:focus, &:active);
 
   .interactive-button {
-      @apply p-4 border-4 border-amber-400 cursor-pointer disabled:cursor-not-allowed transition-all font-bold disabled:bg-slate-400! disabled:border-slate-400! disabled:text-white;
-  }
-
-  .interactive-button:active, .interactive-button:hover, .interactive-button:focus {
-      @apply bg-amber-400 text-white;
+    @apply hocus:bg-amber-400 hocus:text-white cursor-pointer border-4 border-amber-400 p-4 font-bold transition-all disabled:cursor-not-allowed disabled:border-slate-400! disabled:bg-slate-400! disabled:text-white;
   }
 </style>

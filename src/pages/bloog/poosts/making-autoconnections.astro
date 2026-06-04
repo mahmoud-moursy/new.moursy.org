@@ -1,6 +1,6 @@
 ---
-
-import Blog from "$layouts/blog.astro";---
+import Blog from "$layouts/blog.astro";
+---
 
 <Blog title="The Architecting of Autoconnections" date-created="2026-06-04">
   <p>
@@ -9,205 +9,291 @@ import Blog from "$layouts/blog.astro";---
     attempts failed! That is, <b><em>until today, dear reader!</em></b>
   </p>
   <p>
-    You see, I found a project idea so gripping that I could not let it go until it came to life. An idea so original, so profound,
-    and so simple yet completely unthought of...!
+    You see, I found a project idea so gripping that I could not let it go until it came to life. An idea so original,
+    so profound, and so simple yet completely unthought of...!
   </p>
   <h3>The Amazing Idea</h3>
   <p>
-    What if you had a game where you were presented with 16 words in a 4x4 grid, and those
-    words could actually be grouped together into 4 groups via some semantic linking? Like a Connection of some sort? Why of course,
-    such an elegant game idea has <a href="https://www.nytimes.com/games/connections"><b><em>never</em></b> been thought of before</a> by anyone else except
-    the noble and venerable Mahmoud Moursy!
+    What if you had a game where you were presented with 16 words in a 4x4 grid, and those words could actually be
+    grouped together into 4 groups via some semantic linking? Like a Connection of some sort? Why of course, such an
+    elegant game idea has <a href="https://www.nytimes.com/games/connections"
+      ><b><em>never</em></b> been thought of before</a
+    > by anyone else except the noble and venerable Mahmoud Moursy!
   </p>
   <h3>Okay, so maybe it ain't too original...</h3>
   <p>
-    You see, I love/hate the New York Times' "Connections" minigame. It's fun, it's satisfying, but in an on-demand world where
-    short-form content has taken hold and fried our attention spans and shrunk our brains, there just isn't enough content, is there!?
+    You see, I love/hate the New York Times' "Connections" minigame. It's fun, it's satisfying, but in an on-demand
+    world where short-form content has taken hold and fried our attention spans and shrunk our brains, there just isn't
+    enough content, is there!?
   </p>
   <p>
-    What if I don't like the puzzle because it <em><b>STINKS</b></em> and it <em><b>SUCKS!?</b></em> I'm not going to put up
-    with that! What do you mean I must wait 24 hours per minigame!? I want to play as many as I want!!! I want to push a button and have
-    a new puzzle synergized for me right then and there!
+    What if I don't like the puzzle because it <em><b>STINKS</b></em> and it <em><b>SUCKS!?</b></em> I'm not going to put
+    up with that! What do you mean I must wait 24 hours per minigame!? I want to play as many as I want!!! I want to push
+    a button and have a new puzzle synergized for me right then and there!
   </p>
   <p>
-    I want more!!! <b>MORE!!!</b> <em><b>MORE!!!!</b></em>
+    I want more!!! <b>MORE!!!</b>
+    <em><b>MORE!!!!</b></em>
   </p>
   <h3>...and so, he set out to make more...</h3>
   <p>
-    Wait, how do you even make more? It's not like generating a sudoku or something...
-    I mean, the act of piecing together connected words isn't something you can easily quantify, is it?
+    Wait, how do you even make more? It's not like generating a sudoku or something... I mean, the act of piecing
+    together connected words isn't something you can easily quantify, is it?
   </p>
   <p>
-    Of course, there is a solution to quantify that which cannot be quantified. It's something that we just cannot get enough of!
-    Something that has repeatedly been affirmed as "the future". Something that we all love and cherish and harbor no negative
-    feelings towards whatsoever. What is this wonderful thing? It's <em class="fancy">the power of <strike>machine learning</strike> AI ✨</em>!
+    Of course, there is a solution to quantify that which cannot be quantified. It's something that we just cannot get
+    enough of! Something that has repeatedly been affirmed as "the future". Something that we all love and cherish and
+    harbor no negative feelings towards whatsoever. What is this wonderful thing? It's <em class="fancy"
+      >the power of <strike>machine learning</strike> AI ✨</em
+    >!
   </p>
   <p>
-    Okay, WAIT! Before you torch me to death, I just want you to know that this kind of text-matching
-    model has existed for over a decade before the words "large language model" became part of
-    the general corpus.
+    Okay, WAIT! Before you torch me to death, I just want you to know that this kind of text-matching model has existed
+    for over a decade before the words "large language model" became part of the general corpus.
   </p>
   <h3>So how exactly do we find <strike>close</strike> connected words?</h3>
-  <p>Fortunately, people much smarter than I needed to answer this question long before I did, so they took the liberty of solving that problem for me (yay!!!) and sharing their work.</p>
   <p>
-    This is actually one of the problems that Google faced tracing all the way back to the 2000s. <b><em>Why!?</em></b> Well, because someone might search for "running routes", and including the
-    semantically similar "jogging routes" would improve the quality of search results, giving Google a competitive edge over other, simpler engines. It isn't just Google though --
-    if a Xwitter user likes lots of posts about jogging, the algorithm would naturally want to recommend more jogging or running related posts; in short, this problem comes up <em>a lot</em>
+    Fortunately, people much smarter than I needed to answer this question long before I did, so they took the liberty
+    of solving that problem for me (yay!!!) and sharing their work.
+  </p>
+  <p>
+    This is actually one of the problems that Google faced tracing all the way back to the 2000s. <b><em>Why!?</em></b> Well,
+    because someone might search for "running routes", and including the semantically similar "jogging routes" would improve
+    the quality of search results, giving Google a competitive edge over other, simpler engines. It isn't just Google though
+    -- if a Xwitter user likes lots of posts about jogging, the algorithm would naturally want to recommend more jogging or
+    running related posts; in short, this problem comes up <em>a lot</em>
     when you're an evil tech conglomerate and need to keep someone glued to your service.
   </p>
   <p>
-    The best known solution to this problem is to take a text, and then assign that text a coordinate vector in space (an "embedding"). Pieces of text that have close coordinate vectors
-    have similar meanings. Every once in a while, researchers may publish their own learned (coordinate + word) pairs for others to use and review, which is very convenient for us.
+    The best known solution to this problem is to take a text, and then assign that text a coordinate vector in space
+    (an "embedding"). Pieces of text that have close coordinate vectors have similar meanings. Every once in a while,
+    researchers may publish their own learned (coordinate + word) pairs for others to use and review, which is very
+    convenient for us.
   </p>
   <p>
-    For this weekend's special project, I decided to use Stanford's GloVe embeddings dataset. On their website, there is <a href="https://nlp.stanford.edu/projects/glove/">a visual representation of the coordinate idea</a>
+    For this weekend's special project, I decided to use Stanford's GloVe embeddings dataset. On their website, there is <a
+      href="https://nlp.stanford.edu/projects/glove/">a visual representation of the coordinate idea</a
+    >
   </p>
   <p>
-    So to find close words, we just pick a random word from the embedding dataset, and then we pick words with nearby coordinates. Easy, right?
+    So to find close words, we just pick a random word from the embedding dataset, and then we pick words with nearby
+    coordinates. Easy, right?
   </p>
   <h3>Cleaning up a messy dataset</h3>
   <p>
-    The GloVe dataset has a few problems that do make it kind of unsuitable for this project. One of those problems is just how ridiculously large it is! The entire,
-    uncompressed dataset is a whopping 5GiB on-disk! For a web project, such a large file size simply will not do!
+    The GloVe dataset has a few problems that do make it kind of unsuitable for this project. One of those problems is
+    just how ridiculously large it is! The entire, uncompressed dataset is a whopping 5GiB on-disk! For a web project,
+    such a large file size simply will not do!
   </p>
   <div>
     There were three things I had to clean out so that the dataset would lean out 🎤👋
     <ul class="list-disc px-4">
-      <li><b>Remove non-words:</b> A big chunk of the dataset contains things like random digits, punctuation, and non-English words. Removing these cleaned out >1 million words!</li>
-      <li><b>Removing repeat words:</b> By using a dictionary to see if a word was in its root form (and removing non-root words), we managed to remove >440,000 words!</li>
-      <li><b>Removing rare words:</b> Nobody knows what a "leptodactylidae" is (unless you're a 🤓🤓🤓), and nobody wants it in their Connection. By removing rare words, we eliminated >50,000 words!</li>
+      <li>
+        <b>Remove non-words:</b> A big chunk of the dataset contains things like random digits, punctuation, and non-English
+        words. Removing these cleaned out >1 million words!
+      </li>
+      <li>
+        <b>Removing repeat words:</b> By using a dictionary to see if a word was in its root form (and removing non-root words),
+        we managed to remove >440,000 words!
+      </li>
+      <li>
+        <b>Removing rare words:</b> Nobody knows what a "leptodactylidae" is (unless you're a 🤓🤓🤓), and nobody wants it
+        in their Connection. By removing rare words, we eliminated >50,000 words!
+      </li>
     </ul>
   </div>
   <p>
-    There was, however, a <em class="fancy">secret fourth category</em> that I soon found out I had to filter. It was funny enough to deserve
-    its own special section, or maybe even two sections!
+    There was, however, a <em class="fancy">secret fourth category</em> that I soon found out I had to filter. It was funny
+    enough to deserve its own special section, or maybe even two sections!
   </p>
   <h3>Filtering out naughty words</h3>
   <p>
-    The dataset contains a very large amount of data from the internet that was trained unsupervised and unfiltered. As a result, the dataset includes
-    a very large portion of naughty, disorderly words and/or word pairings. As a noble warrior of justice, I have taken it upon myself to clean these unsightly
-    violations of the social order... and, like, also because this project is associated with my full legal name and stuff... wouldn't be a good look... if the
+    The dataset contains a very large amount of data from the internet that was trained unsupervised and unfiltered. As
+    a result, the dataset includes a very large portion of naughty, disorderly words and/or word pairings. As a noble
+    warrior of justice, I have taken it upon myself to clean these unsightly violations of the social order... and,
+    like, also because this project is associated with my full legal name and stuff... wouldn't be a good look... if the
     connections turned out... freaky... 🥲
   </p>
   <p>
-    This problem (also known as the Scunthrope problem) has no general solution. I managed to come up with a good-enough filter for this dataset, though. Uhh, you can look
-    at the boring technical details in the condensed sections below if you want.
+    This problem (also known as the Scunthrope problem) has no general solution. I managed to come up with a good-enough
+    filter for this dataset, though. Uhh, you can look at the boring technical details in the condensed sections below
+    if you want.
   </p>
-  <details class="border-slate-500 pl-4 border-l-4">
+  <details class="border-l-4 border-slate-500 pl-4">
     <summary class="text-slate-500">Step 1: Obtain a filter list</summary>
     <p>
-      To filter out naughty words, we have to know what the naughty words are! I happened to grab the <a href="https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words">List of Dirty, Naughty, Obscene, and Otherwise Bad Words</a>
+      To filter out naughty words, we have to know what the naughty words are! I happened to grab the <a
+        href="https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words"
+        >List of Dirty, Naughty, Obscene, and Otherwise Bad Words</a
+      >
       because it was a simple newline-delimited word list.
     </p>
-    <p>
-      However, the filter list is partially incomplete, which makes my job a little bit harder.
-    </p>
+    <p>However, the filter list is partially incomplete, which makes my job a little bit harder.</p>
   </details>
-  <details class="border-slate-500 pl-4 border-l-4">
-    <summary class="text-slate-500">Step 2: Why get a better list when you can just make your filter more complicated!?</summary>
+  <details class="border-l-4 border-slate-500 pl-4">
+    <summary class="text-slate-500"
+      >Step 2: Why get a better list when you can just make your filter more complicated!?</summary
+    >
     <p>
-      The filter list is quite incomplete and lacks many variants of profane words. For example, the list <em>does</em> contain "f**k" but <em>does NOT</em> contain "f**ked". So something like that
-      would easily slip the cracks. So at first, only ~900 profane words were caught.
+      The filter list is quite incomplete and lacks many variants of profane words. For example, the list <em>does</em> contain
+      "f**k" but <em>does NOT</em> contain "f**ked". So something like that would easily slip the cracks. So at first, only
+      ~900 profane words were caught.
     </p>
     <p>
-      Additionally, filter list doesn't compensate for punctuation or anything like that (and many profane words may be hyphenated!), so I have to normalize certain word combinations so something like
-      "f**ked-up" which counts as its own word doesn't slip through the cracks.
+      Additionally, filter list doesn't compensate for punctuation or anything like that (and many profane words may be
+      hyphenated!), so I have to normalize certain word combinations so something like "f**ked-up" which counts as its
+      own word doesn't slip through the cracks.
     </p>
-    <p>To tackle this, I normalized all the words in the dataset and the filter list to remove punctuation and whitespace, and then compared the words in the dataset against the normalized
-      and unnormalized filter lists to ensure nothing was missing! This took us up to ~1000 profane words caught.</p>
     <p>
-      Finally, I <em class="fancy">lemmatized ✨</em> all the words in the dataset (converting words into their roots, so words like jogging become jog, words like f**king become f**k) and compared
+      To tackle this, I normalized all the words in the dataset and the filter list to remove punctuation and
+      whitespace, and then compared the words in the dataset against the normalized and unnormalized filter lists to
+      ensure nothing was missing! This took us up to ~1000 profane words caught.
+    </p>
+    <p>
+      Finally, I <em class="fancy">lemmatized ✨</em> all the words in the dataset (converting words into their roots, so
+      words like jogging become jog, words like f**king become f**k) and compared
       <em>that</em> against the filter list, and that took us up to ~1200 profane words caught.
     </p>
     <p>
-      Well, the lemmatizer I ended up using (which was geared mostly towards web scraping and NOT profanity-filtering) did end up missing some word roots, so I had to go back and manually
-      update the filter list for the outputs that missed detection. Still, we managed to catch an additional 300 <em><b>NAUGHTY, EVIL</b></em> words, which should make the playing experience better 🤞.
+      Well, the lemmatizer I ended up using (which was geared mostly towards web scraping and NOT profanity-filtering)
+      did end up missing some word roots, so I had to go back and manually update the filter list for the outputs that
+      missed detection. Still, we managed to catch an additional 300 <em><b>NAUGHTY, EVIL</b></em> words, which should make
+      the playing experience better 🤞.
     </p>
   </details>
-  <details class="border-slate-500 pl-4 border-l-4">
+  <details class="border-l-4 border-slate-500 pl-4">
     <summary class="text-slate-500">Step 3: Put a disclaimer on there</summary>
     <p>
-      You ask me, what have I learned throughout this filtration process? That I've probably missed something. But if I've reduced the chances of an unsavory word showing up down to just 1 in 5,000 -- then that's good enough for a
-      toy project like this. Still though, I'd rather not have that 1 in 5,000 chance tarnish the Moursy name. So I threw a disclaimer in there.
+      You ask me, what have I learned throughout this filtration process? That I've probably missed something. But if
+      I've reduced the chances of an unsavory word showing up down to just 1 in 5,000 -- then that's good enough for a
+      toy project like this. Still though, I'd rather not have that 1 in 5,000 chance tarnish the Moursy name. So I
+      threw a disclaimer in there.
     </p>
   </details>
   <h3>What may never be filtered -- the curse of the embeddings</h3>
-  <p>Unfortunately, the embeddings themselves have an <b><em>evil mind of their own</em></b> as I have discovered through my testing!</p>
-  <p>There presently exists no accessible embedding dataset that excludes profanities or "harmful content" from its training data. Part of this is that, in order
-    to be generally useful, some harmful topics must be included in the training dataset. This generates unique problems of its own, because the embedding dataset
-    ends up encoding some pretty nasty word combos.</p>
-  <p>By combining words that are harmless in isolation, the embedding dataset can create naughty, racist, or otherwise harmful
-    word combinations.</p>
+  <p>
+    Unfortunately, the embeddings themselves have an <b><em>evil mind of their own</em></b> as I have discovered through my
+    testing!
+  </p>
+  <p>
+    There presently exists no accessible embedding dataset that excludes profanities or "harmful content" from its
+    training data. Part of this is that, in order to be generally useful, some harmful topics must be included in the
+    training dataset. This generates unique problems of its own, because the embedding dataset ends up encoding some
+    pretty nasty word combos.
+  </p>
+  <p>
+    By combining words that are harmless in isolation, the embedding dataset can create naughty, racist, or otherwise
+    harmful word combinations.
+  </p>
   <div>
     A few examples that it managed to conjure on its own:
     <ul class="list-disc px-4">
-      <li><b>Naughty behaviour:</b> The embedding dataset managed to combine the harmless words 'showering', 'jerking', and 'squirting' together into an unholy combination to allude to a banned naughty word :(</li>
-      <li><b>Racist behaviour:</b> The embedding dataset considers 'Asian' and 'daddy' to be semantically close for some reason, meaning that they are likely to end up together.</li>
-      <li><b>Harmful behaviour:</b> The dataset pairs words related to suicide and self-harm close to harmless words like 'disappear' or 'erasure'.</li>
+      <li>
+        <b>Naughty behaviour:</b> The embedding dataset managed to combine the harmless words 'showering', 'jerking', and
+        'squirting' together into an unholy combination to allude to a banned naughty word :(
+      </li>
+      <li>
+        <b>Racist behaviour:</b> The embedding dataset considers 'Asian' and 'daddy' to be semantically close for some reason,
+        meaning that they are likely to end up together.
+      </li>
+      <li>
+        <b>Harmful behaviour:</b> The dataset pairs words related to suicide and self-harm close to harmless words like 'disappear'
+        or 'erasure'.
+      </li>
     </ul>
   </div>
 
   <p>
-    These observations are not wholly the fault of the researchers. The results of this learning algorithm are a reflection of the internet data that they were trained on. After all, someone may need the obscene words
-    in this dataset to identify words with inappropriate subtexts, which can be used to <em>enhance</em> safety instead of offending people, so interfering with the
-    data in pursuit of some social justice might not even be useful in the end.
+    These observations are not wholly the fault of the researchers. The results of this learning algorithm are a
+    reflection of the internet data that they were trained on. After all, someone may need the obscene words in this
+    dataset to identify words with inappropriate subtexts, which can be used to <em>enhance</em> safety instead of offending
+    people, so interfering with the data in pursuit of some social justice might not even be useful in the end.
   </p>
 
-  <p>Yet still, for this particular project it is <em>truly</em> unfortunate that the problem of inappropriate content is nigh-unsolvable.</p>
+  <p>
+    Yet still, for this particular project it is <em>truly</em> unfortunate that the problem of inappropriate content is nigh-unsolvable.
+  </p>
 
   <h3>Summary of Savings</h3>
 
   <p>
-    Well, by eliminating everything we just did, we managed to shrink our over two-million word dataset down to just 0.3% of its original size -- taking it from a ridiculous
-    5.5GiB uncompressed down to just 16.8MiB. For the world wide web though, that's still quite heavy.
+    Well, by eliminating everything we just did, we managed to shrink our over two-million word dataset down to just
+    0.3% of its original size -- taking it from a ridiculous 5.5GiB uncompressed down to just 16.8MiB. For the world
+    wide web though, that's still quite heavy.
   </p>
 
-  <p>
-    Part of the problem is that each line in the embedding dataset is a string that looks like this:
-  </p>
-  <code class="w-full bg-slate-50 p-2 text-nowrap overflow-x-scroll">
-    are -0.19859 -0.062818 -0.36614 -0.41786 0.20962 -0.26728 0.246 0.12783 -0.045845 2.5253 0.35196 0.093547 0.086572 -0.11929 -0.062435 -0.19257 -0.11778 1.4466 -0.59561 -0.077901 -0.31325 -0.16534 0.05263 -0.17153 -0.073093 0.055853 -0.29391 -0.20245 0.078067 -0.079952 -0.15609 -0.065692 -0.05953 -0.024957 0.10387 0.25788 -0.22031 -0.093548 -0.01846 -0.09756 -0.38753 0.25543 -0.13435 0.29886 0.15247 0.037282 -0.031605 -0.33455 0.089668 0.031383 -0.18052 -0.13498 -0.2551 -0.17485 0.069063 -0.20492 -0.090552 -0.015462 -0.27715 0.18137 0.15946 -0.20871 -0.2764 0.32727 -0.057257 0.17983 0.012767 0.38424 0.15904 -0.014411 -0.037496 0.19035 0.83132 -0.049976 0.32581 -0.27539 0.23839 -0.16074 0.31318 0.39318 -0.011906 0.18941 -0.62434 -0.1962 0.084431 -0.31681 -0.19476 0.063256 0.29791 0.0058014 -0.18599 -0.050573 0.22501 -0.08463 0.29137 0.19095 -0.077498 -0.11786 -0.084965 -0.4056 -0.16787 0.26494 -0.092399 -0.063162 0.33635 -0.89221 -0.35094 -0.20511 0.016163 0.42652 -0.23077 -0.22797 0.27599 -0.36401 -0.077786 -0.084522 -0.073139 0.16219 -0.44129 0.30587 -0.088139 -0.013012 0.075655 -0.23323 0.44425 -0.094221 0.55523 -0.15091 -0.10427 -0.19482 0.54779 0.085892 -0.24777 -0.06249 0.32472 0.2996 -0.24348 -0.41019 0.057845 0.34885 -0.71639 0.23031 0.19442 -0.27706 0.20996 -0.12619 0.10679 0.021386 0.35037 -0.13114 0.17483 -0.26907 0.0028734 0.010407 -0.32918 0.19959 -0.3375 0.071719 -0.26644 -0.41965 0.64129 -0.06847 -0.19266 0.038926 0.093084 -0.31762 0.25233 -0.39757 0.13258 0.071091 0.22379 0.15001 0.42411 0.19575 -0.21759 0.026757 0.13422 0.31467 0.34345 0.010293 0.11824 0.45155 -0.3697 -0.13294 -0.35528 -0.17031 -0.019912 -0.10421 0.26896 0.417 0.38751 0.094275 -0.083527 -0.23074 -0.22564 -0.079475 0.11576 0.25639 0.074124 0.38114 0.17028 -0.3204 0.48119 -0.0034888 0.37514 -0.32735 -0.22277 0.27504 0.031611 -0.20505 0.20774 0.21391 0.041449 -0.33708 -0.16771 0.14796 0.12524 0.15517 -0.4561 -0.18143 -0.17103 0.22032 0.17129 -0.013799 0.2858 0.0077815 -0.26555 0.047889 -0.35453 -0.20062 -0.28761 -0.15749 0.23978 0.1443 0.034296 -0.067145 -0.0084247 -0.72342 -0.28056 0.28881 -0.10604 0.32818 -0.34098 0.046492 -0.26373 -0.003864 -0.62803 -0.25992 -0.21455 0.32562 -0.1583 -0.026258 -0.149 0.038496 -0.11265 0.21799 0.21322 0.21233 -0.14936 0.32087 0.47036 -0.030532 -0.32338 0.33519 -0.10904 0.49285 0.26666 0.30611 0.76091 0.13531 -0.50232 -0.23408 -0.39777 -0.15196 -0.046528 -0.21586 0.019041 0.49533 0.18254 0.2171 0.49369 0.31384 -0.23158 0.05532 0.069754 0.10005 -0.087884 -0.13244 0.27741 0.16755 -0.55506 -0.047766 -0.17413 -0.1687 0.089732 0.52814 -0.11219 -0.58451 0.27879 -0.26205
+  <p>Part of the problem is that each line in the embedding dataset is a string that looks like this:</p>
+  <code class="w-full overflow-x-scroll bg-slate-50 p-2 text-nowrap">
+    are -0.19859 -0.062818 -0.36614 -0.41786 0.20962 -0.26728 0.246 0.12783 -0.045845 2.5253 0.35196 0.093547 0.086572
+    -0.11929 -0.062435 -0.19257 -0.11778 1.4466 -0.59561 -0.077901 -0.31325 -0.16534 0.05263 -0.17153 -0.073093 0.055853
+    -0.29391 -0.20245 0.078067 -0.079952 -0.15609 -0.065692 -0.05953 -0.024957 0.10387 0.25788 -0.22031 -0.093548
+    -0.01846 -0.09756 -0.38753 0.25543 -0.13435 0.29886 0.15247 0.037282 -0.031605 -0.33455 0.089668 0.031383 -0.18052
+    -0.13498 -0.2551 -0.17485 0.069063 -0.20492 -0.090552 -0.015462 -0.27715 0.18137 0.15946 -0.20871 -0.2764 0.32727
+    -0.057257 0.17983 0.012767 0.38424 0.15904 -0.014411 -0.037496 0.19035 0.83132 -0.049976 0.32581 -0.27539 0.23839
+    -0.16074 0.31318 0.39318 -0.011906 0.18941 -0.62434 -0.1962 0.084431 -0.31681 -0.19476 0.063256 0.29791 0.0058014
+    -0.18599 -0.050573 0.22501 -0.08463 0.29137 0.19095 -0.077498 -0.11786 -0.084965 -0.4056 -0.16787 0.26494 -0.092399
+    -0.063162 0.33635 -0.89221 -0.35094 -0.20511 0.016163 0.42652 -0.23077 -0.22797 0.27599 -0.36401 -0.077786 -0.084522
+    -0.073139 0.16219 -0.44129 0.30587 -0.088139 -0.013012 0.075655 -0.23323 0.44425 -0.094221 0.55523 -0.15091 -0.10427
+    -0.19482 0.54779 0.085892 -0.24777 -0.06249 0.32472 0.2996 -0.24348 -0.41019 0.057845 0.34885 -0.71639 0.23031
+    0.19442 -0.27706 0.20996 -0.12619 0.10679 0.021386 0.35037 -0.13114 0.17483 -0.26907 0.0028734 0.010407 -0.32918
+    0.19959 -0.3375 0.071719 -0.26644 -0.41965 0.64129 -0.06847 -0.19266 0.038926 0.093084 -0.31762 0.25233 -0.39757
+    0.13258 0.071091 0.22379 0.15001 0.42411 0.19575 -0.21759 0.026757 0.13422 0.31467 0.34345 0.010293 0.11824 0.45155
+    -0.3697 -0.13294 -0.35528 -0.17031 -0.019912 -0.10421 0.26896 0.417 0.38751 0.094275 -0.083527 -0.23074 -0.22564
+    -0.079475 0.11576 0.25639 0.074124 0.38114 0.17028 -0.3204 0.48119 -0.0034888 0.37514 -0.32735 -0.22277 0.27504
+    0.031611 -0.20505 0.20774 0.21391 0.041449 -0.33708 -0.16771 0.14796 0.12524 0.15517 -0.4561 -0.18143 -0.17103
+    0.22032 0.17129 -0.013799 0.2858 0.0077815 -0.26555 0.047889 -0.35453 -0.20062 -0.28761 -0.15749 0.23978 0.1443
+    0.034296 -0.067145 -0.0084247 -0.72342 -0.28056 0.28881 -0.10604 0.32818 -0.34098 0.046492 -0.26373 -0.003864
+    -0.62803 -0.25992 -0.21455 0.32562 -0.1583 -0.026258 -0.149 0.038496 -0.11265 0.21799 0.21322 0.21233 -0.14936
+    0.32087 0.47036 -0.030532 -0.32338 0.33519 -0.10904 0.49285 0.26666 0.30611 0.76091 0.13531 -0.50232 -0.23408
+    -0.39777 -0.15196 -0.046528 -0.21586 0.019041 0.49533 0.18254 0.2171 0.49369 0.31384 -0.23158 0.05532 0.069754
+    0.10005 -0.087884 -0.13244 0.27741 0.16755 -0.55506 -0.047766 -0.17413 -0.1687 0.089732 0.52814 -0.11219 -0.58451
+    0.27879 -0.26205
   </code>
   <p>
-    The first part of the string is the word, and the next 300 decimals are floating-point coordinates that can be represented with just 4 bytes in memory.
+    The first part of the string is the word, and the next 300 decimals are floating-point coordinates that can be
+    represented with just 4 bytes in memory.
   </p>
   <p>
-    But in this string form, one floating point number can take up to 107 bytes in the excessively-rare worst-case scenario. The worst offender in this specific string is the decimal "-0.0034888", which takes up 10 bytes but can be represented with just 4.
-    The shortest decimal here ("0.246") takes up 5 bytes as a string -- meaning even the best case is less efficient than a floating-point representation.
+    But in this string form, one floating point number can take up to 107 bytes in the excessively-rare worst-case
+    scenario. The worst offender in this specific string is the decimal "-0.0034888", which takes up 10 bytes but can be
+    represented with just 4. The shortest decimal here ("0.246") takes up 5 bytes as a string -- meaning even the best
+    case is less efficient than a floating-point representation.
   </p>
   <p>
-    If we re-encode everything into a binary file format composed of null-terminated strings followed by a 300x4 byte block of coordinates for each word, we can jump from 16.8MiB to 7.8MiB of raw data -- less than half of what we were originally at!
-    If we follow it up with Brotli compression, we can further reduce that size to 5.8MiB. Almost three times friendlier than 16.8MiB!
+    If we re-encode everything into a binary file format composed of null-terminated strings followed by a 300x4 byte
+    block of coordinates for each word, we can jump from 16.8MiB to 7.8MiB of raw data -- less than half of what we were
+    originally at! If we follow it up with Brotli compression, we can further reduce that size to 5.8MiB. Almost three
+    times friendlier than 16.8MiB!
   </p>
   <h3>Recreating the Connections UI</h3>
   <p>
-    I mean word lists are cool and stuff but laypeople tend to much prefer visual things that they can look at, which means that I'd have to recreate
-    the Connections interface with sufficient visual flare in order to appease the masses.
+    I mean word lists are cool and stuff but laypeople tend to much prefer visual things that they can look at, which
+    means that I'd have to recreate the Connections interface with sufficient visual flare in order to appease the
+    masses.
   </p>
   <p>
-    To recreate all the little interactions and animations, I ended up choosing <a href="https://svelte.dev">Svelte</a> as the framework of choice because it had like 90% of the animation
-    tools I already needed baked right in.
+    To recreate all the little interactions and animations, I ended up choosing <a href="https://svelte.dev">Svelte</a> as
+    the framework of choice because it had like 90% of the animation tools I already needed baked right in.
   </p>
   <p>
-    After that, it was your run-of-the-mill web programming work, I suppose. I like to think that I've become quite okay-ish with web development
-    and web animations, and that that is why this project went so smoothly.
+    After that, it was your run-of-the-mill web programming work, I suppose. I like to think that I've become quite
+    okay-ish with web development and web animations, and that that is why this project went so smoothly.
   </p>
   <p>
     It is a <em>small</em> shame that the skills that I have in web design are probably the most replaceable by AI, but for
     web dev I do not shed many tears -- because I secretly consider it to be the lowliest of the programming disciplines.
   </p>
   <p>
-    For the most part, once someone has already devised a design, it's incredibly easy to mimic it by-hand. I think it is the
-    mark of a good web developer to be able to consistently do this, because most Serious™️ web work doesn't involve designing
-    your own website from scratch, it involves brining another designer's vision to life.
+    For the most part, once someone has already devised a design, it's incredibly easy to mimic it by-hand. I think it
+    is the mark of a good web developer to be able to consistently do this, because most Serious™️ web work doesn't
+    involve designing your own website from scratch, it involves brining another designer's vision to life.
   </p>
-  <h2>
-    So just how playable are these auto-connections!?
-  </h2>
+  <h2>So just how playable are these auto-connections!?</h2>
   <p>
     Well, for the most part, <a href="/funbox/autoconnections">they can sometimes even be okay!</a>
   </p>
   <p>
-    Fortunately (for the last time), the original Connections game has a reputation for some pretty wack word combinations anyway, so this simulated game is just like the real thing!
+    Fortunately (for the last time), the original Connections game has a reputation for some pretty wack word
+    combinations anyway, so this simulated game is just like the real thing!
   </p>
 </Blog>
