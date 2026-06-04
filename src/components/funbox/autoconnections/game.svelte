@@ -292,7 +292,7 @@
     onclick={() => shuffleArray(connections)}
     disabled={gameOver}
     {@attach bounceButton}>Shuffle</button>
-  <button class="interactive-button flex-1" onclick={checkSolved} disabled={gameOver} {@attach bounceButton}
+  <button class="interactive-button flex-1" onclick={checkSolved} disabled={gameOver || !maxChecked} {@attach bounceButton}
     >Submit</button>
 </nav>
 
