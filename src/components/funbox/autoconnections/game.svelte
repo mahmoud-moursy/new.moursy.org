@@ -2,6 +2,7 @@
   import { generateSet, loadList } from "$/pages/funbox/autoconnections/_logic.ts";
     import { flip } from "svelte/animate";
     import { fade, scale, slide } from "svelte/transition";
+  import { Spring } from "svelte/motion";
 
   interface Props {
     wordBin: Uint8Array,
@@ -193,6 +194,12 @@
     solved = {};
     solveOrder = [];
     connections = autoList;
+    selections = [
+      {},
+      {},
+      {},
+      {}
+    ];
     shuffleArray(connections);
     resetSelections();
 
@@ -203,6 +210,19 @@
   function selectRandom(list: any[]) {
     let randIdx = Math.floor(Math.random() * list.length)
     return list[randIdx];
+  }
+
+  function bounceButton(element: HTMLButtonElement) {
+    let bouncy = new Spring(100, {
+      stiffness: 9.0,
+    });
+    $effect(() => element.style.scale = `${bouncy.current}%`)
+
+    element.addEventListener('click', () => {
+      bouncy.set(70);
+
+      setTimeout(() => bouncy.set(100), 100)
+    })
   }
 </script>
 
@@ -242,10 +262,10 @@
   <div class="col-start-1 col-end-1 row-start-1 row-end-1 flex items-center justify-center flex-col gap-4 bg-amber-200 z-20" transition:fade={{duration:150}}>
     <h1>{victory ? "You win! 🌟" : "Not quite 🚫"}</h1>
     <nav class="flex flex-wrap gap-4">
-      <button class="active-button" onclick={resetGame}>Reset?</button>
-      <button class="active-button" onclick={() => hideGameOverScreen = true}>Review Puzzle</button>
+      <button class="interactive-button" onclick={resetGame} {@attach bounceButton}>Reset?</button>
+      <button class="interactive-button" onclick={() => hideGameOverScreen = true} {@attach bounceButton}>Review Puzzle</button>
       {#if defeat}
-        <button class="active-button" onclick={showSolution}>Show solution?</button>
+        <button class="interactive-button" onclick={showSolution} {@attach bounceButton}>Show solution?</button>
       {/if}
     </nav>
   </div>
@@ -268,16 +288,20 @@
 
 
 <nav class="mx-auto flex flex-wrap gap-4 justify-stretch">
-  <button class="active-button flex-1 border-red-400! hover:bg-red-400!" onclick={resetGame}>Reset game</button>
-  <button class="active-button flex-1" onclick={resetSelections} disabled={gameOver}>Deselect All</button>
-  <button class="active-button flex-1" onclick={() => shuffleArray(connections)} disabled={gameOver}>Shuffle</button>
-  <button class="active-button flex-1" onclick={checkSolved} disabled={gameOver}>Submit</button>
+  <button class="interactive-button flex-1 border-red-400! hover:bg-red-400! active:bg-red-400! focus:bg-red-400!" onclick={resetGame} {@attach bounceButton}>Reset game</button>
+  <button class="interactive-button flex-1" onclick={resetSelections} disabled={gameOver} {@attach bounceButton}>Deselect All</button>
+  <button class="interactive-button flex-1" onclick={() => shuffleArray(connections)} disabled={gameOver} {@attach bounceButton}>Shuffle</button>
+  <button class="interactive-button flex-1" onclick={checkSolved} disabled={gameOver} {@attach bounceButton}>Submit</button>
 </nav>
 
 <style>
   @import "tailwindcss";
 
-  .active-button {
-      @apply p-4 border-4 border-amber-400 cursor-pointer disabled:cursor-not-allowed hover:bg-amber-400 hover:text-white transition-all font-bold disabled:bg-slate-400! disabled:border-slate-400! disabled:text-white;
+  .interactive-button {
+      @apply p-4 border-4 border-amber-400 cursor-pointer disabled:cursor-not-allowed transition-all font-bold disabled:bg-slate-400! disabled:border-slate-400! disabled:text-white;
+  }
+
+  .interactive-button:active, .interactive-button:hover, .interactive-button:focus {
+      @apply bg-amber-400 text-white;
   }
 </style>
