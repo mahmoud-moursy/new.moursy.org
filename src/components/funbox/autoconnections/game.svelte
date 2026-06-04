@@ -1,7 +1,7 @@
 <script lang="ts">
   import { generateSet, loadList } from "$/pages/funbox/autoconnections/_logic.ts";
   import { flip } from "svelte/animate";
-  import { fade, scale, slide } from "svelte/transition";
+  import { fade, slide } from "svelte/transition";
   import { Spring } from "svelte/motion";
 
   interface Props {
@@ -236,7 +236,7 @@
           value={word}
           bind:checked={selections[tag][word]}
           disabled={(maxChecked && !selections[tag][word]) || solved[tag] || gameOver} />
-        {word} {tag}
+        {word}
       </label>
     {/each}
   </form>
