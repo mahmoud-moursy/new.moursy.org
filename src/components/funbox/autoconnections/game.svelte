@@ -1,7 +1,7 @@
 <script lang="ts">
   import { generateSet, loadList } from "$/pages/funbox/autoconnections/_logic.ts";
     import { flip } from "svelte/animate";
-    import { fade, slide } from "svelte/transition";
+    import { fade, scale, slide } from "svelte/transition";
 
   interface Props {
     wordBin: Uint8Array,
@@ -77,6 +77,7 @@
   ])
 
   let solved: Record<any, boolean> = $state({});
+  let solveOrder: any[] = $state([]);
 
   if(!connections) resetGame();
 
@@ -115,8 +116,10 @@
       let solution = numCorrect >= 4;
       nearSolve ||=  numCorrect === 3;
 
-      if(solution && !solved[idx])
+      if(solution && !solved[idx]) {
         arrangeSolved(idx);
+        solveOrder.push(idx);
+      }
 
       solved[idx] ||= solution;
       noMistake ||= solution;
@@ -178,8 +181,6 @@
       solved[key] = true;
     }
 
-    let count = 1;
-
     Object.keys(selections).forEach((key, idx) => {
       setTimeout(() => arrangeSolved(key, idx), idx*500)
     })
@@ -190,6 +191,7 @@
 
     mistakeCount = 0;
     solved = {};
+    solveOrder = [];
     connections = autoList;
     shuffleArray(connections);
     resetSelections();
@@ -222,13 +224,30 @@
       </label>
     {/each}
   </form>
+  <div class="col-start-1 col-end-1 gap-2 z-10 pointer-events-none row-start-1 row-end-1 grid grid-cols-1 grid-rows-4">
+    {#each solveOrder as key (key)}
+      {#if solved[key]}
+        <div class="bg-amber-950 text-white flex flex-col items-center justify-center">
+          <h3 class="p-2">Group {parseInt(key)+1}</h3>
+          <p class="p-1">
+            {#each Object.keys(selections[key]) as word}
+              <span class="px-2">{word}</span>
+            {/each}
+          </p>
+        </div>
+      {/if}
+    {/each}
+  </div>
   {#if gameOver && !hideGameOverScreen}
-  <div class="col-start-1 col-end-1 row-start-1 row-end-1 flex items-center justify-center flex-col gap-4 bg-amber-200 z-10" transition:fade={{duration:150}}>
+  <div class="col-start-1 col-end-1 row-start-1 row-end-1 flex items-center justify-center flex-col gap-4 bg-amber-200 z-20" transition:fade={{duration:150}}>
     <h1>{victory ? "You win! 🌟" : "Not quite 🚫"}</h1>
-    <button class="active-button" onclick={resetGame}>Reset?</button>
-    {#if defeat}
-      <button class="active-button" onclick={showSolution}>Show solution?</button>
-    {/if}
+    <nav class="flex flex-wrap gap-4">
+      <button class="active-button" onclick={resetGame}>Reset?</button>
+      <button class="active-button" onclick={() => hideGameOverScreen = true}>Review Puzzle</button>
+      {#if defeat}
+        <button class="active-button" onclick={showSolution}>Show solution?</button>
+      {/if}
+    </nav>
   </div>
     {/if}
 </div>
@@ -249,16 +268,16 @@
 
 
 <nav class="mx-auto flex flex-wrap gap-4 justify-stretch">
-  <button class="active-button border-red-400! hover:bg-red-400!" onclick={resetGame}>Reset game</button>
-  <button class="active-button" onclick={resetSelections} disabled={gameOver}>Deselect All</button>
-  <button class="active-button" onclick={() => shuffleArray(connections)} disabled={gameOver}>Shuffle</button>
-  <button class="active-button" onclick={checkSolved} disabled={gameOver}>Submit</button>
+  <button class="active-button flex-1 border-red-400! hover:bg-red-400!" onclick={resetGame}>Reset game</button>
+  <button class="active-button flex-1" onclick={resetSelections} disabled={gameOver}>Deselect All</button>
+  <button class="active-button flex-1" onclick={() => shuffleArray(connections)} disabled={gameOver}>Shuffle</button>
+  <button class="active-button flex-1" onclick={checkSolved} disabled={gameOver}>Submit</button>
 </nav>
 
 <style>
   @import "tailwindcss";
 
   .active-button {
-      @apply p-4 border-4 flex-1 border-amber-400 cursor-pointer disabled:cursor-not-allowed hover:bg-amber-400 hover:text-white transition-all font-bold disabled:bg-slate-400! disabled:border-slate-400! disabled:text-white;
+      @apply p-4 border-4 border-amber-400 cursor-pointer disabled:cursor-not-allowed hover:bg-amber-400 hover:text-white transition-all font-bold disabled:bg-slate-400! disabled:border-slate-400! disabled:text-white;
   }
 </style>
