@@ -119,7 +119,11 @@ import Blog from "$layouts/blog.astro";
     Did you know that <b> no one ever gets the exact same UCAT as another person? </b> However,
     in spite of this, everyone is
     <em>still</em> compared on the same arbitrary point-based scale that no student knows the
-    inner workings of!?
+    inner workings of!?<a
+      href="#scaled-scoring"
+      id="r-scaled-scoring"
+      class="font-bold underline">*</a
+    >
   </p>
   <p>
     Some students may arbitrarily be discriminated against by a random question selection
@@ -129,10 +133,7 @@ import Blog from "$layouts/blog.astro";
       one of them could arbitrarily receive a harder set of questions than the other.
     </b>
     That is to say, the next 6 years of your life might be dictated by a random number generator
-    and how generous it chooses to be.<a
-      href="#scaled-scoring"
-      class="font-bold underline">*</a
-    >
+    and how generous it chooses to be.
   </p>
   <p id="scaled-scoring" slot="footnotes">
     * The UCAT scoring algorithm is not publicly known, but it is stated to be a scaled
@@ -140,12 +141,15 @@ import Blog from "$layouts/blog.astro";
     still, there's no way to actually know how fair the scaling is. Students (or any other
     external organizations) have no way of knowing how the scaling works behind the
     scenes, and thusly cannot evaluate its fairness.
+    <a href="#r-scaled-scoring" class="font-bold underline">&looparrowleft;</a>
   </p>
   <p>
-    This is notwithstanding the order effects introduced by this style of questioning. If
-    a student randomly gets struck by many long, hard questions at the start, it can ruin
-    their pacing towards the end of a section and end up reducing their score on questions
-    they otherwise would've excelled at.
+    Compounding this are the
+    <a href="https://www.statsig.com/perspectives/ordereffectsinexperiments">
+      order effects
+    </a> introduced by this style of questioning. If a student randomly gets struck by many
+    long, hard questions at the start, it can ruin their pacing towards the end of a section
+    and end up reducing their score on questions they otherwise would've excelled at.
   </p>
   <p>
     I think a strong contrast to this is the A-Level. In general, A-Level exams tend to
@@ -157,8 +161,11 @@ import Blog from "$layouts/blog.astro";
     What makes this all-the-more unfortunate is that all passages in the
     <b class="text-rose-700"> Verbal Reasoning</b> section are non-fiction. So a student whose
     special interest is musical instruments might have an unfair advantage if randomly presented
-    with passages about that topic. Obviously, musical instruments have only tangential
-    <a href="#music-therapy-exists" class="font-bold underline">*</a>
+    with passages about that topic. Obviously, musical instruments have only tangential<a
+      href="#music-therapy-exists"
+      id="r-music-therapy-exists"
+      class="font-bold underline">*</a
+    >
     relation to general medicine, so having this kind of knowledge
     <b>should not</b> be rewarded by the UCAT.
   </p>
@@ -166,9 +173,10 @@ import Blog from "$layouts/blog.astro";
     * Specialized music therapy does exist and does help patients, of course, but for 99%
     of medical courses that require a UCAT score, that info isn't relevant &mdash; so
     questions like that aren't aligned with the UCAT's objectives of general medical
-    admissions. In short, don't read into the example too much. <sub>
+    admissions. In short, don't read into the example too much. <sub class="leading-2">
       And actually, music therapy courses never ask for a UCAT anyways...
     </sub>
+    <a href="#r-music-therapy-exists" class="font-bold underline">&looparrowleft;</a>
   </p>
   <p>
     Even more egregious are passages that are relevant to specific cultural backgrounds.
@@ -306,7 +314,10 @@ import Blog from "$layouts/blog.astro";
     the only difference is that you have a random chance of getting the questions that you
     cheated. <b>After sitting my exam,</b> I saw people discussing some of the exam questions
     on online forums like Reddit, and indeed I recognized some of them as questions that
-    <a href="#question-leaks" class="font-bold text-red-600! underline">
+    <a
+      href="#question-leaks"
+      id="r-question-leaks"
+      class="font-bold text-red-600! underline">
       I encountered in my exam!*
     </a> I understand taking measures to prevent cheating, but it seems that the current system
     just makes it unfair to honest students and isn't highly effective. <em>
@@ -325,6 +336,7 @@ import Blog from "$layouts/blog.astro";
       day or one year since signing it. The anecdote is shared only to illustrate where the
       UCAT can enhance their enforcement of exam integrity.
     </em>
+    <a href="#r-question-leaks" class="font-bold underline">&looparrowleft;</a>
   </p>
   <p>
     Moving on &mdash; the UCAT's accomodations for disabled students is praiseworthy,

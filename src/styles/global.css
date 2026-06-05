@@ -25,6 +25,10 @@
   @apply font-bold italic;
 }
 
+*:target {
+  @apply bg-amber-200/90 outline-2 outline-amber-600;
+}
+
 li::marker {
   @apply mr-4 font-bold;
 }
