@@ -11,7 +11,7 @@ import Blog from "$layouts/blog.astro";
       worst, most stressful exam of their entire academic careers!
     </em>
     Certainly, it has been the worst exam of my career. I have never faced an exam as arbitrary,
-    nor as aleatory, nor as barbarian as this one.
+    nor as aleatory, nor as barbaric as this one.
   </p>
   <p>
     Worse yet, if you want to study medicine in the UK, it is virtually a given that you
@@ -61,19 +61,59 @@ import Blog from "$layouts/blog.astro";
     </ul>
   </div>
   <p>
-    Oh, I should mention that <em>almost <b>none</b></em> of the questions in these sections
+    Oh, I should mention that <em>almost <b>none</b> of</em> the questions in these sections
     have anything to do with medicine specifically, besides
     <b class="text-emerald-700">Situational Judgement</b> and the very last part of the
     <b class="text-sky-700">Decision Making</b> section asking somewhat relevant questions.
   </p>
-
+  <sub class="leading-4 italic">
+    I should have prefaced this by saying that I currently hold an offer from my dream
+    university choice, so this isn't a rant because I'm blaming the UCAT on my failures;
+    it's more about how much needless anguish I've had to endure because of this stupid
+    exam that, in my opinion, shouldn't exist. So personal and so painful this topic is,
+    to the point where I had to write five sections instead of my usual three...
+  </sub>
+  <h3>What does the UCAT even measure?</h3>
+  <tagline>
+    The UCAT is supposed to measure clinical aptitude. If you've ever looked at a UCAT
+    exam, you will know that it is a random selection of questions that don't directly
+    measure clinical aptitude. So why do they call it a Clinical Aptitude Test!?
+  </tagline>
+  <p>
+    The UCAT doesn't measure how well you are going to perform as a medical student. The
+    UCAT measures how well you perform at the UCAT, and nothing else.
+  </p>
+  <p>
+    What I mean by that cryptic statement is, the skills you learn by studying for the
+    UCAT are, in general, not highly transferable to real-world clinical situations.
+    Rarely, if ever, will you be asked to speed-read a short passage and then answer
+    questions on it within 30 seconds or less, and most knowledge gained from the passages
+    in the <b class="text-rose-700">Verbal Reasoning</b> section is not transferable to real-world
+    clinical practice.
+  </p>
+  <p>
+    While other exams, like the A-Level, actually push students to learn something new and
+    useful, and can arguably serve to broaden perspectives and sharpen critical thinking,
+    the UCAT acts as no more than a barrier. If you spend 50 hours studying A-Level Human
+    Biology, you'd walk away with useful information that will serve you in your first
+    year of medicine (and many other career paths). If you spend (i.e. waste) over 50
+    hours of practice on the UCAT, you walk away with
+    <b>absolutely zero useful real-world knowledge</b>, and nothing that can be
+    transferred to other career paths.
+  </p>
+  <p>
+    In summary, the UCAT is an absolute waste of life. It's a <em>test</em>, not a
+    <em>pathway</em>. An exam for the sake of an exam, to have a cheap filter on who can
+    get into medical school, so that universities have an excuse not to interview
+    candidates. It only measures how much effort you're willing to put into the UCAT, not
+    how well you can grasp medical topics!
+  </p>
   <h3>The Test Isn't Even Standardized!</h3>
   <tagline>
     The UCAT gives every student a random selection of questions, which means that two
-    students' UCAT scores cannot be fairly compared. However, top universities <em
-      >still</em
-    > naively compare every score as if the student had sat the exact same test and employ harsh
-    numerical cutoffs in spite of this.
+    students' UCAT scores cannot be fairly compared. However, top universities
+    <em>still</em> naively compare every score as if the student had sat the exact same test
+    and continue to employ harsh numerical cutoffs in spite of this.
   </tagline>
   <p>
     Did you know that <b> no one ever gets the exact same UCAT as another person? </b> However,
@@ -88,14 +128,30 @@ import Blog from "$layouts/blog.astro";
     <b>
       one of them could arbitrarily receive a harder set of questions than the other.
     </b>
-    That is to say, the next 6 years of your life might be dictated by a random number generation
-    machine and how generous it chooses to be.
+    That is to say, the next 6 years of your life might be dictated by a random number generator
+    and how generous it chooses to be.<a
+      href="#scaled-scoring"
+      class="font-bold underline">*</a
+    >
+  </p>
+  <p id="scaled-scoring" slot="footnotes">
+    * The UCAT scoring algorithm is not publicly known, but it is stated to be a scaled
+    scoring system (which theoretically should compensate for difficulty spikes). Yet
+    still, there's no way to actually know how fair the scaling is. Students (or any other
+    external organizations) have no way of knowing how the scaling works behind the
+    scenes, and thusly cannot evaluate its fairness.
   </p>
   <p>
-    This is notwithstanding the effects of the order in which questions are presented. If
-    a student gets hit with many long, hard questions at the start, it can ruin their
-    pacing towards the end of a section and end up reducing their score (on questions they
-    otherwise would've excelled at).
+    This is notwithstanding the order effects introduced by this style of questioning. If
+    a student randomly gets struck by many long, hard questions at the start, it can ruin
+    their pacing towards the end of a section and end up reducing their score on questions
+    they otherwise would've excelled at.
+  </p>
+  <p>
+    I think a strong contrast to this is the A-Level. In general, A-Level exams tend to
+    place easier questions at the start and harder ones at the end, so students don't need
+    to fear and speculate over how to properly pace themselves, or which questions to skip
+    and which ones to complete.
   </p>
   <p>
     What makes this all-the-more unfortunate is that all passages in the
@@ -106,7 +162,7 @@ import Blog from "$layouts/blog.astro";
     relation to general medicine, so having this kind of knowledge
     <b>should not</b> be rewarded by the UCAT.
   </p>
-  <p class="leading-4" id="music-therapy-exists" slot="footnotes">
+  <p id="music-therapy-exists" slot="footnotes">
     * Specialized music therapy does exist and does help patients, of course, but for 99%
     of medical courses that require a UCAT score, that info isn't relevant &mdash; so
     questions like that aren't aligned with the UCAT's objectives of general medical
@@ -134,8 +190,9 @@ import Blog from "$layouts/blog.astro";
   <tagline>
     The UCAT Consortium maintains only sparing communication with students on how they
     operate. Everything down to even the test score leaves students with zero transparency
-    on how they were evaluated. This makes the UCAT inherently unauditable, thus
-    preventing students from giving feedback to the consortium.
+    on how they were evaluated. Not only does this fuel anxiety and speculation, but it
+    also makes the UCAT inherently unauditable, thus preventing students from giving
+    feedback to the consortium.
   </tagline>
   <p>
     Of all the exams I've taken in my life, the UCAT is the one that has left me with the
@@ -158,16 +215,15 @@ import Blog from "$layouts/blog.astro";
     see anything that prevents them from distributing detailed reports after the extended
     test window (which if I recall correctly, ends around December). Consequently, this
     means that students do not have an accurate paper trial to evidence that their scores
-    are actually reliable, and were not affected by a (in the worst of cases) a technical
-    malfunction that caused answers to be scrambled or otherwise incorrect.
+    are actually reliable.
   </p>
   <p>
-    Even worse, by not providing a detailed test report, students are left with no way to
-    verify that the question set that they got is fair. They may have gotten an excessive
-    amount of difficult questions, or a disproportionate amount of questions on one topic,
-    or <em>worse yet</em>, a question may have an error in it. Without a report, students
-    can never get their justice, and cannot even prove that they were victims of
-    injustice.
+    By not providing a detailed test report, students are left with no way to verify that
+    the question set that they got is fair, or that they were not affected by a technical
+    malfunction or other adverse conditions. They may have gotten an excessive amount of
+    difficult questions, or a disproportionate amount of passages on one topic, or
+    <em>worse yet</em>, a question may have an error in it. Without a report, students can
+    never get their justice, and cannot even prove that they were victims of injustice.
   </p>
   <p>
     The UCAT consortium has also distributed misleading statistics before. In 2025, just
@@ -188,7 +244,7 @@ import Blog from "$layouts/blog.astro";
   </p>
   <p class="font-bold">
     Personally, I think this is the most urgent thing that the consortium has to address,
-    because if they solve this, everything else will follow naturally.
+    because if they actually communicate, everything else will follow naturally.
   </p>
   <h3>Unresearched and Unproven Designs.</h3>
   <tagline>
@@ -199,7 +255,7 @@ import Blog from "$layouts/blog.astro";
   <p>
     This section, ironically named Abstract Reasoning (perhaps to better align with how
     detached from reality the UCAT already is), was composed of nothing more than an IQ
-    test. For anyone that knows <em><b>anything</b></em> about the history of IQ tests, one
+    test. For anyone that knows <em><b>anything</b> about</em> the history of IQ tests, one
     would understand that such an inclusion is certainly discriminatory and has definitely locked
     out worthy students from more rigorous academic institutions.
   </p>
@@ -271,13 +327,14 @@ import Blog from "$layouts/blog.astro";
     </em>
   </p>
   <p>
-    Praiseworthy as well is the UCAT's accomodations for disabled students. Though
-    something that I have noticed recently, is that the deadlines seem to be getting
-    stricter year-on-year. In 2025, the final application deadline for access arrangements
-    was the 16th of September 2025. This cycle, it is the 10th of September 2026. I
-    dislike that those with disabilities have to jump through more hurdles than everyone
-    else in order to get a fair exam experience, and this regression isn't exactly making
-    things better.
+    Moving on &mdash; the UCAT's accomodations for disabled students is praiseworthy,
+    although perhaps that is closer to a baseline expectation than a commendable
+    achievement. Though something that I have noticed recently, is that the deadlines seem
+    to be getting stricter year-on-year. In 2025, the final application deadline for
+    access arrangements was the 16th of September 2025. This cycle, it is the 10th of
+    September 2026. I dislike that those with disabilities have to jump through more
+    hurdles than everyone else in order to get a fair exam experience, and this regression
+    isn't exactly making things better.
   </p>
   <h3>Concluding Words</h3>
   <div>
