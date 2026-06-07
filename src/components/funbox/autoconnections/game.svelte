@@ -1,8 +1,8 @@
 <script lang="ts">
   import { generateSet, loadList } from "$/pages/funbox/autoconnections/_logic.ts";
   import { flip } from "svelte/animate";
-  import { fade, slide } from "svelte/transition";
-  import { Spring } from "svelte/motion";
+  import { fade, fly, slide } from "svelte/transition";
+  import { bounceOnEvent } from "$components/funbox/interactions.svelte.ts";
 
   interface Props {
     wordBin: Uint8Array;
@@ -16,7 +16,7 @@
 
   let openingQuips = [
     "Tastes a little more metallic than the original...?",
-    "We've decided to right-size our workforce due to increased AI demand!",
+    "Moursy.org has decided to right-size its workforce due to increased AI demand! Not that it was ever larger than one, anyways...",
     "Now with 100% less human! Except for the human that made this...",
     "Why play the real thing when you can play this instead!?",
     "Connections minus the human connection!",
@@ -137,7 +137,9 @@
   }
 
   function resetSelections() {
-    let falsy = selections.map((selection) => Object.entries(selection).map(([word, _]) => [word, false]));
+    let falsy = selections.map((selection) =>
+      Object.entries(selection).map(([word, _]) => [word, false]),
+    );
     selections = falsy.map(Object.fromEntries);
   }
 
@@ -156,7 +158,10 @@
       setTimeout(
         () => {
           let swapIdx = swapIndices[swapOrdering];
-          [connections![rowStart], connections![swapIdx]] = [connections![swapIdx], connections![rowStart]];
+          [connections![rowStart], connections![swapIdx]] = [
+            connections![swapIdx],
+            connections![rowStart],
+          ];
           rowStart += 1;
         },
         (parseInt(swapOrdering) + 3) * 25,
@@ -166,13 +171,24 @@
 
   function showSolution() {
     hideGameOverScreen = true;
+    alert(solveOrder);
+    alert(JSON.stringify(selections));
 
-    Object.keys(selections).forEach((key, idx) => {
-      if(key in solveOrder) {
-        return
+    let solveCount = 1;
+
+    for (let key in selections) {
+      if (solved[key]) {
+        continue;
       }
-      setTimeout(() => { arrangeSolved(key); solved[key] = true; }, idx * 500);
-    });
+
+      setTimeout(
+        () => {
+          arrangeSolved(key);
+          solved[key] = true;
+        },
+        solveCount++ * 500 + solveCount * 50,
+      );
+    }
   }
 
   function resetGame() {
@@ -199,30 +215,20 @@
     let randIdx = Math.floor(Math.random() * list.length);
     return list[randIdx];
   }
-
-  function bounceButton(element: HTMLButtonElement) {
-    let bouncy = new Spring(100, {
-      stiffness: 9.0,
-    });
-    $effect(() => (element.style.scale = `${bouncy.current}%`));
-
-    element.addEventListener("click", () => {
-      bouncy.set(70);
-
-      setTimeout(() => bouncy.set(100), 100);
-    });
-  }
 </script>
 
 <div class="grid grid-cols-1 grid-rows-1">
   {#key currentQuip}
-    <aside class="text-sm max-w-md mx-auto text-center col-start-1 col-end-1 row-start-1 row-end-1" transition:fade>
+    <aside
+      class="text-sm max-w-md mx-auto text-center col-start-1 col-end-1 row-start-1 row-end-1"
+      transition:fade>
       {currentQuip}
     </aside>
   {/key}
 </div>
 <div class="grid grid-cols-1 grid-rows-1">
-  <form class="grid grid-cols-4 grid-rows-4 gap-2 col-start-1 col-end-1 row-start-1 row-end-1">
+  <form
+    class="grid grid-cols-4 grid-rows-4 gap-2 col-start-1 col-end-1 row-start-1 row-end-1">
     {#each connections as [word, sim, tag] (word + tag + sim)}
       <label
         for={word}
@@ -240,7 +246,8 @@
       </label>
     {/each}
   </form>
-  <div class="col-start-1 col-end-1 gap-2 z-10 pointer-events-none row-start-1 row-end-1 grid grid-cols-1 grid-rows-4">
+  <div
+    class="col-start-1 col-end-1 gap-2 z-10 pointer-events-none row-start-1 row-end-1 grid grid-cols-1 grid-rows-4">
     {#each solveOrder as key (key)}
       {#if solved[key]}
         <div class="bg-amber-950 text-white flex flex-col items-center justify-center">
@@ -260,11 +267,19 @@
       transition:fade={{ duration: 150 }}>
       <h1>{victory ? "You win! 🌟" : "Not quite 🚫"}</h1>
       <nav class="flex flex-wrap gap-4">
-        <button class="interactive-button" onclick={resetGame} {@attach bounceButton}>Reset?</button>
-        <button class="interactive-button" onclick={() => (hideGameOverScreen = true)} {@attach bounceButton}
-          >Review Puzzle</button>
+        <button
+          class="interactive-button"
+          onclick={resetGame}
+          {@attach bounceOnEvent("click")}>Reset?</button>
+        <button
+          class="interactive-button"
+          onclick={() => (hideGameOverScreen = true)}
+          {@attach bounceOnEvent("click")}>Review Puzzle</button>
         {#if defeat}
-          <button class="interactive-button" onclick={showSolution} {@attach bounceButton}>Show solution?</button>
+          <button
+            class="interactive-button"
+            onclick={showSolution}
+            {@attach bounceOnEvent("click")}>Show solution?</button>
         {/if}
       </nav>
     </div>
@@ -273,25 +288,37 @@
 
 <div class="text-center">
   Mistakes Remaining: <br />
-  {#key mistakeCount}
-    {#each Array(Math.max(0, maxMistakes - mistakeCount))}
-      <span transition:slide> 🛑 </span>
-    {:else}
-      None
-    {/each}
-  {/key}
+  <nav class="flex gap-1 justify-center">
+    {#key mistakeCount}
+      {#each Array(Math.max(0, maxMistakes - mistakeCount)) as a, p (p)}
+        <p out:fly>🛑</p>
+      {:else}
+        None
+      {/each}
+    {/key}
+  </nav>
 </div>
 
 <nav class="mx-auto flex flex-wrap gap-4 justify-stretch">
-  <button class="interactive-button flex-1 border-red-400! hocus:bg-red-400!" onclick={resetGame} {@attach bounceButton}>Reset game</button>
-  <button class="interactive-button flex-1" onclick={resetSelections} disabled={gameOver} {@attach bounceButton}>Deselect All</button>
+  <button
+    class="interactive-button flex-1 border-red-400! hocus:bg-red-400!"
+    onclick={resetGame}
+    {@attach bounceOnEvent("click")}>Reset game</button>
+  <button
+    class="interactive-button flex-1"
+    onclick={resetSelections}
+    disabled={gameOver}
+    {@attach bounceOnEvent("click")}>Deselect All</button>
   <button
     class="interactive-button flex-1"
     onclick={() => shuffleArray(connections)}
     disabled={gameOver}
-    {@attach bounceButton}>Shuffle</button>
-  <button class="interactive-button flex-1" onclick={checkSolved} disabled={gameOver || !maxChecked} {@attach bounceButton}
-    >Submit</button>
+    {@attach bounceOnEvent("click")}>Shuffle</button>
+  <button
+    class="interactive-button flex-1"
+    onclick={checkSolved}
+    disabled={gameOver || !maxChecked}
+    {@attach bounceOnEvent("click")}>Submit</button>
 </nav>
 
 <style lang="postcss">

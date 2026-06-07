@@ -45,10 +45,6 @@ export default defineConfig({
     },
   ],
 
-  experimental: {
-    svgo: true,
-  },
-
   adapter: node({
     mode: "standalone",
   }),
