@@ -11,18 +11,18 @@
   import { onMount } from "svelte";
   import { flip } from "svelte/animate";
 
-  let element: HTMLInputElement;
-
   interface FillBoxProps {
     value?: string;
     status?: LetterStatus;
     backward?: HTMLInputElement;
     next?: HTMLInputElement;
+    element?: HTMLInputElement;
   }
 
   let {
     status = $bindable("empty"),
     value = $bindable(""),
+    element = $bindable(),
     backward,
     next,
   }: FillBoxProps = $props();
@@ -76,6 +76,11 @@
         ratchet();
       }
       status = shortcuts[e.key];
+
+      if (value !== "" && status !== "empty" && next) {
+        next.focus();
+      }
+
       return;
     }
 

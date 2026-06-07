@@ -8,14 +8,14 @@
   import GuessBox from "./guess-box.svelte";
 
   let inputs = $state([
-    { value: "", status: "empty" as LetterStatus },
-    { value: "", status: "empty" as LetterStatus },
-    { value: "", status: "empty" as LetterStatus },
-    { value: "", status: "empty" as LetterStatus },
-    { value: "", status: "empty" as LetterStatus },
+    { value: "", status: "absent" as LetterStatus },
+    { value: "", status: "absent" as LetterStatus },
+    { value: "", status: "absent" as LetterStatus },
+    { value: "", status: "absent" as LetterStatus },
+    { value: "", status: "absent" as LetterStatus },
   ]);
 
-  let form;
+  let inputElements = $state([undefined, undefined, undefined, undefined, undefined]);
 </script>
 
 <section class="grid grid-cols-5 grid-rows-6 mx-auto gap-4 w-fit uppercase">
@@ -26,9 +26,14 @@
   <GuessBox letter="E" status="correct" />
 </section>
 
-<form class="flex gap-4 mx-auto pb-12" bind:this={form}>
+<form class="flex gap-4 mx-auto pb-12">
   {#each inputs as input, idx}
-    <FillBox bind:value={input.value} bind:status={input.status} />
+    <FillBox
+      bind:value={input.value}
+      bind:status={input.status}
+      bind:element={inputElements[idx]}
+      next={inputElements[idx + 1]}
+      backward={inputElements[idx - 1]} />
   {/each}
 </form>
 
