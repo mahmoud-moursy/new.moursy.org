@@ -5,37 +5,57 @@ const springStiffness = 0.5;
 const springDamping = 0.5;
 
 export function makeShaker(el: Element) {
-  const spring = new Spring(0, {
-    stiffness: springStiffness,
-    damping: springDamping,
-  });
+  const spring = new Spring(0);
 
   $effect(() => (el.style.translate = `${spring.current}px 0`));
 
   return () => {
-    spring.set(5);
+    spring.set(10);
 
-    setTimeout(() => spring.set(-5), 100);
+    setTimeout(() => spring.set(-10), 100);
     setTimeout(() => spring.set(0), 200);
   };
 }
 
 export function makeBouncer(el: Element) {
-  const initialScale = parseFloat(el?.style?.scale || "100");
+  let initialScale = parseFloat(el.computedStyleMap().get("scale")?.toString() || "1");
 
-  const spring = new Spring(initialScale, {
-    stiffness: springStiffness,
-    damping: springDamping,
-  });
+  if (Number.isNaN(initialScale)) {
+    initialScale = 1;
+  }
+
+  const spring = new Spring(initialScale);
 
   $effect(() => {
-    el.style.scale = `${spring.current}%`;
+    el.style.scale = `${spring.current}`;
   });
 
   return () => {
-    spring.set(70);
-    setTimeout(() => spring.set(120), 100);
+    spring.set(initialScale - 0.2);
+    setTimeout(() => spring.set(initialScale + 0.2), 100);
     setTimeout(() => spring.set(initialScale), 200);
+  };
+}
+
+export function makeRatchet(el: Element) {
+  let initialRotation = parseFloat(
+    el.computedStyleMap().get("rotate")?.toString() || "0",
+  );
+
+  if (Number.isNaN(initialRotation)) {
+    initialRotation = 0;
+  }
+
+  const spring = new Spring(initialRotation);
+
+  $effect(() => {
+    el.style.rotate = `${spring.current}deg`;
+  });
+
+  return () => {
+    spring.set(15);
+    setTimeout(() => spring.set(-15), 100);
+    setTimeout(() => spring.set(initialRotation), 200);
   };
 }
 
@@ -54,5 +74,14 @@ export const shakeOnEvent: (event: string) => Attachment = (event: string) => {
 
     element.addEventListener(event, shake);
     return () => element.removeEventListener(event, shake);
+  };
+};
+
+export const ratchetOnEvent: (event: string) => Attachment = (event: string) => {
+  return (element: Element) => {
+    const ratchet = makeRatchet(element);
+
+    element.addEventListener(event, ratchet);
+    return () => element.removeEventListener(event, ratchet);
   };
 };

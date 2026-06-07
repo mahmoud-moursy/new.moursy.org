@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@custom-variant hocus (&:hover, &:focus, &:active);
+@custom-variant factive (&:focus, &:active);
 
 @theme inline {
   --default-font-family: var(--font-serif);
