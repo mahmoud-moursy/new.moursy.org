@@ -27,12 +27,16 @@
     next,
   }: FillBoxProps = $props();
 
-  const arrowStates: Record<LetterStatus, LetterStatus[]> = {
-    empty: ["empty", "correct", "present"],
-    correct: ["present", "correct", "absent"],
-    present: ["correct", "present", "absent"],
-    absent: ["correct", "absent", "present"],
-  };
+  const statusOrdering: LetterStatus[] = $state(["correct", "absent", "present"]);
+  const orderingPositions = [
+    "row-start-1 row-end-1 col-start-1 col-end-1",
+    "row-start-2 row-end-2 col-start-1 col-end-1",
+    "row-start-3 row-end-3 col-start-1 col-end-1",
+  ];
+
+  function swapOn(idx: number) {
+    [statusOrdering[1], statusOrdering[idx]] = [statusOrdering[idx], statusOrdering[1]];
+  }
 
   let shake: () => void;
   let bounce: () => void;
@@ -76,6 +80,7 @@
         ratchet();
       }
       status = shortcuts[e.key];
+      swapOn(statusOrdering.indexOf(shortcuts[e.key]));
 
       if (value !== "" && status !== "empty" && next) {
         e.preventDefault();
@@ -138,17 +143,13 @@
     onkeydown={checkKeypress}
     bind:this={element}
     bind:value />
-  {#each arrowStates[status] as state (state)}
+  {#each statusOrdering as state, idx (state)}
     <label
       animate:flip={{ duration: 150 }}
-      class="radio-btn"
+      class={["radio-btn", orderingPositions[idx]]}
       class:bg-yellow-700={state === "present"}
       class:bg-emerald-700={state === "correct"}
       class:bg-slate-700={state === "absent"}
-      class:row-start-2={state === status}
-      class:row-end-2={state === status}
-      class:col-start-1={state === status}
-      class:col-end-1={state === status}
       {@attach bounceOnEvent("change")}>
       <input
         type="radio"
@@ -156,17 +157,17 @@
         value={state}
         class="appearance-none"
         onchange={() => {
+          swapOn(idx);
           ratchet();
           element.focus();
         }}
         tabindex="-1"
         disabled={state === status} />
-      <p class="keyboard-shortcut">
-        {shortCutInverses[state]}
-      </p>
-      <p class="phone-glyph hidden">
-        {phoneGlyphs[state]}
-      </p>
+      <ruby class="text-center">
+        <rb>{phoneGlyphs[state]}</rb>
+        <rt class="keyboard-shortcut text-current/50 font-black p-0.5"
+          >{shortCutInverses[state]}</rt>
+      </ruby>
     </label>
   {/each}
 </label>
@@ -181,9 +182,6 @@
   @media (hover: none) {
     .radio-btn > .keyboard-shortcut {
       @apply hidden;
-    }
-    .radio-btn > .phone-glyph {
-      @apply block;
     }
   }
 </style>
