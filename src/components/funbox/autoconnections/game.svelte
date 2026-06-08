@@ -171,8 +171,6 @@
 
   function showSolution() {
     hideGameOverScreen = true;
-    alert(solveOrder);
-    alert(JSON.stringify(selections));
 
     let solveCount = 1;
 

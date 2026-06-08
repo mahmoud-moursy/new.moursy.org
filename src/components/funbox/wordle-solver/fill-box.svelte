@@ -27,8 +27,8 @@
     next,
   }: FillBoxProps = $props();
 
-  const arrowStates: Record<LetterStatus, [LetterStatus, LetterStatus, LetterStatus]> = {
-    empty: ["correct", "empty", "present"],
+  const arrowStates: Record<LetterStatus, LetterStatus[]> = {
+    empty: ["empty", "correct", "present"],
     correct: ["present", "correct", "absent"],
     present: ["correct", "present", "absent"],
     absent: ["correct", "absent", "present"],
@@ -78,6 +78,7 @@
       status = shortcuts[e.key];
 
       if (value !== "" && status !== "empty" && next) {
+        e.preventDefault();
         next.focus();
       }
 
@@ -89,6 +90,7 @@
       bounce();
 
       if (value !== "" && status !== "empty" && next) {
+        e.preventDefault();
         next.focus();
       }
 
@@ -112,16 +114,15 @@
     value = value.replace(/[^A-Za-z\s]/g, "").toUpperCase();
   });
 
-  const borderEffects = {
-    correct: "border-emerald-700",
-    present: "border-yellow-700",
-    absent: "border-slate-700",
+  const statusEffects = {
+    correct: "bg-emerald-700 text-white border-0!",
+    present: "bg-yellow-700 text-white border-0!",
+    absent: "bg-slate-700 text-white border-0!",
     empty: "border-slate-700/50 hocus:border-slate-700/90",
   };
 </script>
 
-<label
-  class="grid grid-rows-3 grid-cols-1 gap-4 transition-colors items-center justify-center perspective-normal">
+<label class="grid grid-rows-3 grid-cols-1 transition-colors items-center justify-center">
   <input
     type="text"
     maxlength="1"
@@ -132,7 +133,7 @@
       "items-center text-center focus:outline-0 focus:border-4 justify-center",
       "text-xl font-bold uppercase peer bg-amber-50",
       "row-start-2 row-end-2 col-start-1 col-end-1 z-10 transition-[border,border-color]",
-      borderEffects[status],
+      statusEffects[status],
     ]}
     onkeydown={checkKeypress}
     bind:this={element}
@@ -148,8 +149,6 @@
       class:row-end-2={state === status}
       class:col-start-1={state === status}
       class:col-end-1={state === status}
-      class:-translate-z-96={state === status}
-      class:-translate-z-48={state !== status}
       {@attach bounceOnEvent("change")}>
       <input
         type="radio"
@@ -176,7 +175,7 @@
   @import "tailwindcss";
 
   .radio-btn {
-    @apply flex aspect-square cursor-pointer items-center justify-center font-mono font-black text-white transition-all select-none *:scale-125;
+    @apply flex aspect-square scale-80 cursor-pointer items-center justify-center font-mono font-black text-white transition-all select-none *:scale-125;
   }
 
   @media (hover: none) {
