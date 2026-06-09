@@ -2,9 +2,6 @@ import type { Attachment } from "svelte/attachments";
 import { Spring } from "svelte/motion";
 import type { TransitionConfig } from "svelte/transition";
 
-const springStiffness = 0.5;
-const springDamping = 0.5;
-
 export function makeShaker(el: Element) {
   const spring = new Spring(0);
 
@@ -129,7 +126,7 @@ export const shakeUp = (
     delay: params?.delay ?? 0,
     duration: params?.duration ?? 300,
     tick: (t) => {
-      if (t === 0) shake();
+      if (t <= 0) shake();
     },
   };
 };
