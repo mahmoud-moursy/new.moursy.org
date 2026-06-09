@@ -89,7 +89,7 @@
   }
 </script>
 
-<section class="grid grid-cols-5 mx-auto gap-4 w-sm max-w-full">
+<section class="grid grid-cols-5 z-10 mx-auto gap-4 w-sm max-w-full">
   {#each guesses as guess, uidx}
     {#each guess as box, idx}
       <GuessBox letter={box.value} status={box.status} rowOrder={idx} animate={false} />

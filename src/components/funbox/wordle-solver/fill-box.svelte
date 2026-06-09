@@ -91,7 +91,6 @@
   };
 
   const checkKeypress: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    e?.preventDefault();
     const pattern = /^[a-zA-Z]$/g;
 
     if (e.key === "Tab") {
@@ -148,8 +147,7 @@
       return;
     }
 
-    status = "absent";
-    ratchet();
+    shake();
   };
 
   $effect(() => {
@@ -181,14 +179,14 @@
       class={[
         "absolute top-0 left-0 grid grid-cols-1 grid-rows-1 overflow-clip",
         "w-full h-full aspect-square flex border-2 mx-auto",
-        "items-center text-center peer-focus:outline-2 outline-amber-300 peer-focus:border-4 justify-center",
+        "items-center text-center outline-0 peer-focus:outline-2 outline-amber-300 peer-focus:border-4 justify-center",
         "text-xl font-bold uppercase peer bg-amber-50",
-        "transition-[border,border-color]",
+        "transition-[border,border-color,outline]",
         statusEffects[status],
       ]}
       {@attach bounceOnEvent("click")}
       bind:this={display}>
-      {#key value}
+      {#key value.replace(/[^A-Za-z]/g, "").toLowerCase()}
         <span
           in:fly={{
             duration: 500,
