@@ -206,8 +206,18 @@
             easing: elasticOut,
             y: 50,
           }}
-          class="col-start-1 col-end-1 row-start-1 row-end-1">
-          {value.replace(/[^A-Za-z]/g, "").toLowerCase() || "."}
+          class="col-start-1 col-end-1 row-start-1 row-end-1 flex flex-col">
+          <p class="text-[0.5rem] keyboard-shortcut text-current/50 scale-90">
+            {shortCutInverses[status]}
+          </p>
+
+          {#if value.replace(/[^A-Za-z]/g, "").toLowerCase()}
+            <p class="p-0!">{value}</p>
+          {:else}
+            <p class="drop-shadow-[2px_2px] drop-shadow-black/70 text-current/50">
+              {hintGlyphs[status]}
+            </p>
+          {/if}
         </span>
       {/key}
     </div>
@@ -251,7 +261,7 @@
   }
 
   @media (hover: none) {
-    label > .keyboard-shortcut {
+    .keyboard-shortcut {
       @apply hidden;
     }
   }
