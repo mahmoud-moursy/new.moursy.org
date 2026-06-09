@@ -24,7 +24,7 @@
   }
 
   let {
-    status = $bindable("empty"),
+    status = $bindable("absent"),
     value = $bindable(""),
     element = $bindable(),
     disabled,
@@ -65,7 +65,7 @@
   const hintGlyphs: Record<Filterable, string> = {
     correct: "✓",
     present: "?",
-    absent: "X",
+    absent: "✗",
   };
 
   const shortcuts: Record<string, Filterable> = {
@@ -75,10 +75,12 @@
   };
 
   const checkShouldNext = (e: Event) => {
-    if (value !== "" && status !== "empty" && next) {
-      e?.preventDefault();
-      next.focus();
+    const check = value !== "" && status !== "empty" && next;
+    if (check) {
+      if (next.value === "") next.focus();
     }
+
+    return check;
   };
 
   const checkKeypress: KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -111,6 +113,7 @@
       swapOn(statusOrdering.indexOf(shortcuts[e.key]));
 
       checkShouldNext(e);
+      e?.preventDefault();
 
       return;
     }
@@ -119,7 +122,8 @@
       value = e.key.trim().toLowerCase();
       bounce();
 
-      checkShouldNext(e);
+      if (checkShouldNext(e)) next?.focus();
+      e?.preventDefault();
 
       return;
     }
@@ -133,7 +137,7 @@
       return;
     }
 
-    status = "empty";
+    status = "absent";
     ratchet();
   };
 
@@ -202,7 +206,7 @@
         type="radio"
         bind:group={status}
         value={state}
-        class="appearance-none w-0 h-0"
+        class="appearance-none"
         onchange={(e) => {
           swapOn(idx);
           ratchet();
@@ -211,12 +215,11 @@
         }}
         onclick={checkShouldNext}
         tabindex="-1"
-        disabled={disabled || state === status} />
-      <ruby>
-        <rb>{hintGlyphs[state]}</rb>
-        <rt class="keyboard-shortcut text-current/50 font-black p-0.5"
-          >{shortCutInverses[state]}</rt>
-      </ruby>
+        disabled={state === status} />
+      <span class="text-[0.5rem] keyboard-shortcut text-current/50 scale-90">
+        {shortCutInverses[state]}
+      </span>
+      {hintGlyphs[state]}
     </label>
   {/each}
 </label>
@@ -225,11 +228,11 @@
   @import "tailwindcss";
 
   .radio-btn {
-    @apply aspect-square scale-80 cursor-pointer text-center font-black text-white transition-all duration-500 select-none *:scale-125 disabled:scale-50;
+    @apply flex aspect-square scale-80 cursor-pointer flex-col items-center justify-center text-center font-black text-white transition-all duration-500 select-none *:h-min *:w-min *:scale-125 disabled:scale-50;
   }
 
   @media (hover: none) {
-    ruby > .keyboard-shortcut {
+    label > .keyboard-shortcut {
       @apply hidden;
     }
   }

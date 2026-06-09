@@ -48,6 +48,10 @@
       { value: "", status: "absent" as LetterStatus },
       { value: "", status: "absent" as LetterStatus },
     ];
+    inputs = inputs.map((inp) => {
+      inp.value = "";
+      return inp;
+    });
     filters = inputs.map((letter, idx) => new Filter(letter.value, letter.status, idx));
     guesses = [];
     filterList = new FilterList();
@@ -71,13 +75,11 @@
 
     const inputsCopy = JSON.parse(JSON.stringify(inputs));
     guesses = [...guesses, inputsCopy];
-    inputs = [
-      { value: ollKorrect ? "G" : "", status: ollKorrect ? "correct" : "absent" },
-      { value: ollKorrect ? "R" : "", status: ollKorrect ? "correct" : "absent" },
-      { value: ollKorrect ? "E" : "", status: ollKorrect ? "correct" : "absent" },
-      { value: ollKorrect ? "E" : "", status: ollKorrect ? "correct" : "absent" },
-      { value: ollKorrect ? "N" : "", status: ollKorrect ? "correct" : "absent" },
-    ];
+    const green = "GREEN";
+    inputs = inputs.map((inp, idx) => ({
+      value: ollKorrect ? green[idx] : "",
+      status: ollKorrect ? "correct" : inp.status,
+    }));
 
     wordRanking = Object.entries(wordList)
       .filter((a) => filterList.apply(a[0]))
