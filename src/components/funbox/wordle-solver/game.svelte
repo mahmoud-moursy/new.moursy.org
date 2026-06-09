@@ -14,9 +14,13 @@
     { value: "", status: "absent" as Filterable },
   ]);
 
-  let filters = $derived(
-    inputs.map((letter, idx) => new Filter(letter.value, letter.status, idx)),
-  );
+  let filters = $derived([
+    new Filter(inputs[0].value, inputs[0].status, 0),
+    new Filter(inputs[1].value, inputs[1].status, 1),
+    new Filter(inputs[2].value, inputs[2].status, 2),
+    new Filter(inputs[3].value, inputs[3].status, 3),
+    new Filter(inputs[4].value, inputs[4].status, 4),
+  ]);
   let guesses: { value: string; status: Filterable }[][] = $state([]);
   let ollKorrect = $derived(
     guesses[guesses.length - 1]?.every((i) => i.status === "correct"),
@@ -41,19 +45,17 @@
 
   let filterError = $state(false);
 
-  function resetAll() {
-    inputs = inputs.map((inp) => {
-      inp.value = "";
-      return inp;
-    });
-    filters = inputs.map((letter, idx) => new Filter(letter.value, letter.status, idx));
+  function resetAll(e: Event) {
+    e.preventDefault();
+
+    inputs.forEach((inp) => (inp.value = ""));
     guesses = [];
     filterList = new FilterList();
     wordRanking = Object.entries(wordList)
       .filter((a) => filterList.apply(a[0]))
       .sort((a, b) => b[1] - a[1]);
 
-    setTimeout(() => inputElements[0]!.focus(), 50);
+    setTimeout(() => inputElements[0]!.focus(), 150);
   }
 
   function tryGuessing(e: Event) {
@@ -91,7 +93,7 @@
 
 <section class="grid grid-cols-5 z-10 mx-auto gap-4 w-sm max-w-full">
   {#each guesses as guess, uidx}
-    {#each guess as box, idx}
+    {#each guess as box, idx (uidx * 5 + idx + box.value)}
       <GuessBox letter={box.value} status={box.status} rowOrder={idx} animate={false} />
     {/each}
   {/each}

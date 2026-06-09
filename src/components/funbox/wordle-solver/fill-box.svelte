@@ -4,18 +4,17 @@
     makeBouncer,
     makeRatchet,
     makeShaker,
-    shakeOnEvent,
   } from "$components/funbox/interactions.svelte.ts";
   import type { KeyboardEventHandler } from "svelte/elements";
   import type { Filterable } from "./filter";
   import { onMount } from "svelte";
   import { flip } from "svelte/animate";
   import { fly } from "svelte/transition";
-  import { elasticIn, elasticOut } from "svelte/easing";
+  import { elasticOut } from "svelte/easing";
 
-  let textWasModified = false;
-  let textLastValue: string | null = null;
-  let statusWasModified = false;
+  let textWasModified = $state(false);
+  let textLastValue: string | null = $state(null);
+  let statusWasModified = $state(false);
 
   interface FillBoxProps {
     value?: string;
@@ -36,6 +35,12 @@
     next,
     start_element,
   }: FillBoxProps = $props();
+  let sanitizedValue = $derived(
+    value
+      .replace(/[^A-Za-z]/g, "")
+      .trim()
+      .toLowerCase(),
+  );
 
   const statusOrdering: Filterable[] = $state(["correct", "absent", "present"]);
   const orderingPositions = [
@@ -78,22 +83,29 @@
     [shortCutInverses.absent]: "absent",
   };
 
-  const checkShouldNext = () => {
-    const check =
-      next &&
-      textWasModified &&
+  let checkNext = $derived(
+    textWasModified &&
       (statusWasModified || value === textLastValue) &&
-      value !== "";
+      sanitizedValue !== "",
+  );
 
-    if (check) {
-      statusWasModified = false;
-      textWasModified = false;
-      textLastValue = "";
-      console.log("Modifiers reset.");
-      if (next.value === "") next.focus();
+  const resetFocus = () => {
+    statusWasModified = false;
+    textWasModified = false;
+    textLastValue = "";
+  };
+
+  const testFocus = () => {
+    statusWasModified = true;
+    textWasModified = sanitizedValue !== "";
+  };
+
+  const tryGoNext = () => {
+    if (checkNext) {
+      if (next?.value === "") next.focus();
     }
 
-    return check;
+    return checkNext;
   };
 
   const checkKeypress: KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -128,20 +140,23 @@
       console.log("Status was modified...");
 
       e.preventDefault();
-      checkShouldNext();
+      tryGoNext();
 
       return;
     }
 
     if (pattern.test(e.key)) {
       textWasModified = true;
-      textLastValue = value;
-      value = e.key.trim().toLowerCase();
+      textLastValue = sanitizedValue;
+      value = e.key
+        .replace(/[^A-Za-z]/g, "")
+        .trim()
+        .toLowerCase();
       console.log("Text was modified...");
       bounce();
 
       e.preventDefault();
-      if (checkShouldNext()) next?.focus();
+      if (tryGoNext()) next?.focus();
 
       return;
     }
@@ -158,14 +173,10 @@
     shake();
   };
 
-  $effect(() => {
-    value = value.replace(/[^A-Za-z]/g, "").toLowerCase();
-  });
-
   const statusEffects = {
-    correct: "bg-emerald-700 text-white border-0!",
-    present: "bg-yellow-700 text-white border-0!",
-    absent: "bg-slate-700 text-white border-0!",
+    correct: "bg-emerald-700 border-emerald-700! text-white",
+    present: "bg-yellow-700 border-yellow-700! text-white",
+    absent: "bg-slate-700 border-slate-700! text-white",
     empty: "border-slate-700/50 peer-hocus:border-slate-700/90",
   };
 </script>
@@ -180,21 +191,26 @@
       placeholder="."
       class="opacity-0 peer"
       {disabled}
+      onfocus={resetFocus}
+      onfocusout={testFocus}
       onkeydown={checkKeypress}
       bind:this={element}
       bind:value />
     <div
       class={[
         "absolute top-0 left-0 grid grid-cols-1 grid-rows-1 overflow-clip",
-        "w-full h-full aspect-square flex border-2 mx-auto",
-        "items-center text-center outline-0 peer-focus:outline-2 outline-amber-300 peer-focus:border-4 justify-center",
+        "w-full h-full aspect-square flex mx-auto",
+        "items-center text-center outline-0 peer-focus:outline-4 outline-amber-300 justify-center",
         "text-xl font-bold uppercase peer bg-amber-50",
         "transition-[border,border-color,outline]",
         statusEffects[status],
+        !checkNext && [
+          "bg-amber-50! text-black! border-2 peer-focus:border-4 border-current/50",
+        ],
       ]}
       {@attach bounceOnEvent("click")}
       bind:this={display}>
-      {#key value.replace(/[^A-Za-z]/g, "").toLowerCase()}
+      {#key sanitizedValue}
         <span
           in:fly={{
             duration: 500,
@@ -207,14 +223,15 @@
             y: 50,
           }}
           class="col-start-1 col-end-1 row-start-1 row-end-1 flex flex-col">
-          <p class="text-[0.5rem] keyboard-shortcut text-current/50 scale-90">
+          <p
+            class="text-[0.5rem] keyboard-shortcut text-current/50 drop-shadow-[1px_1px] drop-shadow-black/70 scale-90">
             {shortCutInverses[status]}
           </p>
 
-          {#if value.replace(/[^A-Za-z]/g, "").toLowerCase()}
+          {#if sanitizedValue}
             <p class="p-0!">{value}</p>
           {:else}
-            <p class="drop-shadow-[2px_2px] drop-shadow-black/70 text-current/50">
+            <p class="drop-shadow-[1px_2px] drop-shadow-black/70 text-current/50">
               {hintGlyphs[status]}
             </p>
           {/if}
@@ -240,9 +257,9 @@
           ratchet();
           element!.focus();
           statusWasModified = true;
-          checkShouldNext(e);
+          tryGoNext(e);
         }}
-        onclick={checkShouldNext}
+        onclick={tryGoNext}
         tabindex="-1"
         disabled={state === status} />
       <span class="text-[0.5rem] keyboard-shortcut text-current/50 scale-90">
