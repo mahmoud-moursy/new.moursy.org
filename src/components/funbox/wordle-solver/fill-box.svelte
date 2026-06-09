@@ -7,9 +7,11 @@
     shakeOnEvent,
   } from "$components/funbox/interactions.svelte.ts";
   import type { FormEventHandler, KeyboardEventHandler } from "svelte/elements";
-  import type { LetterStatus } from "./game.svelte";
+  import type { LetterStatus, Filterable } from "./filter";
   import { onMount } from "svelte";
   import { flip } from "svelte/animate";
+  import { fly } from "svelte/transition";
+  import { elasticIn, elasticOut } from "svelte/easing";
 
   interface FillBoxProps {
     value?: string;
@@ -17,17 +19,21 @@
     backward?: HTMLInputElement;
     next?: HTMLInputElement;
     element?: HTMLInputElement;
+    start_element?: HTMLInputElement;
+    disabled?: boolean;
   }
 
   let {
     status = $bindable("empty"),
     value = $bindable(""),
     element = $bindable(),
+    disabled,
     backward,
     next,
+    start_element,
   }: FillBoxProps = $props();
 
-  const statusOrdering: LetterStatus[] = $state(["correct", "absent", "present"]);
+  const statusOrdering: Filterable[] = $state(["correct", "absent", "present"]);
   const orderingPositions = [
     "row-start-1 row-end-1 col-start-1 col-end-1",
     "row-start-2 row-end-2 col-start-1 col-end-1",
@@ -42,36 +48,58 @@
   let bounce: () => void;
   let ratchet: () => void;
 
+  let display: HTMLElement | undefined;
+
   onMount(() => {
-    shake = makeShaker(element);
-    bounce = makeBouncer(element);
-    ratchet = makeRatchet(element);
+    shake = makeShaker(display!);
+    bounce = makeBouncer(display!);
+    ratchet = makeRatchet(display!);
   });
 
-  const shortCutInverses: Record<LetterStatus, string> = {
+  const shortCutInverses: Record<Filterable, string> = {
     correct: "1",
     present: "2",
     absent: "3",
-    empty: "",
   };
 
-  const phoneGlyphs: Record<LetterStatus, string> = {
+  const phoneGlyphs: Record<Filterable, string> = {
     correct: "✅",
     present: "⚠️",
     absent: "❌",
-    empty: "",
   };
 
-  const shortcuts: Record<string, LetterStatus> = {
+  const shortcuts: Record<string, Filterable> = {
     [shortCutInverses.correct]: "correct",
     [shortCutInverses.present]: "present",
     [shortCutInverses.absent]: "absent",
+  };
+
+  const checkShouldNext = (e: Event) => {
+    if (value !== "" && status !== "empty" && next) {
+      e?.preventDefault();
+      next.focus();
+    }
   };
 
   const checkKeypress: KeyboardEventHandler<HTMLInputElement> = (e) => {
     const pattern = /^[a-zA-Z]$/g;
 
     if (e.key === "Tab") {
+      return;
+    }
+
+    if (e.key === "Enter") {
+      start_element?.focus();
+      return;
+    }
+
+    if (e.key === "ArrowLeft") {
+      backward?.focus();
+      return;
+    }
+
+    if (e.key === "ArrowRight") {
+      next?.focus();
       return;
     }
 
@@ -82,22 +110,16 @@
       status = shortcuts[e.key];
       swapOn(statusOrdering.indexOf(shortcuts[e.key]));
 
-      if (value !== "" && status !== "empty" && next) {
-        e.preventDefault();
-        next.focus();
-      }
+      checkShouldNext(e);
 
       return;
     }
 
     if (pattern.test(e.key)) {
-      value = e.key.trim().toUpperCase();
+      value = e.key.trim().toLowerCase();
       bounce();
 
-      if (value !== "" && status !== "empty" && next) {
-        e.preventDefault();
-        next.focus();
-      }
+      checkShouldNext(e);
 
       return;
     }
@@ -116,33 +138,53 @@
   };
 
   $effect(() => {
-    value = value.replace(/[^A-Za-z\s]/g, "").toUpperCase();
+    value = value.replace(/[^A-Za-z]/g, "").toLowerCase();
   });
 
   const statusEffects = {
     correct: "bg-emerald-700 text-white border-0!",
     present: "bg-yellow-700 text-white border-0!",
     absent: "bg-slate-700 text-white border-0!",
-    empty: "border-slate-700/50 hocus:border-slate-700/90",
+    empty: "border-slate-700/50 peer-hocus:border-slate-700/90",
   };
 </script>
 
-<label class="grid grid-rows-3 grid-cols-1 transition-colors items-center justify-center">
-  <input
-    type="text"
-    maxlength="1"
-    pattern="[A-Z]"
-    placeholder="."
-    class={[
-      "w-12 h-12 flex border-2",
-      "items-center text-center focus:outline-0 focus:border-4 justify-center",
-      "text-xl font-bold uppercase peer bg-amber-50",
-      "row-start-2 row-end-2 col-start-1 col-end-1 z-10 transition-[border,border-color]",
-      statusEffects[status],
-    ]}
-    onkeydown={checkKeypress}
-    bind:this={element}
-    bind:value />
+<label
+  class="grid min-w-8 grid-rows-3 grid-cols-1 transition-colors items-center justify-center uppercase">
+  <div class="relative w-full h-full row-start-2 row-end-2 col-start-1 col-end-1 z-10">
+    <input
+      type="text"
+      maxlength="1"
+      pattern="^[a-z]$"
+      placeholder="."
+      class="opacity-0 peer"
+      {disabled}
+      onkeydown={checkKeypress}
+      bind:this={element}
+      bind:value />
+    <div
+      class={[
+        "absolute top-0 left-0 grid grid-cols-1 grid-rows-1 overflow-clip",
+        "w-full h-full aspect-square flex border-2 mx-auto",
+        "items-center text-center peer-focus:outline-2 outline-amber-300 peer-focus:border-4 justify-center",
+        "text-xl font-bold uppercase peer bg-amber-50",
+        "transition-[border,border-color]",
+        statusEffects[status],
+      ]}
+      bind:this={display}>
+      {#key value}
+        <span
+          transition:fly={{
+            duration: 500,
+            easing: elasticOut,
+            y: 50,
+          }}
+          class="col-start-1 col-end-1 row-start-1 row-end-1">
+          {value.replace(/[^A-Za-z]/g, "").toLowerCase()}
+        </span>
+      {/key}
+    </div>
+  </div>
   {#each statusOrdering as state, idx (state)}
     <label
       animate:flip={{ duration: 150 }}
@@ -156,13 +198,15 @@
         bind:group={status}
         value={state}
         class="appearance-none"
-        onchange={() => {
+        onchange={(e) => {
           swapOn(idx);
           ratchet();
-          element.focus();
+          element!.focus();
+          checkShouldNext(e);
         }}
+        onclick={checkShouldNext}
         tabindex="-1"
-        disabled={state === status} />
+        disabled={disabled || state === status} />
       <ruby class="text-center">
         <rb>{phoneGlyphs[state]}</rb>
         <rt class="keyboard-shortcut text-current/50 font-black p-0.5"
@@ -176,11 +220,11 @@
   @import "tailwindcss";
 
   .radio-btn {
-    @apply flex aspect-square scale-80 cursor-pointer items-center justify-center font-mono font-black text-white transition-all select-none *:scale-125;
+    @apply flex aspect-square scale-80 cursor-pointer items-center justify-center text-center font-black text-white transition-all duration-500 select-none *:scale-125 disabled:scale-50;
   }
 
   @media (hover: none) {
-    .radio-btn > .keyboard-shortcut {
+    ruby > .keyboard-shortcut {
       @apply hidden;
     }
   }

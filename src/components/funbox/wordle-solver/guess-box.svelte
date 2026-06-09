@@ -1,31 +1,29 @@
 <script lang="ts">
-  import type { LetterStatus } from "./game.svelte";
-  import type { TransitionConfig } from "svelte/transition";
+  import { flipIn } from "../interactions.svelte";
+  import type { LetterStatus } from "./filter";
 
   interface GuessBoxProps {
     letter: string;
     status: LetterStatus;
     rowOrder: number;
+    animate?: boolean;
   }
-  const flipIn = (node: HTMLElement, params: { delay: number }): TransitionConfig => {
-    return {
-      delay: params.delay,
-      duration: 300,
-      css: (t) => `
-        transform: rotateX(${(1 - t) * 180}deg);
-      `,
-    };
+
+  const statusEffects: Record<LetterStatus, string> = {
+    correct: "bg-emerald-700!",
+    present: "bg-yellow-700!",
+    absent: "bg-slate-700!",
+    empty: "bg-amber-700/50! border-2! border-amber-700/50! border-dashed!",
   };
 
-  let { letter, status, rowOrder }: GuessBoxProps = $props();
+  let { letter, status, rowOrder, animate }: GuessBoxProps = $props();
 </script>
 
 <div
-  class="w-12 h-12 flex items-center justify-center text-xl font-bold uppercase backface-hidden text-white"
-  class:bg-emerald-700!={status === "correct"}
-  class:bg-yellow-700!={status === "present"}
-  class:bg-slate-700!={status === "absent" || status === "empty"}
-  class:border-dashed!={status === "empty"}
-  in:flipIn={{ delay: rowOrder * 300 }}>
+  class={[
+    "w-full h-full flex aspect-square items-center justify-center text-xl font-bold backface-hidden text-white uppercase",
+    statusEffects[status],
+  ]}
+  in:flipIn|global={{ delay: animate ? rowOrder * 300 : 0, duration: animate ? 150 : 0 }}>
   {letter}
 </div>

@@ -1,5 +1,6 @@
 import type { Attachment } from "svelte/attachments";
 import { Spring } from "svelte/motion";
+import type { TransitionConfig } from "svelte/transition";
 
 const springStiffness = 0.5;
 const springDamping = 0.5;
@@ -59,7 +60,9 @@ export function makeRatchet(el: Element) {
   };
 }
 
-export const bounceOnEvent: (event: string) => Attachment = (event: string) => {
+export const bounceOnEvent: (event: keyof HTMLElementEventMap) => Attachment = (
+  event,
+) => {
   return (element: Element) => {
     const bounce = makeBouncer(element);
 
@@ -68,7 +71,7 @@ export const bounceOnEvent: (event: string) => Attachment = (event: string) => {
   };
 };
 
-export const shakeOnEvent: (event: string) => Attachment = (event: string) => {
+export const shakeOnEvent: (event: keyof HTMLElementEventMap) => Attachment = (event) => {
   return (element: Element) => {
     const shake = makeShaker(element);
 
@@ -77,11 +80,37 @@ export const shakeOnEvent: (event: string) => Attachment = (event: string) => {
   };
 };
 
-export const ratchetOnEvent: (event: string) => Attachment = (event: string) => {
+export const ratchetOnEvent: (event: keyof HTMLElementEventMap) => Attachment = (
+  event,
+) => {
   return (element: Element) => {
     const ratchet = makeRatchet(element);
 
     element.addEventListener(event, ratchet);
     return () => element.removeEventListener(event, ratchet);
+  };
+};
+
+export const preventDefault: (event: keyof HTMLElementEventMap) => Attachment = (
+  event,
+) => {
+  return (element: Element) => {
+    const prevent = (e: Event) => e.preventDefault();
+
+    element.addEventListener(event, prevent);
+    return () => element.removeEventListener(event, prevent);
+  };
+};
+
+export const flipIn = (
+  node: HTMLElement,
+  params: { delay?: number; duration?: number } | undefined = undefined,
+): TransitionConfig => {
+  return {
+    delay: params?.delay ?? 0,
+    duration: params?.duration ?? 300,
+    css: (t: number) => `
+      transform: rotateX(${(1 - t) * 180}deg);
+    `,
   };
 };

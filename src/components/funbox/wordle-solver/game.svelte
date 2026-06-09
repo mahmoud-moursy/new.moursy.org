@@ -1,11 +1,15 @@
-<script context="module" lang="ts">
-  export type LetterStatus = "correct" | "present" | "absent" | "empty";
-</script>
-
 <script lang="ts">
+  import { fade, fly } from "svelte/transition";
+  import {
+    bounceOnEvent,
+    flipIn,
+    preventDefault,
+    shakeOnEvent,
+  } from "../interactions.svelte";
   import FillBox from "./fill-box.svelte";
-
+  import { Filter, FilterList, type LetterStatus } from "./filter";
   import GuessBox from "./guess-box.svelte";
+  import wordList from "./word-list.json";
 
   let inputs = $state([
     { value: "", status: "empty" as LetterStatus },
@@ -15,29 +19,150 @@
     { value: "", status: "empty" as LetterStatus },
   ]);
 
-  let inputElements = $state([undefined, undefined, undefined, undefined, undefined]);
+  let filters = $derived(
+    inputs.map((letter, idx) => new Filter(letter.value, letter.status, idx)),
+  );
+  let guesses: { value: string; status: LetterStatus }[][] = $state([]);
+  let ollKorrect = $derived(
+    guesses[guesses.length - 1]?.every((i) => i.status === "correct"),
+  );
+
+  let inputElements: (HTMLInputElement | undefined)[] = $state([
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+  ]);
+
+  let filterList: FilterList = $state(new FilterList());
+
+  let wordRanking = $state(
+    Object.entries(wordList)
+      .filter((a) => filterList.apply(a[0]))
+      .sort((a, b) => b[1] - a[1]),
+  );
+
+  let filterError = $state(false);
+
+  function resetAll() {
+    inputs = [
+      { value: "", status: "empty" as LetterStatus },
+      { value: "", status: "empty" as LetterStatus },
+      { value: "", status: "empty" as LetterStatus },
+      { value: "", status: "empty" as LetterStatus },
+      { value: "", status: "empty" as LetterStatus },
+    ];
+    filters = inputs.map((letter, idx) => new Filter(letter.value, letter.status, idx));
+    guesses = [];
+    filterList = new FilterList();
+    wordRanking = Object.entries(wordList)
+      .filter((a) => filterList.apply(a[0]))
+      .sort((a, b) => b[1] - a[1]);
+  }
+
+  function tryGuessing(e: Event) {
+    e.preventDefault();
+
+    filterError = false;
+
+    for (const filter of filters) {
+      const res = filterList.append(filter);
+      if (res === "invalid") {
+        filterError = true;
+        break;
+      }
+    }
+
+    const inputsCopy = JSON.parse(JSON.stringify(inputs));
+    guesses = [...guesses, inputsCopy];
+    inputs = [
+      { value: ollKorrect ? "G" : "", status: ollKorrect ? "correct" : "empty" },
+      { value: ollKorrect ? "R" : "", status: ollKorrect ? "correct" : "empty" },
+      { value: ollKorrect ? "E" : "", status: ollKorrect ? "correct" : "empty" },
+      { value: ollKorrect ? "E" : "", status: ollKorrect ? "correct" : "empty" },
+      { value: ollKorrect ? "N" : "", status: ollKorrect ? "correct" : "empty" },
+    ];
+
+    wordRanking = Object.entries(wordList)
+      .filter((a) => filterList.apply(a[0]))
+      .sort((a, b) => b[1] - a[1]);
+
+    if (filterError) resetAll();
+
+    inputElements[0]?.focus();
+  }
+
+  async function animateInput(idx: number) {
+    const letters = "abcdefghijklmnopqrstuvwxyz";
+  }
 </script>
 
-<section class="grid grid-cols-5 grid-rows-7 mx-auto gap-4 w-fit uppercase">
-  <GuessBox letter="A" status="correct" rowOrder={0} />
-  <GuessBox letter="B" status="present" rowOrder={1} />
-  <GuessBox letter="C" status="absent" rowOrder={2} />
-  <GuessBox letter="D" status="empty" rowOrder={3} />
-  <GuessBox letter="E" status="correct" rowOrder={4} />
-  <h2 class="col-span-5 text-center border-4 border-amber-300/30">Hello</h2>
+<section class="grid grid-cols-5 mx-auto gap-4 w-sm max-w-full">
+  {#each guesses as guess, uidx}
+    {#each guess as box, idx}
+      <GuessBox letter={box.value} status={box.status} rowOrder={idx} animate={false} />
+    {/each}
+  {/each}
+  {#if !ollKorrect}
+    {#if wordRanking[0]}
+      {#key wordRanking[0][0]}
+        {#each wordRanking[0][0] as letter, idx}
+          <GuessBox {letter} status="empty" rowOrder={idx} animate={true} />
+        {/each}
+      {/key}
+    {:else}
+      {#each new Array(5) as _, idx}
+        <GuessBox letter="💥" status="empty" rowOrder={idx} />
+      {/each}
+      <div
+        class=" border-rose-900 bg-rose-50/50 border-2 border-dashed col-span-5 text-rose-900 flex flex-col text-center text-sm font-bold items-center justify-center p-2"
+        in:fly={{ y: 100 }}>
+        <p>
+          Seems you've exhausted the word list... either The Wordle Solver is broken, or <em
+            >you</em>
+          are.
+        </p>
+      </div>
+    {/if}
+  {/if}
+
+  {#if filterError}
+    <p
+      class=" border-rose-900 bg-rose-50/50 border-2 border-dashed col-span-5 text-rose-900 flex flex-col text-center text-sm font-bold items-center justify-center p-4"
+      in:fly={{ y: 100 }}>
+      The filter combination you put in was impossible, so we took the courtesy of
+      resetting everything for you. Welcome 🤤
+    </p>
+  {/if}
 </section>
 
-<form class="flex gap-4 mx-auto pb-12">
-  {#each inputs as input, idx}
-    <FillBox
-      bind:value={input.value}
-      bind:status={input.status}
-      bind:element={inputElements[idx]}
-      next={inputElements[idx + 1]}
-      backward={inputElements[idx - 1]} />
-  {/each}
-</form>
+<form class="flex flex-col gap-4 p-12 mx-auto max-w-xs" onsubmit={tryGuessing}>
+  <section class="grid grid-cols-5 *:col-span-1 gap-1">
+    {#each inputs as input, idx (idx)}
+      <FillBox
+        bind:value={input.value}
+        bind:status={input.status}
+        bind:element={inputElements[idx]}
+        disabled={ollKorrect}
+        next={inputElements[idx + 1]}
+        backward={inputElements[idx - 1]}
+        start_element={inputElements[0]} />
+    {/each}
+  </section>
+  <button
+    disabled={filters.some((f) => !f.valid) && !ollKorrect}
+    class="transition-colors p-4 disabled:bg-slate-700 bg-rose-700 duration-300 text-white font-bold h-fit my-auto"
+    {@attach bounceOnEvent("click")}
+    onclick={ollKorrect ? resetAll : tryGuessing}
+    >{ollKorrect ? "Reset All 🔄" : "Try 🎰"}</button>
 
-{#each inputs as input}
-  {input.value} - {input.status}
-{/each}
+  <button
+    class="text-sm text-rose-700 decoration-wavy underline transition-all"
+    {@attach shakeOnEvent("click")}
+    onclick={resetAll}
+    disabled={ollKorrect}
+    class:opacity-0={ollKorrect}
+    >Reset All 🔄
+  </button>
+</form>
