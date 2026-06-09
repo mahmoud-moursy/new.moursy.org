@@ -14,6 +14,7 @@
   import { elasticIn, elasticOut } from "svelte/easing";
 
   let textWasModified = false;
+  let textLastValue: string | null = null;
   let statusWasModified = false;
 
   interface FillBoxProps {
@@ -78,11 +79,16 @@
   };
 
   const checkShouldNext = () => {
-    const check = next && textWasModified && statusWasModified && value !== "";
+    const check =
+      next &&
+      textWasModified &&
+      (statusWasModified || value === textLastValue) &&
+      value !== "";
 
     if (check) {
       statusWasModified = false;
       textWasModified = false;
+      textLastValue = "";
       console.log("Modifiers reset.");
       if (next.value === "") next.focus();
     }
@@ -121,18 +127,20 @@
       statusWasModified = true;
       console.log("Status was modified...");
 
+      e.preventDefault();
       checkShouldNext();
-      e?.preventDefault();
 
       return;
     }
 
     if (pattern.test(e.key)) {
-      value = e.key.trim().toLowerCase();
       textWasModified = true;
+      textLastValue = value;
+      value = e.key.trim().toLowerCase();
       console.log("Text was modified...");
       bounce();
 
+      e.preventDefault();
       if (checkShouldNext()) next?.focus();
 
       return;
