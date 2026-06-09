@@ -37,9 +37,12 @@ import Base from "$layouts/base.astro";
 
   const textIdx = Math.floor(Math.random() * flavorTexts.length);
 
-  document.addEventListener("DOMContentLoaded", () => {
+  function setFlavorText() {
     const flavor = document.getElementById("flavor-text");
-
     if (flavor) flavor.innerHTML = flavorTexts[textIdx];
-  });
+  }
+
+  setFlavorText();
+
+  window.addEventListener("DOMContentLoaded", setFlavorText);
 </script>
