@@ -45,9 +45,10 @@
 
   let filterError = $state(false);
 
-  function resetAll(e: Event) {
-    e.preventDefault();
+  function resetAll(e: Event | undefined = undefined) {
+    e?.preventDefault();
 
+    filterError = false;
     inputs.forEach((inp) => (inp.value = ""));
     guesses = [];
     filterList = new FilterList();
@@ -60,8 +61,6 @@
 
   function tryGuessing(e: Event) {
     e.preventDefault();
-
-    filterError = false;
 
     for (const filter of filters) {
       const res = filterList.append(filter);
@@ -82,8 +81,6 @@
     wordRanking = Object.entries(wordList)
       .filter((a) => filterList.apply(a[0]))
       .sort((a, b) => b[1] - a[1]);
-
-    if (filterError) resetAll();
 
     inputElements[0]?.focus();
 
@@ -112,21 +109,17 @@
         class=" border-rose-900 bg-rose-50/50 border-2 border-dashed col-span-5 text-rose-900 flex flex-col text-center text-sm font-bold items-center justify-center p-2"
         in:fade>
         <p>
-          Seems you've exhausted the word list... either The Wordle Solver is broken, or <em
-            >you</em>
-          are.
+          {#if filterError}
+            The filter combination you put in was impossible, so you should probably reset
+            everything and try putting it in again... 🤤
+          {:else}
+            Seems you've exhausted the word list... either The Wordle Solver is broken, or <em
+              >you</em>
+            are.
+          {/if}
         </p>
       </div>
     {/if}
-  {/if}
-
-  {#if filterError}
-    <p
-      class=" border-rose-900 bg-rose-50/50 border-2 border-dashed col-span-5 text-rose-900 flex flex-col text-center text-sm font-bold items-center justify-center p-4"
-      in:fade>
-      The filter combination you put in was impossible, so we took the courtesy of
-      resetting everything for you. Welcome 🤤
-    </p>
   {/if}
 </section>
 

@@ -61,13 +61,6 @@ export class FilterList {
       return "invalid";
     }
     const letterFilters = this.filterList.filter((f) => filter.sameLetter(f));
-    for (const original of letterFilters) {
-      if (filter.filterType === "absent" && original.filterType !== "absent") {
-        // Sometimes there can be one correct and one absent of the same letter,
-        // (e.g: the input 'never') can have a green e (1st e) and a gray e (2nd e)
-        return "ignored";
-      }
-    }
 
     const spotFilters = letterFilters.filter((f) => filter.samePos(f));
     for (const original of spotFilters) {
@@ -75,6 +68,14 @@ export class FilterList {
 
       if (oneIsCorrect && !filter.sameType(original)) {
         return "invalid";
+      }
+    }
+
+    for (const original of letterFilters) {
+      if (filter.filterType === "absent" && original.filterType !== "absent") {
+        // Sometimes there can be one correct and one absent of the same letter,
+        // (e.g: the input 'never') can have a green e (1st e) and a gray e (2nd e)
+        return "ignored";
       }
     }
 
