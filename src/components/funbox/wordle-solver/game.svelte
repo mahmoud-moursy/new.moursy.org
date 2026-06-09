@@ -70,17 +70,21 @@
       }
     }
 
+    wordRanking = Object.entries(wordList)
+      .filter((a) => filterList.apply(a[0]))
+      .sort((a, b) => b[1] - a[1]);
+
     const inputsCopy = JSON.parse(JSON.stringify(inputs));
     guesses = [...guesses, inputsCopy];
     const green = "GREEN";
     inputs = inputs.map((inp, idx) => ({
-      value: ollKorrect ? green[idx] : "",
+      value: ollKorrect
+        ? green[idx]
+        : wordRanking.length > 0
+          ? wordRanking[0][0][idx]
+          : "",
       status: ollKorrect ? "correct" : inp.status,
     }));
-
-    wordRanking = Object.entries(wordList)
-      .filter((a) => filterList.apply(a[0]))
-      .sort((a, b) => b[1] - a[1]);
 
     inputElements[0]?.focus();
 

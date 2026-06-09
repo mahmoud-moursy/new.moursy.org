@@ -19,12 +19,6 @@ export class Filter {
 
     if (this.letter.length !== 1) this.valid = false;
     if (this.pos > 4 || this.pos < -1) this.valid = false;
-    if (
-      this.filterType !== "correct" &&
-      this.filterType !== "present" &&
-      this.filterType !== "absent"
-    )
-      this.valid = false;
   }
 
   sameLetter(other: Filter) {
@@ -125,20 +119,18 @@ export class FilterList {
   apply(word: string) {
     const lastFive = this.filterList.slice(-5);
 
+    console.log("last-five");
     for (const filter of lastFive) {
+      console.log(JSON.stringify(filter));
       const sameLetters = lastFive.filter((f) => f.sameLetter(filter));
 
       const filterPresent = sameLetters.filter((f) => f.filterType === "present");
-      const filterAbsent = sameLetters.filter((f) => f.filterType === "absent");
+      const filterCorrect = sameLetters.filter((f) => f.filterType === "correct");
 
-      const hasPresent = filterPresent.length > 0;
-      const hasAbsent = filterAbsent.length > 0;
-
-      if (hasPresent && hasAbsent) {
-        this.filterList.push(new AtMostFilter(filter.letter, filterPresent.length));
-      }
-
-      this.filterList.push(new AtLeastFilter(filter.letter, filterPresent.length));
+      if (filterPresent.length > 1)
+        this.filterList.push(
+          new AtLeastFilter(filter.letter, filterPresent.length + filterCorrect.length),
+        );
     }
 
     return this.filterList.every((filter) => filter.apply(word));
