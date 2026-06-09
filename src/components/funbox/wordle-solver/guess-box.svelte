@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { flipIn } from "../interactions.svelte";
+  import { wordleFlip } from "../interactions.svelte";
   import type { LetterStatus } from "./filter";
 
   interface GuessBoxProps {
@@ -24,6 +24,9 @@
     "w-full h-full flex aspect-square items-center justify-center text-xl font-bold backface-hidden text-white uppercase",
     statusEffects[status],
   ]}
-  in:flipIn|global={{ delay: animate ? rowOrder * 300 : 0, duration: animate ? 150 : 0 }}>
+  in:wordleFlip|global={{
+    delay: animate ? rowOrder * 300 : 0,
+    duration: animate ? 150 : 0,
+  }}>
   {letter}
 </div>

@@ -47,15 +47,19 @@ export function makeRatchet(el: Element) {
     initialRotation = 0;
   }
 
-  const spring = new Spring(initialRotation);
+  const spring = new Spring(initialRotation, {
+    stiffness: 0.4,
+    damping: 0.3,
+  });
 
   $effect(() => {
     el.style.rotate = `${spring.current}deg`;
   });
 
   return () => {
-    spring.set(15);
-    setTimeout(() => spring.set(-15), 100);
+    let intensity = 1 + Math.random();
+    spring.set(7 * intensity);
+    setTimeout(() => spring.set(-15 * (2 - intensity)), 100);
     setTimeout(() => spring.set(initialRotation), 200);
   };
 }
@@ -102,7 +106,7 @@ export const preventDefault: (event: keyof HTMLElementEventMap) => Attachment = 
   };
 };
 
-export const flipIn = (
+export const wordleFlip = (
   node: HTMLElement,
   params: { delay?: number; duration?: number } | undefined = undefined,
 ): TransitionConfig => {
@@ -112,5 +116,20 @@ export const flipIn = (
     css: (t: number) => `
       transform: rotateX(${(1 - t) * 180}deg);
     `,
+  };
+};
+
+export const shakeUp = (
+  node: HTMLElement,
+  params: { delay?: number; duration?: number } | undefined = undefined,
+): TransitionConfig => {
+  const shake = makeShaker(node);
+
+  return {
+    delay: params?.delay ?? 0,
+    duration: params?.duration ?? 300,
+    tick: (t) => {
+      if (t === 0) shake();
+    },
   };
 };

@@ -1,14 +1,15 @@
-export type Filterable = "correct" | "present" | "absent";
-export type LetterStatus = Filterable | "empty";
+export type InputState = "correct" | "present" | "absent";
+export type LetterStatus = InputState | "empty";
 export type FilterResult = "ignored" | "invalid" | "accepted";
+export type FilterType = InputState | "at-least" | "at-most";
 
 export class Filter {
   valid: boolean;
-  filterType: Filterable;
+  filterType: FilterType;
   letter: string;
   pos: number;
 
-  constructor(letter: string, filterType: Filterable, pos: number) {
+  constructor(letter: string, filterType: FilterType, pos: number) {
     const validLetter = /^[a-z]$/;
 
     this.valid = validLetter.test(letter);
@@ -17,7 +18,7 @@ export class Filter {
     this.pos = pos;
 
     if (this.letter.length !== 1) this.valid = false;
-    if (this.pos > 4 || this.pos < 0) this.valid = false;
+    if (this.pos > 4 || this.pos < -1) this.valid = false;
     if (
       this.filterType !== "correct" &&
       this.filterType !== "present" &&
@@ -31,7 +32,7 @@ export class Filter {
   }
 
   samePos(other: Filter) {
-    return this.pos === other.pos;
+    return this.pos === other.pos || other.pos === -1 || this.pos === -1;
   }
 
   sameType(other: Filter) {
@@ -46,6 +47,44 @@ export class Filter {
     } else if (this.filterType === "correct") {
       return word[this.pos] === this.letter;
     }
+  }
+}
+export class AtLeastFilter extends Filter {
+  limit: number;
+
+  constructor(letter: string, limit: number) {
+    super(letter, "at-least", -1);
+    this.limit = limit;
+  }
+
+  sameLetter(other: Filter) {
+    return this.letter === other.letter;
+  }
+
+  samePos(other: Filter) {
+    return true;
+  }
+
+  sameType(other: Filter) {
+    return this.filterType === other.filterType;
+  }
+
+  apply(word: string) {
+    const occurrences = word.split("").filter((c) => c === this.letter).length;
+    return occurrences >= this.limit;
+  }
+}
+export class AtMostFilter extends Filter {
+  limit: number;
+
+  constructor(letter: string, limit: number) {
+    super(letter, "at-most", -1);
+    this.limit = limit;
+  }
+
+  apply(word: string) {
+    const occurrences = word.split("").filter((c) => c === this.letter).length;
+    return occurrences <= this.limit;
   }
 }
 
@@ -84,6 +123,24 @@ export class FilterList {
   }
 
   apply(word: string) {
+    const lastFive = this.filterList.slice(-5);
+
+    for (const filter of lastFive) {
+      const sameLetters = lastFive.filter((f) => f.sameLetter(filter));
+
+      const filterPresent = sameLetters.filter((f) => f.filterType === "present");
+      const filterAbsent = sameLetters.filter((f) => f.filterType === "absent");
+
+      const hasPresent = filterPresent.length > 0;
+      const hasAbsent = filterAbsent.length > 0;
+
+      if (hasPresent && hasAbsent) {
+        this.filterList.push(new AtMostFilter(filter.letter, filterPresent.length));
+      }
+
+      this.filterList.push(new AtLeastFilter(filter.letter, filterPresent.length));
+    }
+
     return this.filterList.every((filter) => filter.apply(word));
   }
 }

@@ -1,17 +1,17 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import { bounceOnEvent, shakeOnEvent } from "../interactions.svelte";
+  import { bounceOnEvent, shakeOnEvent, shakeUp } from "../interactions.svelte";
   import FillBox from "./fill-box.svelte";
-  import { Filter, FilterList, type Filterable, type LetterStatus } from "./filter";
+  import { Filter, FilterList, type InputState, type LetterStatus } from "./filter";
   import GuessBox from "./guess-box.svelte";
   import wordList from "./word-list.json";
 
   let inputs = $state([
-    { value: "", status: "absent" as Filterable },
-    { value: "", status: "absent" as Filterable },
-    { value: "", status: "absent" as Filterable },
-    { value: "", status: "absent" as Filterable },
-    { value: "", status: "absent" as Filterable },
+    { value: "", status: "absent" as InputState },
+    { value: "", status: "absent" as InputState },
+    { value: "", status: "absent" as InputState },
+    { value: "", status: "absent" as InputState },
+    { value: "", status: "absent" as InputState },
   ]);
 
   let filters = $derived([
@@ -21,7 +21,7 @@
     new Filter(inputs[3].value, inputs[3].status, 3),
     new Filter(inputs[4].value, inputs[4].status, 4),
   ]);
-  let guesses: { value: string; status: Filterable }[][] = $state([]);
+  let guesses: { value: string; status: InputState }[][] = $state([]);
   let ollKorrect = $derived(
     guesses[guesses.length - 1]?.every((i) => i.status === "correct"),
   );
@@ -95,7 +95,7 @@
     {/each}
   {/each}
   {#if !ollKorrect}
-    {#if wordRanking[0]}
+    {#if wordRanking.length > 0}
       {#key wordRanking[0][0]}
         {#each wordRanking[0][0] as letter, idx}
           <GuessBox {letter} status="empty" rowOrder={idx} animate={true} />
@@ -107,7 +107,7 @@
       {/each}
       <div
         class=" border-rose-900 bg-rose-50/50 border-2 border-dashed col-span-5 text-rose-900 flex flex-col text-center text-sm font-bold items-center justify-center p-2"
-        in:fade>
+        in:shakeUp|global>
         <p>
           {#if filterError}
             The filter combination you put in was impossible, so you should probably reset
@@ -130,7 +130,7 @@
         bind:value={input.value}
         bind:status={input.status}
         bind:element={inputElements[idx]}
-        disabled={ollKorrect}
+        disabled={ollKorrect || wordRanking.length === 0}
         next={inputElements[idx + 1]}
         backward={inputElements[idx - 1]}
         start_element={inputElements[0]} />

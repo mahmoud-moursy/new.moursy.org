@@ -6,7 +6,7 @@
     makeShaker,
   } from "$components/funbox/interactions.svelte.ts";
   import type { KeyboardEventHandler } from "svelte/elements";
-  import type { Filterable } from "./filter";
+  import type { InputState } from "./filter";
   import { onMount } from "svelte";
   import { flip } from "svelte/animate";
   import { fly } from "svelte/transition";
@@ -18,7 +18,7 @@
 
   interface FillBoxProps {
     value?: string;
-    status?: Filterable;
+    status?: InputState;
     backward?: HTMLInputElement;
     next?: HTMLInputElement;
     element?: HTMLInputElement;
@@ -42,7 +42,7 @@
       .toLowerCase(),
   );
 
-  const statusOrdering: Filterable[] = $state(["correct", "absent", "present"]);
+  const statusOrdering: InputState[] = $state(["correct", "absent", "present"]);
   const orderingPositions = [
     "row-start-1 row-end-1 col-start-1 col-end-1",
     "row-start-2 row-end-2 col-start-1 col-end-1",
@@ -65,19 +65,19 @@
     ratchet = makeRatchet(display!);
   });
 
-  const shortCutInverses: Record<Filterable, string> = {
+  const shortCutInverses: Record<InputState, string> = {
     correct: "1",
     present: "2",
     absent: "3",
   };
 
-  const hintGlyphs: Record<Filterable, string> = {
+  const hintGlyphs: Record<InputState, string> = {
     correct: "✓",
     present: "?",
     absent: "✗",
   };
 
-  const shortcuts: Record<string, Filterable> = {
+  const shortcuts: Record<string, InputState> = {
     [shortCutInverses.correct]: "correct",
     [shortCutInverses.present]: "present",
     [shortCutInverses.absent]: "absent",
