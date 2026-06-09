@@ -6,16 +6,19 @@
     makeShaker,
     shakeOnEvent,
   } from "$components/funbox/interactions.svelte.ts";
-  import type { FormEventHandler, KeyboardEventHandler } from "svelte/elements";
-  import type { LetterStatus, Filterable } from "./filter";
+  import type { KeyboardEventHandler } from "svelte/elements";
+  import type { Filterable } from "./filter";
   import { onMount } from "svelte";
   import { flip } from "svelte/animate";
   import { fly } from "svelte/transition";
   import { elasticIn, elasticOut } from "svelte/easing";
 
+  let textWasModified = false;
+  let statusWasModified = false;
+
   interface FillBoxProps {
     value?: string;
-    status?: LetterStatus;
+    status?: Filterable;
     backward?: HTMLInputElement;
     next?: HTMLInputElement;
     element?: HTMLInputElement;
@@ -74,9 +77,13 @@
     [shortCutInverses.absent]: "absent",
   };
 
-  const checkShouldNext = (e: Event) => {
-    const check = value !== "" && status !== "empty" && next;
+  const checkShouldNext = () => {
+    const check = next && textWasModified && statusWasModified && value !== "";
+
     if (check) {
+      statusWasModified = false;
+      textWasModified = false;
+      console.log("Modifiers reset.");
       if (next.value === "") next.focus();
     }
 
@@ -84,6 +91,7 @@
   };
 
   const checkKeypress: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    e?.preventDefault();
     const pattern = /^[a-zA-Z]$/g;
 
     if (e.key === "Tab") {
@@ -111,8 +119,10 @@
       }
       status = shortcuts[e.key];
       swapOn(statusOrdering.indexOf(shortcuts[e.key]));
+      statusWasModified = true;
+      console.log("Status was modified...");
 
-      checkShouldNext(e);
+      checkShouldNext();
       e?.preventDefault();
 
       return;
@@ -120,10 +130,11 @@
 
     if (pattern.test(e.key)) {
       value = e.key.trim().toLowerCase();
+      textWasModified = true;
+      console.log("Text was modified...");
       bounce();
 
-      if (checkShouldNext(e)) next?.focus();
-      e?.preventDefault();
+      if (checkShouldNext()) next?.focus();
 
       return;
     }
@@ -175,6 +186,7 @@
         "transition-[border,border-color]",
         statusEffects[status],
       ]}
+      {@attach bounceOnEvent("click")}
       bind:this={display}>
       {#key value}
         <span
@@ -211,6 +223,7 @@
           swapOn(idx);
           ratchet();
           element!.focus();
+          statusWasModified = true;
           checkShouldNext(e);
         }}
         onclick={checkShouldNext}

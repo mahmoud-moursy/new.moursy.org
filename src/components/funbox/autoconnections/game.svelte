@@ -1,8 +1,9 @@
 <script lang="ts">
   import { generateSet, loadList } from "$/pages/funbox/autoconnections/_logic.ts";
   import { flip } from "svelte/animate";
-  import { fade, fly, slide } from "svelte/transition";
+  import { fade, fly, scale, slide } from "svelte/transition";
   import { bounceOnEvent } from "$components/funbox/interactions.svelte.ts";
+  import { cubicInOut, elasticIn, elasticInOut } from "svelte/easing";
 
   interface Props {
     wordBin: Uint8Array;
@@ -192,9 +193,9 @@
   function resetGame() {
     let autoList = [
       ...generateSet(wordList, 0, 0),
-      ...generateSet(wordList, 1, 80),
-      ...generateSet(wordList, 2, 90),
-      ...generateSet(wordList, 3, 120),
+      ...generateSet(wordList, 1, 0),
+      ...generateSet(wordList, 2, 0),
+      ...generateSet(wordList, 3, 0),
     ];
 
     mistakeCount = 0;
@@ -232,7 +233,7 @@
         for={word}
         class="flex items-center p-4 justify-center text-center text-xs md:text-lg font-bold bg-amber-200 cursor-pointer has-disabled:cursor-default has-checked:bg-amber-300 has-checked:scale-95 has-disabled:opacity-25 transition-all"
         class:bg-slate-300!={solved[tag]}
-        animate:flip={{ duration: 200 }}>
+        animate:flip={{ duration: 300, delay: 500, easing: cubicInOut }}>
         <input
           hidden
           id={word}
@@ -248,7 +249,9 @@
     class="col-start-1 col-end-1 gap-2 z-10 pointer-events-none row-start-1 row-end-1 grid grid-cols-1 grid-rows-4">
     {#each solveOrder as key (key)}
       {#if solved[key]}
-        <div class="bg-amber-950 text-white flex flex-col items-center justify-center">
+        <div
+          class="bg-amber-950 text-white flex flex-col items-center justify-center"
+          in:scale|global={{ easing: elasticInOut, duration: 1500, start: 0.8 }}>
           <h3 class="p-2">Group {parseInt(key) + 1}</h3>
           <p class="p-1">
             {#each Object.keys(selections[key]) as word}

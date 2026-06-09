@@ -2,25 +2,26 @@
   import { fade } from "svelte/transition";
   import { bounceOnEvent, shakeOnEvent } from "../interactions.svelte";
   import FillBox from "./fill-box.svelte";
-  import { Filter, FilterList, type LetterStatus } from "./filter";
+  import { Filter, FilterList, type Filterable, type LetterStatus } from "./filter";
   import GuessBox from "./guess-box.svelte";
   import wordList from "./word-list.json";
 
   let inputs = $state([
-    { value: "", status: "absent" as LetterStatus },
-    { value: "", status: "absent" as LetterStatus },
-    { value: "", status: "absent" as LetterStatus },
-    { value: "", status: "absent" as LetterStatus },
-    { value: "", status: "absent" as LetterStatus },
+    { value: "", status: "absent" as Filterable },
+    { value: "", status: "absent" as Filterable },
+    { value: "", status: "absent" as Filterable },
+    { value: "", status: "absent" as Filterable },
+    { value: "", status: "absent" as Filterable },
   ]);
 
   let filters = $derived(
     inputs.map((letter, idx) => new Filter(letter.value, letter.status, idx)),
   );
-  let guesses: { value: string; status: LetterStatus }[][] = $state([]);
+  let guesses: { value: string; status: Filterable }[][] = $state([]);
   let ollKorrect = $derived(
     guesses[guesses.length - 1]?.every((i) => i.status === "correct"),
   );
+  let submitButton;
 
   let inputElements: (HTMLInputElement | undefined)[] = $state([
     undefined,
@@ -41,13 +42,6 @@
   let filterError = $state(false);
 
   function resetAll() {
-    inputs = [
-      { value: "", status: "absent" as LetterStatus },
-      { value: "", status: "absent" as LetterStatus },
-      { value: "", status: "absent" as LetterStatus },
-      { value: "", status: "absent" as LetterStatus },
-      { value: "", status: "absent" as LetterStatus },
-    ];
     inputs = inputs.map((inp) => {
       inp.value = "";
       return inp;
@@ -58,6 +52,8 @@
     wordRanking = Object.entries(wordList)
       .filter((a) => filterList.apply(a[0]))
       .sort((a, b) => b[1] - a[1]);
+
+    setTimeout(() => inputElements[0]!.focus(), 50);
   }
 
   function tryGuessing(e: Event) {
@@ -88,6 +84,8 @@
     if (filterError) resetAll();
 
     inputElements[0]?.focus();
+
+    if (ollKorrect) submitButton!.focus();
   }
 </script>
 
@@ -148,7 +146,7 @@
     class="transition-colors p-4 disabled:bg-slate-700 bg-rose-700 duration-300 text-white font-bold h-fit my-auto"
     {@attach bounceOnEvent("click")}
     onclick={ollKorrect ? resetAll : tryGuessing}
-    >{ollKorrect ? "Reset All 🔄" : "Try 🎰"}</button>
+    bind:this={submitButton}>{ollKorrect ? "Reset All 🔄" : "Try 🎰"}</button>
 
   <button
     class="text-sm text-rose-700 decoration-wavy underline transition-all"
