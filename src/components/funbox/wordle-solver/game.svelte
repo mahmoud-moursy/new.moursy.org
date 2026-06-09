@@ -1,22 +1,17 @@
 <script lang="ts">
-  import { fade, fly } from "svelte/transition";
-  import {
-    bounceOnEvent,
-    flipIn,
-    preventDefault,
-    shakeOnEvent,
-  } from "../interactions.svelte";
+  import { fade } from "svelte/transition";
+  import { bounceOnEvent, shakeOnEvent } from "../interactions.svelte";
   import FillBox from "./fill-box.svelte";
   import { Filter, FilterList, type LetterStatus } from "./filter";
   import GuessBox from "./guess-box.svelte";
   import wordList from "./word-list.json";
 
   let inputs = $state([
-    { value: "", status: "empty" as LetterStatus },
-    { value: "", status: "empty" as LetterStatus },
-    { value: "", status: "empty" as LetterStatus },
-    { value: "", status: "empty" as LetterStatus },
-    { value: "", status: "empty" as LetterStatus },
+    { value: "", status: "absent" as LetterStatus },
+    { value: "", status: "absent" as LetterStatus },
+    { value: "", status: "absent" as LetterStatus },
+    { value: "", status: "absent" as LetterStatus },
+    { value: "", status: "absent" as LetterStatus },
   ]);
 
   let filters = $derived(
@@ -47,11 +42,11 @@
 
   function resetAll() {
     inputs = [
-      { value: "", status: "empty" as LetterStatus },
-      { value: "", status: "empty" as LetterStatus },
-      { value: "", status: "empty" as LetterStatus },
-      { value: "", status: "empty" as LetterStatus },
-      { value: "", status: "empty" as LetterStatus },
+      { value: "", status: "absent" as LetterStatus },
+      { value: "", status: "absent" as LetterStatus },
+      { value: "", status: "absent" as LetterStatus },
+      { value: "", status: "absent" as LetterStatus },
+      { value: "", status: "absent" as LetterStatus },
     ];
     filters = inputs.map((letter, idx) => new Filter(letter.value, letter.status, idx));
     guesses = [];
@@ -77,11 +72,11 @@
     const inputsCopy = JSON.parse(JSON.stringify(inputs));
     guesses = [...guesses, inputsCopy];
     inputs = [
-      { value: ollKorrect ? "G" : "", status: ollKorrect ? "correct" : "empty" },
-      { value: ollKorrect ? "R" : "", status: ollKorrect ? "correct" : "empty" },
-      { value: ollKorrect ? "E" : "", status: ollKorrect ? "correct" : "empty" },
-      { value: ollKorrect ? "E" : "", status: ollKorrect ? "correct" : "empty" },
-      { value: ollKorrect ? "N" : "", status: ollKorrect ? "correct" : "empty" },
+      { value: ollKorrect ? "G" : "", status: ollKorrect ? "correct" : "absent" },
+      { value: ollKorrect ? "R" : "", status: ollKorrect ? "correct" : "absent" },
+      { value: ollKorrect ? "E" : "", status: ollKorrect ? "correct" : "absent" },
+      { value: ollKorrect ? "E" : "", status: ollKorrect ? "correct" : "absent" },
+      { value: ollKorrect ? "N" : "", status: ollKorrect ? "correct" : "absent" },
     ];
 
     wordRanking = Object.entries(wordList)
@@ -91,10 +86,6 @@
     if (filterError) resetAll();
 
     inputElements[0]?.focus();
-  }
-
-  async function animateInput(idx: number) {
-    const letters = "abcdefghijklmnopqrstuvwxyz";
   }
 </script>
 
@@ -117,7 +108,7 @@
       {/each}
       <div
         class=" border-rose-900 bg-rose-50/50 border-2 border-dashed col-span-5 text-rose-900 flex flex-col text-center text-sm font-bold items-center justify-center p-2"
-        in:fly={{ y: 100 }}>
+        in:fade>
         <p>
           Seems you've exhausted the word list... either The Wordle Solver is broken, or <em
             >you</em>
@@ -130,7 +121,7 @@
   {#if filterError}
     <p
       class=" border-rose-900 bg-rose-50/50 border-2 border-dashed col-span-5 text-rose-900 flex flex-col text-center text-sm font-bold items-center justify-center p-4"
-      in:fly={{ y: 100 }}>
+      in:fade>
       The filter combination you put in was impossible, so we took the courtesy of
       resetting everything for you. Welcome 🤤
     </p>

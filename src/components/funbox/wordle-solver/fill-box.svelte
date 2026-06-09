@@ -62,10 +62,10 @@
     absent: "3",
   };
 
-  const phoneGlyphs: Record<Filterable, string> = {
-    correct: "✅",
-    present: "⚠️",
-    absent: "❌",
+  const hintGlyphs: Record<Filterable, string> = {
+    correct: "✓",
+    present: "?",
+    absent: "X",
   };
 
   const shortcuts: Record<string, Filterable> = {
@@ -174,13 +174,18 @@
       bind:this={display}>
       {#key value}
         <span
-          transition:fly={{
+          in:fly={{
+            duration: 500,
+            easing: elasticOut,
+            y: -50,
+          }}
+          out:fly={{
             duration: 500,
             easing: elasticOut,
             y: 50,
           }}
           class="col-start-1 col-end-1 row-start-1 row-end-1">
-          {value.replace(/[^A-Za-z]/g, "").toLowerCase()}
+          {value.replace(/[^A-Za-z]/g, "").toLowerCase() || "."}
         </span>
       {/key}
     </div>
@@ -197,7 +202,7 @@
         type="radio"
         bind:group={status}
         value={state}
-        class="appearance-none"
+        class="appearance-none w-0 h-0"
         onchange={(e) => {
           swapOn(idx);
           ratchet();
@@ -207,8 +212,8 @@
         onclick={checkShouldNext}
         tabindex="-1"
         disabled={disabled || state === status} />
-      <ruby class="text-center">
-        <rb>{phoneGlyphs[state]}</rb>
+      <ruby>
+        <rb>{hintGlyphs[state]}</rb>
         <rt class="keyboard-shortcut text-current/50 font-black p-0.5"
           >{shortCutInverses[state]}</rt>
       </ruby>
@@ -220,7 +225,7 @@
   @import "tailwindcss";
 
   .radio-btn {
-    @apply flex aspect-square scale-80 cursor-pointer items-center justify-center text-center font-black text-white transition-all duration-500 select-none *:scale-125 disabled:scale-50;
+    @apply aspect-square scale-80 cursor-pointer text-center font-black text-white transition-all duration-500 select-none *:scale-125 disabled:scale-50;
   }
 
   @media (hover: none) {

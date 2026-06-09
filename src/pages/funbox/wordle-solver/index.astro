@@ -4,20 +4,40 @@ import Base from "$layouts/base.astro";
 ---
 
 <Base title="Wordle Solver">
-  <h1 class="relative p-8 text-center text-2xl font-black italic md:text-5xl">
-    <ruby>
-      <rb class="drop-shadow-[2px_2px] drop-shadow-amber-600/30">
-        <span class="text-amber-800">Wordle</span> Solver
-      </rb>
-      <rt class="text-lg md:text-2xl">The</rt>
-    </ruby>
-
+  <header class="relative">
     <aside
-      class="absolute top-4 right-4 flex aspect-square h-36 w-36 rotate-12 items-center justify-center rounded-full bg-amber-300 p-3.5 text-center text-lg">
+      class="absolute top-4 right-4 m-4 flex aspect-square h-36 w-36 rotate-12 items-center justify-center rounded-full bg-amber-400 p-3.5 text-center text-lg font-black opacity-25 md:opacity-100">
       <span class="drop-shadow-[2px_2px] drop-shadow-amber-600/30">
-        Now with 100% more words!
+        <p class="animate-[spin_5s_linear_infinite] wrap-break-word" id="flavor-text">
+          Turn on JavaScript!
+        </p>
       </span>
     </aside>
-  </h1>
+    <h1 class="w-full p-8 text-center text-2xl font-black italic md:text-5xl">
+      <p>The</p>
+      <p class="drop-shadow-[2px_2px] drop-shadow-amber-800/50">
+        <span class="text-amber-800">Wordle</span>
+        <span>Solver</span>
+      </p>
+    </h1>
+  </header>
   <Game client:only />
 </Base>
+
+<script>
+  const flavorTexts = [
+    "More fun than solving it yourself!",
+    "New and improved formula!",
+    "Also try Auto<wbr />connections!",
+    "Now with 50% more words!",
+    "",
+  ];
+
+  const textIdx = Math.floor(Math.random() * flavorTexts.length);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const flavor = document.getElementById("flavor-text");
+
+    if (flavor) flavor.innerHTML = flavorTexts[textIdx];
+  });
+</script>
