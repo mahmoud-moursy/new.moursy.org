@@ -3,7 +3,7 @@ export const MINIFIER_CONFIG = {
   collapseBooleanAttributes: true,
   collapseInlineTagWhitespace: true,
   collapseWhitespace: true,
-  conservativeCollapse: false,
+  conservativeCollapse: true,
   continueOnParseError: false,
   decodeEntities: true,
   html5: true,
