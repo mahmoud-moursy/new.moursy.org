@@ -7,13 +7,14 @@ const app = new Hono();
 
 // Hono middleware
 app.use(logger());
-app.use(
-  "/*",
-  serveStatic({
-    root: "./dist/client",
-    precompressed: true,
-  }),
-);
+if (import.meta.env.PROD)
+  app.use(
+    "/*",
+    serveStatic({
+      root: "./dist/client",
+      precompressed: true,
+    }),
+  );
 
 // Astro handlers (as Hono middleware)
 app.use(astro());

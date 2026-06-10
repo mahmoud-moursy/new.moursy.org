@@ -1,24 +1,29 @@
+import { mount, unmount } from "svelte";
 import type { Attachment } from "svelte/attachments";
 import { prefersReducedMotion, Spring } from "svelte/motion";
 import type { TransitionConfig } from "svelte/transition";
+import Tip from "../tip.svelte";
 
-export function makeShaker(el: Element) {
-  const spring = new Spring(0);
+export const makeShaker: Attachment = (el: Element) => {
+  const spring = new Spring(0, {
+    stiffness: 0.75,
+    precision: 2,
+  });
 
-  $effect(() => (el.style.transform = `translateX(${spring.current}px)`));
+  $effect(() => (el.style.translate = `${spring.current}px 0`));
 
   return () => {
     if (prefersReducedMotion.current) {
       return;
     }
     spring
-      .set(10)
-      .then(() => spring.set(-10))
+      .set(15)
+      .then(() => spring.set(-15))
       .then(() => spring.set(0));
   };
-}
+};
 
-export function makeBouncer(el: Element) {
+export const makeBouncer: Attachment = (el: Element) => {
   let initialScale = parseFloat(el.computedStyleMap().get("scale")?.toString() || "1");
 
   if (Number.isNaN(initialScale)) {
@@ -39,9 +44,9 @@ export function makeBouncer(el: Element) {
     }
     spring.set(initialScale * 0.8).then(() => spring.set(initialScale));
   };
-}
+};
 
-export function makeRatchet(el: Element) {
+export const makeRatchet: Attachment = (el: Element) => {
   let initialRotation = parseFloat(el.computedStyleMap().get("rotate")?.toString() || "0");
 
   if (Number.isNaN(initialRotation)) {
@@ -67,7 +72,7 @@ export function makeRatchet(el: Element) {
       .then(() => spring.set(12 * intensity * -direction * 0.4))
       .then(() => spring.set(initialRotation));
   };
-}
+};
 
 export const bounceOnEvent: (event: keyof HTMLElementEventMap) => Attachment = (event) => {
   return (element: Element) => {
@@ -132,5 +137,25 @@ export const shakeUp = (
       if (!shaken) shake();
       shaken = true;
     },
+  };
+};
+
+export const withTooltip: (htmlContent: string, desktopOnly: boolean) => Attachment = (
+  htmlContent: string,
+  desktopOnly: boolean = false,
+) => {
+  return (parentEl: Element) => {
+    const container = document.createElement("span");
+    const onClosed = () => {
+      unmount(component, { outro: true });
+    };
+    parentEl.parentElement?.insertBefore(container, parentEl);
+
+    const component = mount(Tip, {
+      target: container,
+      props: { parentEl, htmlContent, onClosed, desktopOnly },
+    });
+
+    return onClosed;
   };
 };
