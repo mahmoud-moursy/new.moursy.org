@@ -4,7 +4,7 @@
   import FillBox from "./fill-box.svelte";
   import { Filter, FilterList, type InputState, type LetterStatus } from "./filter";
   import GuessBox from "./guess-box.svelte";
-  import wordList from "./word-list.json";
+  import wordRanks from "./word-ranks.json";
 
   let inputs = $state([
     { value: "", status: "absent" as InputState },
@@ -38,7 +38,7 @@
   let filterList: FilterList = $state(new FilterList());
 
   let wordRanking = $state(
-    Object.entries(wordList)
+    Object.entries(wordRanks)
       .filter((a) => filterList.apply(a[0]))
       .sort((a, b) => b[1] - a[1]),
   );
@@ -52,7 +52,7 @@
     inputs.forEach((inp) => (inp.value = ""));
     guesses = [];
     filterList = new FilterList();
-    wordRanking = Object.entries(wordList)
+    wordRanking = Object.entries(wordRanks)
       .filter((a) => filterList.apply(a[0]))
       .sort((a, b) => b[1] - a[1]);
 
@@ -70,7 +70,7 @@
       }
     }
 
-    wordRanking = Object.entries(wordList)
+    wordRanking = Object.entries(wordRanks)
       .filter((a) => filterList.apply(a[0]))
       .sort((a, b) => b[1] - a[1]);
 

@@ -1,17 +1,20 @@
 import type { Attachment } from "svelte/attachments";
-import { Spring } from "svelte/motion";
+import { prefersReducedMotion, Spring } from "svelte/motion";
 import type { TransitionConfig } from "svelte/transition";
 
 export function makeShaker(el: Element) {
   const spring = new Spring(0);
 
-  $effect(() => (el.style.translate = `${spring.current}px 0`));
+  $effect(() => (el.style.transform = `translateX(${spring.current}px)`));
 
   return () => {
-    spring.set(10);
-
-    setTimeout(() => spring.set(-10), 100);
-    setTimeout(() => spring.set(0), 200);
+    if (prefersReducedMotion.current) {
+      return;
+    }
+    spring
+      .set(10)
+      .then(() => spring.set(-10))
+      .then(() => spring.set(0));
   };
 }
 
@@ -22,48 +25,51 @@ export function makeBouncer(el: Element) {
     initialScale = 1;
   }
 
-  const spring = new Spring(initialScale);
+  const spring = new Spring(initialScale, {
+    stiffness: 0.25,
+  });
 
   $effect(() => {
-    el.style.scale = `${spring.current}`;
+    el.style.transform = `scale(${spring.current})`;
   });
 
   return () => {
-    spring.set(initialScale - 0.2);
-    setTimeout(() => spring.set(initialScale + 0.2), 100);
-    setTimeout(() => spring.set(initialScale), 200);
+    if (prefersReducedMotion.current) {
+      return;
+    }
+    spring.set(initialScale * 0.8).then(() => spring.set(initialScale));
   };
 }
 
 export function makeRatchet(el: Element) {
-  let initialRotation = parseFloat(
-    el.computedStyleMap().get("rotate")?.toString() || "0",
-  );
+  let initialRotation = parseFloat(el.computedStyleMap().get("rotate")?.toString() || "0");
 
   if (Number.isNaN(initialRotation)) {
     initialRotation = 0;
   }
 
   const spring = new Spring(initialRotation, {
-    stiffness: 0.4,
-    damping: 0.3,
+    stiffness: 0.75,
   });
 
   $effect(() => {
-    el.style.rotate = `${spring.current}deg`;
+    el.style.transform = `rotateZ(${spring.current}deg)`;
   });
 
   return () => {
+    if (prefersReducedMotion.current) {
+      return;
+    }
+    let direction = Math.random() > 0.5 ? 1 : -1;
     let intensity = 1 + Math.random();
-    spring.set(7 * intensity);
-    setTimeout(() => spring.set(-15 * (2 - intensity)), 100);
-    setTimeout(() => spring.set(initialRotation), 200);
+    spring
+      .set(7 * intensity * direction)
+      .then(() => spring.set(12 * intensity * -direction * 0.4))
+      .then(() => spring.set(initialRotation));
   };
 }
 
-export const bounceOnEvent: (event: keyof HTMLElementEventMap) => Attachment = (
-  event,
-) => {
+export const bounceOnEvent: (event: keyof HTMLElementEventMap) => Attachment = (event) => {
   return (element: Element) => {
     const bounce = makeBouncer(element);
 
@@ -81,9 +87,7 @@ export const shakeOnEvent: (event: keyof HTMLElementEventMap) => Attachment = (e
   };
 };
 
-export const ratchetOnEvent: (event: keyof HTMLElementEventMap) => Attachment = (
-  event,
-) => {
+export const ratchetOnEvent: (event: keyof HTMLElementEventMap) => Attachment = (event) => {
   return (element: Element) => {
     const ratchet = makeRatchet(element);
 
@@ -92,9 +96,7 @@ export const ratchetOnEvent: (event: keyof HTMLElementEventMap) => Attachment = 
   };
 };
 
-export const preventDefault: (event: keyof HTMLElementEventMap) => Attachment = (
-  event,
-) => {
+export const preventDefault: (event: keyof HTMLElementEventMap) => Attachment = (event) => {
   return (element: Element) => {
     const prevent = (e: Event) => e.preventDefault();
 
@@ -121,12 +123,14 @@ export const shakeUp = (
   params: { delay?: number; duration?: number } | undefined = undefined,
 ): TransitionConfig => {
   const shake = makeShaker(node);
+  let shaken = false;
 
   return {
     delay: params?.delay ?? 0,
     duration: params?.duration ?? 300,
     tick: (t) => {
-      if (t <= 0) shake();
+      if (!shaken) shake();
+      shaken = true;
     },
   };
 };

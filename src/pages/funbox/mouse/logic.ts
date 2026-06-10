@@ -1,5 +1,7 @@
-import { EventEmitter } from "node:events";
 import type { APIRoute } from "astro";
+import { EventEmitter } from "node:events";
+
+export const prerender = false;
 
 export enum MazeSpot {
   Mouse = "🐁",

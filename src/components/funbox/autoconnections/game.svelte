@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { generateSet, loadList } from "$/pages/funbox/autoconnections/_logic.ts";
+  import { generateSet, loadList } from "./_logic.ts";
   import { flip } from "svelte/animate";
   import { fade, fly, scale, slide } from "svelte/transition";
   import { bounceOnEvent } from "$components/funbox/interactions.svelte.ts";
-  import { cubicInOut, elasticIn, elasticInOut } from "svelte/easing";
+  import { bounceInOut, cubicInOut, elasticIn, elasticInOut, quintInOut } from "svelte/easing";
+  import { prefersReducedMotion } from "svelte/motion";
 
   interface Props {
     wordBin: Uint8Array;
@@ -138,9 +139,7 @@
   }
 
   function resetSelections() {
-    let falsy = selections.map((selection) =>
-      Object.entries(selection).map(([word, _]) => [word, false]),
-    );
+    let falsy = selections.map((selection) => Object.entries(selection).map(([word, _]) => [word, false]));
     selections = falsy.map(Object.fromEntries);
   }
 
@@ -159,10 +158,7 @@
       setTimeout(
         () => {
           let swapIdx = swapIndices[swapOrdering];
-          [connections![rowStart], connections![swapIdx]] = [
-            connections![swapIdx],
-            connections![rowStart],
-          ];
+          [connections![rowStart], connections![swapIdx]] = [connections![swapIdx], connections![rowStart]];
           rowStart += 1;
         },
         (parseInt(swapOrdering) + 3) * 25,
@@ -185,7 +181,7 @@
           arrangeSolved(key);
           solved[key] = true;
         },
-        solveCount++ * 500 + solveCount * 50,
+        solveCount++ * 700 + solveCount * 50,
       );
     }
   }
@@ -218,25 +214,26 @@
 
 <div class="grid grid-cols-1 grid-rows-1">
   {#key currentQuip}
-    <aside
-      class="text-sm max-w-md mx-auto text-center col-start-1 col-end-1 row-start-1 row-end-1"
-      transition:fade>
+    <aside class="text-sm max-w-md mx-auto text-center col-start-1 col-end-1 row-start-1 row-end-1" transition:fade>
       {currentQuip}
     </aside>
   {/key}
 </div>
 <div class="grid grid-cols-1 grid-rows-1">
-  <form
-    class="grid grid-cols-4 grid-rows-4 gap-2 col-start-1 col-end-1 row-start-1 row-end-1">
+  <form class="grid grid-cols-4 grid-rows-4 gap-2 col-start-1 col-end-1 row-start-1 row-end-1">
     {#each connections as [word, sim, tag] (word + tag + sim)}
       <label
-        for={word}
-        class="flex items-center p-4 justify-center text-center text-xs md:text-lg font-bold bg-amber-200 cursor-pointer has-disabled:cursor-default has-checked:bg-amber-300 has-checked:scale-95 has-disabled:opacity-25 transition-all"
+        for={word + tag}
+        class="flex items-center p-4 justify-center has-factive:outline-4 has-factive:outline-amber-800 text-center text-xs md:text-lg font-bold bg-amber-200 cursor-pointer has-disabled:cursor-default has-checked:bg-amber-300 has-checked:scale-95 has-disabled:opacity-25 transition-all"
         class:bg-slate-300!={solved[tag]}
-        animate:flip={{ duration: 300, delay: 500, easing: cubicInOut }}>
+        animate:flip={{
+          duration: prefersReducedMotion.current ? 0 : 500,
+          delay: prefersReducedMotion.current ? 0 : 150,
+          easing: quintInOut,
+        }}>
         <input
-          hidden
-          id={word}
+          class="appearance-none"
+          id={word + tag}
           type="checkbox"
           value={word}
           bind:checked={selections[tag][word]}
@@ -245,8 +242,7 @@
       </label>
     {/each}
   </form>
-  <div
-    class="col-start-1 col-end-1 gap-2 z-10 pointer-events-none row-start-1 row-end-1 grid grid-cols-1 grid-rows-4">
+  <div class="col-start-1 col-end-1 gap-2 z-10 pointer-events-none row-start-1 row-end-1 grid grid-cols-1 grid-rows-4">
     {#each solveOrder as key (key)}
       {#if solved[key]}
         <div
@@ -268,19 +264,12 @@
       transition:fade={{ duration: 150 }}>
       <h1>{victory ? "You win! 🌟" : "Not quite 🚫"}</h1>
       <nav class="flex flex-wrap gap-4">
-        <button
-          class="interactive-button"
-          onclick={resetGame}
-          {@attach bounceOnEvent("click")}>Reset?</button>
-        <button
-          class="interactive-button"
-          onclick={() => (hideGameOverScreen = true)}
-          {@attach bounceOnEvent("click")}>Review Puzzle</button>
+        <button class="interactive-button" onclick={resetGame} {@attach bounceOnEvent("click")}>Reset?</button>
+        <button class="interactive-button" onclick={() => (hideGameOverScreen = true)} {@attach bounceOnEvent("click")}
+          >Review Puzzle</button>
         {#if defeat}
-          <button
-            class="interactive-button"
-            onclick={showSolution}
-            {@attach bounceOnEvent("click")}>Show solution?</button>
+          <button class="interactive-button" onclick={showSolution} {@attach bounceOnEvent("click")}
+            >Show solution?</button>
         {/if}
       </nav>
     </div>

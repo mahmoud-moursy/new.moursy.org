@@ -1,6 +1,6 @@
-import { EventEmitter } from "node:events";
 import type { APIRoute } from "astro";
 import * as mathjs from "mathjs";
+import { EventEmitter } from "node:events";
 
 export const prerender = false;
 

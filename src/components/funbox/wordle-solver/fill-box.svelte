@@ -1,10 +1,5 @@
 <script lang="ts">
-  import {
-    bounceOnEvent,
-    makeBouncer,
-    makeRatchet,
-    makeShaker,
-  } from "$components/funbox/interactions.svelte.ts";
+  import { bounceOnEvent, makeBouncer, makeRatchet, makeShaker } from "$components/funbox/interactions.svelte.ts";
   import type { KeyboardEventHandler } from "svelte/elements";
   import type { InputState } from "./filter";
   import { onMount } from "svelte";
@@ -83,11 +78,7 @@
     [shortCutInverses.absent]: "absent",
   };
 
-  let checkNext = $derived(
-    textWasModified &&
-      (statusWasModified || value === textLastValue) &&
-      sanitizedValue !== "",
-  );
+  let checkNext = $derived(textWasModified && (statusWasModified || value === textLastValue) && sanitizedValue !== "");
 
   const resetFocus = () => {
     statusWasModified = false;
@@ -181,8 +172,7 @@
   };
 </script>
 
-<label
-  class="grid min-w-8 grid-rows-3 grid-cols-1 transition-colors items-center justify-center uppercase">
+<label class="grid min-w-8 grid-rows-3 grid-cols-1 transition-colors items-center justify-center uppercase">
   <div class="relative w-full h-full row-start-2 row-end-2 col-start-1 col-end-1 z-10">
     <input
       type="text"
@@ -204,9 +194,7 @@
         "text-xl font-bold uppercase peer bg-amber-50",
         "transition-[border,border-color,outline]",
         statusEffects[status],
-        !checkNext && [
-          "bg-amber-50! text-black! border-2 peer-focus:border-4 border-current/50",
-        ],
+        !checkNext && ["bg-amber-50! text-black! border-2 peer-focus:border-4 border-current/50"],
       ]}
       {@attach bounceOnEvent("click")}
       bind:this={display}>

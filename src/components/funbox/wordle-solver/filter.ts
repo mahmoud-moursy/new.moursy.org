@@ -119,9 +119,7 @@ export class FilterList {
   apply(word: string) {
     const lastFive = this.filterList.slice(-5);
 
-    console.log("last-five");
     for (const filter of lastFive) {
-      console.log(JSON.stringify(filter));
       const sameLetters = lastFive.filter((f) => f.sameLetter(filter));
 
       const filterPresent = sameLetters.filter((f) => f.filterType === "present");

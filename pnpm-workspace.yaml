@@ -1,6 +1,9 @@
 allowBuilds:
   esbuild: true
   sharp: true
+minimumReleaseAgeExclude:
+  - '@astrojs/node@10.1.4'
+  - astro@6.4.5
 onlyBuiltDependencies:
   - esbuild
   - sharp

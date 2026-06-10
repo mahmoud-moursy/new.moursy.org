@@ -13,15 +13,10 @@ const date_created = new Date(Astro.props["date-created"]);
 
 <BaseLayout {title}>
   <main class="flex flex-col gap-4 p-4">
-    <header
-      class="flex flex-col gap-5 border-y-2 border-amber-800 bg-amber-100 p-4 text-center">
+    <header class="flex flex-col gap-5 border-y-2 border-amber-800 bg-amber-100 p-4 text-center">
       <h1 class="fancy underline decoration-wavy">{title}</h1>
-      <time
-        datetime={date_created.toUTCString()}
-        class="text-xl font-bold text-yellow-700 italic">
-        {date_created.getFullYear()}-{date_created.getUTCMonth() + 1}-{
-          date_created.getUTCDate()
-        }
+      <time datetime={date_created.toUTCString()} class="text-xl font-bold text-yellow-700 italic">
+        {date_created.getFullYear()}-{date_created.getUTCMonth() + 1}-{date_created.getUTCDate()}
       </time>
     </header>
     <br />
@@ -35,14 +30,12 @@ const date_created = new Date(Astro.props["date-created"]);
       <br /> Mahmoud Moursy
     </em>
 
-    <a href="/bloog" class="fancy text-2xl">
-      Back to the Bloog &looparrowleft;
-    </a>
+    <a href="/bloog" class="fancy text-2xl"> Back to the Bloog &looparrowleft; </a>
   </main>
 
   {
     Astro.slots.has("footnotes") && (
-      <footer class="flex flex-col gap-4 border-t-2 border-black p-1 p-4 pt-4">
+      <footer class="flex flex-col gap-4 border-t-2 border-black p-1 pt-4">
         <h6 class="font-bold">Footnotes:</h6>
         <slot name="footnotes" />
       </footer>
