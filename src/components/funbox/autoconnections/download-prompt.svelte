@@ -67,5 +67,11 @@
     {:else}
       <Game {wordBin} />
     {/if}
+  {:catch error}
+    <h1 class="text-red-600">Loading the word list failed for some reason...?</h1>
+    <p>Human-readable error details (if any...):</p>
+    <code>{error}</code>
+    <p>Other object data:</p>
+    <pre><code>{JSON.stringify(error)}</code></pre>
   {/await}
 </main>
