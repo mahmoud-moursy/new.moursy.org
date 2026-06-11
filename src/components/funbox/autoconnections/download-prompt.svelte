@@ -5,17 +5,11 @@
 
   const cache: Cache | undefined = window["caches"] ? await window.caches.open("autoconnections-cache") : undefined;
 
-  let emptyPromise: Promise<undefined> = new Promise((res) => res(undefined));
-  let wordBin: Promise<Uint8Array | undefined> = $state(
-    cache
-      ? cache.match(wordListUrl).then((res) => {
-          if (res) {
-            return res.bytes();
-          } else {
-          }
-        })
-      : emptyPromise,
+  let wordBin: Promise<Uint8Array | undefined> | undefined = $state(
+    cache?.match(wordListUrl).then((res) => res?.bytes())
   );
+
+
 
   async function downloadList() {
     const request = fetch(wordListUrl);
