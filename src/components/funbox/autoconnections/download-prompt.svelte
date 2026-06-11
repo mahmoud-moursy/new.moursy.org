@@ -9,8 +9,6 @@
     cache?.match(wordListUrl).then((res) => res?.bytes())
   );
 
-
-
   async function downloadList() {
     const request = fetch(wordListUrl);
     wordBin = request.then((res) => res.clone().bytes());

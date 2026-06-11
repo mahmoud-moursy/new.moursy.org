@@ -66,6 +66,7 @@
   let gameOver = $derived(victory || defeat);
   let hideGameOverScreen = $state(false);
 
+  // svelte-ignore state_referenced_locally
   let wordList = loadList(wordBin);
   let selections: Record<any, boolean>[] = $state([{}, {}, {}, {}]);
 
@@ -74,7 +75,7 @@
 
   if (!connections) resetGame();
 
-  shuffleArray(connections);
+  shuffleArray(connections!);
 
   let maxChecked = $derived(countChecked(selections) >= 4);
 
@@ -224,7 +225,7 @@
     {#each connections as [word, sim, tag] (word + tag + sim)}
       <label
         for={word + tag}
-        class="flex items-center p-4 justify-center has-factive:outline-4 has-factive:outline-amber-800 text-center text-xs md:text-lg font-bold bg-amber-200 cursor-pointer has-disabled:cursor-default has-checked:bg-amber-300 has-checked:scale-95 has-disabled:opacity-25 transition-all"
+        class="flex items-center p-4 justify-center has-focus:outline-4 outline-amber-800 text-center text-xs md:text-lg font-bold bg-amber-200 cursor-pointer has-disabled:cursor-default has-checked:bg-amber-300 has-checked:scale-95 has-disabled:opacity-25 transition-all"
         class:bg-slate-300!={solved[tag]}
         animate:flip={{
           duration: prefersReducedMotion.current ? 0 : 500,
@@ -301,7 +302,7 @@
     {@attach bounceOnEvent("click")}>Deselect All</button>
   <button
     class="interactive-button flex-1"
-    onclick={() => shuffleArray(connections)}
+    onclick={() => shuffleArray(connections!)}
     disabled={gameOver}
     {@attach bounceOnEvent("click")}>Shuffle</button>
   <button
@@ -316,6 +317,6 @@
   @custom-variant hocus (&:hover, &:focus, &:active);
 
   .interactive-button {
-    @apply hocus:bg-amber-400 hocus:text-white cursor-pointer border-4 border-amber-400 p-4 font-bold transition-all disabled:cursor-not-allowed disabled:border-slate-400! disabled:bg-slate-400! disabled:text-white;
+    @apply hocus:bg-amber-400 hocus:text-white cursor-pointer border-4 border-amber-400 p-4 font-bold transition-colors disabled:cursor-not-allowed disabled:border-slate-400! disabled:bg-slate-400! disabled:text-white;
   }
 </style>
