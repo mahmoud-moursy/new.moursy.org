@@ -46,9 +46,9 @@
             type="checkbox"
             name="warning-checkbox"
             id="warning-checkbox"
-            class="h-full"
+            class="w-8 h-8"
             bind:checked={iHaveBeenWarned} />
-          <em><b class="animate-bounce ease-in">I HAVE BEEN WARNED!!!!</b></em>
+          <em><b>&leftarrow; I HAVE BEEN WARNED!!!!</b></em>
         </label>
       </section>
       {#if iHaveBeenWarned}
